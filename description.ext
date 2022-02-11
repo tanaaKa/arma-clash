@@ -1,0 +1,17 @@
+// Code workaround
+class MissionSQM
+{
+	#include "mission.sqm"
+};
+
+// Misc settings
+disableChannels[] = {0,2,4,5,6};
+clashVersion = "1.0";
+
+// ACE killtracking
+class CfgDebriefingSections {
+	class acex_killTracker {
+		title = "Acex Killed Events";
+		variable = "acex_killTracker_outputText";
+	};
+};
