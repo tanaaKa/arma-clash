@@ -110,3 +110,13 @@ player addEventHandler ["Killed", {
 	_currentMoney = [_unit] call grad_lbm_fnc_getFunds;
 	profileNamespace setVariable ["tnk_aas_money",_currentMoney];
 }];
+
+// EH to remove radios and fortify on death
+["CAManBase", "Killed", {
+	params ["_unit"];
+	if (typeOf _unit isEqualTo "B_soldier_repair_F" || typeOf _unit isEqualTo "O_soldier_repair_F") then {
+		_unit removeItem "ACE_Fortify";
+	};
+	
+	_unit removeItem "ACRE_PRC148";
+}, true, [], true] call CBA_fnc_addClassEventHandler;
