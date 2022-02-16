@@ -9,5 +9,7 @@ class TNK
 		class safeZone{};
 		class destroyFOB{};
 		class respawnVehicles{};
+		class serviceVehicles{};
+		class createMarkers{};
 	};
 };

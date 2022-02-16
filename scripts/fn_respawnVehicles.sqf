@@ -19,44 +19,33 @@ BEGIN USER CONFIG
 // input all vehicles to respawn in format [vehName, crew restricted boolean, timer]
 CCO_vehs =
 [
-	[logi1,		false,		(5*60)],
-	[logi2,		false,		(5*60)],
-	[slick1,	true,		(20*60)],
-	[slick2,	true,		(20*60)],
-	[slick3,	true,		(20*60)],
-	[slick4,	true,		(20*60)],
-	[cobra1,	true,		(20*60)],
-	[cobra2,	true,		(20*60)],
+	[bifv1,		false,		(10*60)],
+	[bifv2,		false,		(10*60)],
+	[bheli1,	false,		(10*60)],
+	[bheli2,	false,		(5*60)],
+	[oifv1,		false,		(10*60)],
+	[oifv2,		false,		(10*60)],
+	[oheli1,	false,		(10*60)],
+	[oheli2,	false,		(5*60)],
+	[btruck1,	false,		(5*60)],
+	[btruck2,	false,		(5*60)],
+	[btruck3,	false,		(5*60)],
 	[otruck1,	false,		(5*60)],
 	[otruck2,	false,		(5*60)],
-	[otruck3,	false,		(5*60)],
-	[otruck4,	false,		(5*60)],
-	[otruck5,	false,		(5*60)],
-	[otruck6,	false,		(5*60)],
-	[otruck7,	false,		(5*60)],
-	[otruck8,	false,		(5*60)],
-	[zpu1,		true,		(25*60)],
-	[zpu2,		true,		(25*60)],
-	[zpu3,		true,		(25*60)],
-	[tank1,		true,		(25*60)],
-	[tank1_1,	true,		(25*60)],
-	[oh6,		true,		(20*60)],
-	[psyops_truck,	false,	(5*60)]
+	[otruck3,	false,		(5*60)]
 ];
 
 // input allowed crew classes for GROUND vehicles
 AllowedGroundCrew =
 [
-	"potato_e_vicl",
-	"potato_e_vicc",
-	"potato_e_vicd"
+	"B_crew_F",
+	"O_crew_F"
 ];
 // input allowed crew classes for AIR vehicles
 AllowedAirCrew =
 [
-	"potato_w_helicrew",
-	"potato_w_cc",
-	"potato_w_pilot"
+	"B_Pilot_F",
+	"O_Pilot_F"
 ];
 
 /*
@@ -67,53 +56,6 @@ END USER CONFIG
 publicVariable "CCO_vehs";
 publicVariable "AllowedGroundCrew";
 publicVariable "AllowedAirCrew";
-
-// Add actions to tow ZPUs and MSPs
-tnk_detach = {
-	_gun = _this select 3;
-	detach _gun;
-	hint "Detached!";
-	
-	_gun removeAction gundetach;
-	_gun enableSimulation true;
-	gunattach = _gun addaction ["<t color='#1279d1'>Tow Vehicle</t>", "call tnk_attach",_gun,6,false,true,"","(_target distance _this) < 8"];
-};
-
-tnk_attach = {
-	_gun = _this select 3;
-	_vehList = nearestObjects [_gun, ["Car", "Tank"], 10];
-	if (_vehList select 0 isEqualTo _gun) then {_vehList deleteAt 0};
-	if (count _vehList isEqualTo 0) exitWith {hint "There's no vehicle that can tow within 5 meters!"};
-	_veh = _vehList select 0;
-	
-	[_gun, _veh] call BIS_fnc_attachToRelative;
-	_gun enableSimulation false; 
-	hint "Attached!";
-	
-	_gun removeAction gunattach;
-	gundetach = _gun addaction ["<t color='#1279d1'>Detach Vehicle</t>", "call tnk_detach",_gun,6,false,true,"","(_target distance _this) < 8"];
-};
-
-tnk_towAction = 
-{
-	params["_veh"];
-		
-	gunattach = _veh addaction ["<t color='#1279d1'>Tow Vehicle</t>", "call tnk_attach",_veh,6,false,true,"","(_target distance _this) < 8"];
-};
-
-// temporary workaround for the tow actions needing to be local but functions being defined server-side, if used past CCO15 must do better
-publicVariable "tnk_detach";
-publicVariable "tnk_attach";
-publicVariable "tnk_towAction";
-
-// adds WP-extending function to server
-JST_fnc_WPextend =
-{
-	params ["_pos"];
-	private _smoke = createVehicle ["SmokeShell", _pos, [], 0, "NONE"];
-	private _light = createVehicle ["ACE_F_Hand_Yellow", _pos, [], 0, "NONE"];
-	_light attachTo [_smoke, [0,0,0]];
-};
 
 // adds handlers to vehicles that start respawn process and remove themselves
 JST_fnc_addVehRespawnHandlers =
@@ -174,8 +116,7 @@ JST_fnc_addVehRespawnHandlers =
 				params ["_vehicle", "_role", "_unit", "_turret"];
 				// only run on local unit
 				if !(local _unit) exitWith {};
-				private _restricted = (_vehicle getVariable "CCO_vehArray") select 1;
-				if (_restricted and (_vehicle isKindOf "AIR")) then
+				if (_vehicle isKindOf "AIR") then
 				{
 					if !((typeOf _unit) in AllowedAirCrew) then
 					{
@@ -188,7 +129,7 @@ JST_fnc_addVehRespawnHandlers =
 						};
 					};
 				};
-				if (_restricted and ((_vehicle isKindOf "CAR") or (_vehicle isKindOf "TANK"))) then
+				if (_vehicle isKindOf "APC_Tracked_02_base_F" || _vehicle isKindOf "Wheeled_APC_F") then
 				{
 					if !((typeOf _unit) in AllowedGroundCrew) then
 					{
@@ -204,36 +145,6 @@ JST_fnc_addVehRespawnHandlers =
 			}
 		]
 	] remoteExec ["addEventHandler", 0, true];
-	// adds WP life extending magic
-	if ((typeOf _veh) isEqualTo "vn_b_air_oh6a_07") then
-	{
-		[_veh, "Fired"] remoteExec ["removeAllEventhandlers", 0];
-		UIsleep 2;
-		[
-			_veh,
-			[ 
-				"Fired", 
-				{  
-					params ["_unit", "_weapon", "_muzzle", "_mode",  "_ammo", "_magazine", "_projectile"];
-					if (!(local _projectile) or !(_ammo isEqualTo "vn_rocket_ffar_m156_wp_ammo")) exitWith {};
-					[_projectile, _ammo] spawn
-					{ 
-						params ["_projectile", "_ammo"]; 
-						private _finalPos = [1,1,1]; 
-						while {alive _projectile} do 
-						{
-							UIsleep 0.03;
-							if ((speed _projectile) > 1) then
-							{
-								_finalPos = (getPos _projectile);
-							}; 
-						};
-						[_finalPos] remoteExec ["JST_fnc_WPextend", 2];
-					}; 
-				} 
-			]
-		] remoteExec ["addEventHandler", 0, true];
-	};
 };
 
 // process that handles the actual respawn wait and spawn
@@ -278,34 +189,6 @@ JST_fnc_vehRespawn =
 			[_obj, _unitVar] call BIS_fnc_attachToRelative;
 		} forEach _attObjs;
 	};
-	// CCO15 remove Cobra 40mm
-	_unitVar removeMagazinesTurret ["vn_m129_v_300_mag", [0]];
-	// CCO15 limit tank to 0.5 ammo by loop
-	if (_class isEqualTo "vn_o_armor_type63_01_nva65") then
-	{
-		[_unitVar] spawn
-		{
-			params ["_unit"];
-			while {alive _unit} do
-			{
-				private _ammoArray = magazinesAmmo _unit;
-				private _heArray = _ammoArray select {_x select 0 isEqualTo "vn_t62_v_20_he_mag"};
-				private _heCount = _heArray select 0 select 1;
-				if (_heCount > 10) then {_unit setVehicleAmmo 0.5};
-				UIsleep 10;
-			};
-		};
-	};
-	// CCO15 add tow action to ZPUs
-	if (_class isEqualTo "vn_o_nva_65_static_zpu4") then
-	{
-		[_unitVar] remoteExec ["tnk_towAction", 0, true];
-	};
-	// CCO15 add psyops actions if loudspeaker attached
-	if ((_attObjs findIf {(_x select 0) isEqualTo "Land_Loudspeakers_F"}) > -1) then
-	{
-		[_unitVar, EAST] remoteExec ["JST_fnc_psy_addMenuAction", 0, true];
-	};
 };
 
 // wait for mission start
@@ -335,42 +218,8 @@ waitUntil {time > 3};
 	// store data on vehicle
 	private _vehArray = [_unitVar, _restricted, _time, _pos, [_vDir, _vUp], _class, _config, _name, _attObjs];
 	_unitVar setVariable ["CCO_vehArray", _vehArray, true];
-	// CCO15 remove Cobra 40mm
-	_unitVar removeMagazinesTurret ["vn_m129_v_300_mag", [0]];
-	// CCO15 limit tank to 0.5 ammo by loop
-	if (_class isEqualTo "vn_o_armor_type63_01_nva65") then
-	{
-		[_unitVar] spawn
-		{
-			params ["_unit"];
-			while {alive _unit} do
-			{
-				private _ammoArray = magazinesAmmo _unit;
-				private _heArray = _ammoArray select {_x select 0 isEqualTo "vn_t62_v_20_he_mag"};
-				private _heCount = _heArray select 0 select 1;
-				if (_heCount > 10) then {_unit setVehicleAmmo 0.5};
-				UIsleep 10;
-			};
-		};
-	};
-	// CCO15 add tow action to ZPUs
-	if (_class isEqualTo "vn_o_nva_65_static_zpu4") then
-	{
-		[_unitVar] remoteExec ["tnk_towAction", 0, true];
-	};
-	// CCO15 add psyops actions if loudspeaker attached
-	if ((_attObjs findIf {(_x select 0) isEqualTo "Land_Loudspeakers_F"}) > -1) then
-	{
-		[_unitVar, EAST] remoteExec ["JST_fnc_psy_addMenuAction", 0, true];
-	};
 	// add handlers
 	[_unitVar] call JST_fnc_addVehRespawnHandlers;
 	// short sleep to avoid overload
 	UIsleep 0.25;
 } forEach CCO_vehs;
-
-// CCO15 - Add tow actions to MSPs
-// Add tow actions to msps for quicker transport
-{
-	[_x] remoteExec ["tnk_towAction", 0, true];
-} forEach [msp1, msp2, msp3];

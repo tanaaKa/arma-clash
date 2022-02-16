@@ -7,7 +7,7 @@
 	*/
 	
 	// Exit if not trying to place a fob
-	if !(typeOf _object isEqualTo "Land_Cargo_House_V1_F") exitWith {};
+	if !(typeOf _object isEqualTo "Land_Cargo_House_V1_F") exitWith {[player,20] call grad_lbm_fnc_addFunds;};
 	// Search for fob within 300 meters
 	private _nearestFob = nearestObjects [_unit, ["Land_Cargo_House_V1_F"], 300];
 	// Check if FOB is placeable
@@ -18,6 +18,8 @@
 	if !(_return) then { // Send error if fob exists within 300m
 		hint "Cannot place. There is already a FOB within 300 meters of this position.";
 	} else {
+		// Add money for engineers building FOB
+		[player,100] call grad_lbm_fnc_addFunds;
 		_fobName = [(side _unit), getPos _object] call BIS_fnc_addRespawnPosition;
 		_object setVariable ["fobName", _fobName];
 		_object allowDamage false;
@@ -38,7 +40,7 @@
 		remoteExec ["tnk_createSideMarker", side player];
 		
 		// Destruction event if the fob is destroyed
-		
+		// TODO: Add ace interaction action to FOB here to destroy it
 		
 		/* 	
 		_object addMPEventHandler ["MPKilled", {
@@ -53,38 +55,9 @@
 			deleteMarkerLocal _markerToDelete;
 		}]; */
 	};
-
+	
 	_return
 }] call ace_fortify_fnc_addDeployHandler;
-
-// Basic code to lock vehicles to crew for now
-// Needs optimized
-player addEventHandler ["GetInMan", {
-	params ["_unit", "_role", "_vehicle", "_turret"];
-	
-	if (_vehicle isKindOf "Wheeled_APC_F" || _vehicle isKindOf "APC_Tracked_02_base_F") then {
-		if (((assignedVehicleRole _unit) isEqualTo ["driver"]) or ((assignedVehicleRole _unit) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit) isEqualTo ["turret",[0]])) then
-		{
-			if !(typeOf _unit in AllowedGroundCrew) then {
-				moveOut _unit;
-				systemChat "You are not authorized ground crew.";
-			} else {
-				systemChat "Vehicle authorized as crew.";
-			};
-		};
-	};
-	if (_vehicle isKindOf "AIR") then {
-		if (((assignedVehicleRole _unit) isEqualTo ["driver"]) or ((assignedVehicleRole _unit) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit) isEqualTo ["turret",[0]])) then
-		{
-			if !(typeOf _unit in AllowedAirCrew) then {
-				moveOut _unit;
-				systemChat "You are not authorized air crew.";
-			} else {
-				systemChat "Vehicle authorized as pilot.";
-			};
-		};
-	};
-}];
 
 // Economy system for kills + kill messages
 player addEventHandler ["Killed", {
