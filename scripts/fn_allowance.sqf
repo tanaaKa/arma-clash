@@ -7,6 +7,9 @@ if (_funds < 200) then {_funds = 200};
 // add funds based on elapsed time since server mission start (retroactive allowance)
 [player, _funds] call grad_lbm_fnc_addFunds;
 
+// Save funds just in case
+profileNamespace setVariable ["tnk_aas_money",_funds];
+
 // Default 100 credit allowance every 10 minutes
 [] spawn {
 	while {true} do {
