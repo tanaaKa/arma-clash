@@ -156,11 +156,13 @@ JST_fnc_vehRespawn =
 	_vehArray params ["_unitVar", "_restricted", "_time", "_pos", "_vDirAndUp", "_class", "_config", "_name", "_attObjs"];
 	// wait respawn time
 	UIsleep _time;
+	// find nearest safe position to respawn point
+	private _safePos = _pos findEmptyPosition [0, 30, _class];
 	// respawn vehicle
-	_unitVar = createVehicle [_class, [(_pos select 0), (_pos select 1), ((_pos select 2) + 10000)], [], 0, "NONE"];
+	_unitVar = createVehicle [_class, [(_safePos select 0), (_safePos select 1), ((_safePos select 2) + 10000)], [], 0, "NONE"];
 	_unitVar setVehicleVarName _name;
 	_unitVar setVectorDirAndUp _vDirAndUp;
-	_unitVar setPos [(_pos select 0), (_pos select 1), ((_pos select 2) + 1.5)];
+	_unitVar setPos [(_safePos select 0), (_safePos select 1), ((_safePos select 2) + 1.5)];
 	_unitVar setVectorDirAndUp _vDirAndUp;
 	[_unitVar, _config select 0, _config select 1] call BIS_fnc_initVehicle;
 	// save respawn data onto vehicle
