@@ -13,13 +13,13 @@
             if (_projectile inArea bsafezone or _projectile inArea osafezone) exitWith {
               deleteVehicle _projectile;
               if (isPlayer _shooter) then {
-					"Don't fire inside the base!" remoteExec ["hintC",_shooter]
+					"Projectile deleted due to safezone" remoteExec ["hintSilent",_shooter]
               }
             };
             if (_target inArea bsafezone or _target inArea osafezone) exitWith {
               deleteVehicle _projectile;
               if (isPlayer _shooter) then {
-					"Don't fire inside the base" remoteExec ["hintC",_shooter]
+					"Projectile deleted due to safezone" remoteExec ["hintSilent",_shooter]
               }
             };
             [_shooter,_projectile] spawn {
@@ -28,7 +28,7 @@
               if (!isNull _projectile) then {
                 deleteVehicle _projectile;
                 if (isPlayer _shooter) then {
-					"Shooting at MAIN is disabled" remoteExec ["hintC",_shooter]
+					"Shooting at MAIN is disabled" remoteExec ["hintSilent",_shooter]
                 }
               };
             };

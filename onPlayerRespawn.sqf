@@ -1,6 +1,6 @@
 // Set loadout
 player setUnitLoadout (player getVariable ["tnk_loadout", []]);
 
-/* if (typeOf player isEqualTo "B_soldier_repair_F" || typeOf player isEqualTo "O_soldier_repair_F") then {
-	player additem "ACE_Fortify";
-}; */
+// Ensure funds are carried over on death
+_funds = profileNamespace getVariable "tnk_aas_money";
+[player,_funds] call grad_lbm_fnc_setFunds;
