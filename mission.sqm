@@ -18835,7 +18835,7 @@ class Mission
 					};
 					id=665;
 					type="B_UAV_AI";
-					atlOffset=313.30099;
+					atlOffset=2000;
 				};
 				class Item1
 				{
@@ -18851,14 +18851,14 @@ class Mission
 					};
 					id=666;
 					type="B_UAV_AI";
-					atlOffset=313.30099;
+					atlOffset=2000;
 				};
 				class Item2
 				{
 					dataType="Waypoint";
-					loiterRadius=300;
-					loiterAltitude=1000;
-					position[]={9911.1406,43.223698,3940.0229};
+					loiterRadius=500;
+					loiterAltitude=2000;
+					position[]={9767.0967,27.499561,3787.4297};
 					type="Loiter";
 					class Effects
 					{
@@ -18903,14 +18903,14 @@ class Mission
 				};
 			};
 			id=663;
-			atlOffset=313.30099;
+			atlOffset=2000;
 		};
 		class Item91
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={8676.4258,285.34335,4945.4199};
+				position[]={8676.4258,1972.0424,4945.4199};
 				angles[]={0,2.8056693,0};
 			};
 			side="West";
@@ -18923,7 +18923,7 @@ class Mission
 			};
 			id=664;
 			type="B_UAV_02_dynamicLoadout_F";
-			atlOffset=313.30099;
+			atlOffset=2000;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -18970,7 +18970,7 @@ class Mission
 					};
 					id=669;
 					type="O_UAV_AI";
-					atlOffset=515.17401;
+					atlOffset=2000;
 				};
 				class Item1
 				{
@@ -18986,14 +18986,14 @@ class Mission
 					};
 					id=670;
 					type="O_UAV_AI";
-					atlOffset=515.17401;
+					atlOffset=2000;
 				};
 				class Item2
 				{
 					dataType="Waypoint";
-					loiterRadius=300;
-					loiterAltitude=1000;
-					position[]={11382.34,19.37776,4384.3765};
+					loiterRadius=500;
+					loiterAltitude=2000;
+					position[]={11329.675,17.03863,4294.9028};
 					type="Loiter";
 					class Effects
 					{
@@ -19038,14 +19038,14 @@ class Mission
 				};
 			};
 			id=667;
-			atlOffset=515.17401;
+			atlOffset=2000;
 		};
 		class Item93
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={12574.634,449.13644,4710.4888};
+				position[]={12574.634,1933.9624,4710.4888};
 				angles[]={0,4.6144061,0};
 			};
 			side="East";
@@ -19058,7 +19058,7 @@ class Mission
 			};
 			id=668;
 			type="O_UAV_02_dynamicLoadout_F";
-			atlOffset=515.17401;
+			atlOffset=2000;
 			class CustomAttributes
 			{
 				class Attribute0
