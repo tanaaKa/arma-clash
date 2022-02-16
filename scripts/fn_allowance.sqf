@@ -1,18 +1,11 @@
-// Set default funds
-[player,200] call grad_lbm_fnc_setFunds;
+// conversion rate from seconds of pre-existing gametime in seconds to funds for JIPs
+private _funds = diag_tickTime * 0.4;
 
-// Add money based on how long the mission file has been running
-switch (true) do {
-	case (serverTime > 1800):
-	{
-		[player,750] call grad_lbm_fnc_addFunds;
-	};
-	case (serverTime > 3600):
-	{
-		[player,1500] call grad_lbm_fnc_addFunds;
-	};
-	default {};
-};
+// ensure base funds for players at mission start
+if (_funds < 200) then {_funds = 200};
+
+// add funds based on elapsed time since server mission start (retroactive allowance)
+[player, _funds] call grad_lbm_fnc_addFunds;
 
 // Default 100 credit allowance every 10 minutes
 [] spawn {
