@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={9446.9395,78.347069,3733.3555};
-		dir[]={0.87757856,-0.43739679,0.19631638};
-		up[]={0.42684692,0.89926863,0.095486656};
-		aside[]={0.21830672,7.4505806e-009,-0.97588032};
+		pos[]={11726.93,108.28712,4325.4712};
+		dir[]={-0.36145031,-0.48116994,0.79865557};
+		up[]={-0.19839369,0.8766278,0.43836853};
+		aside[]={0.9110499,1.2849341e-007,0.41231635};
 	};
 };
 binarizationWanted=0;
-sourceName="public_clash80_island";
+sourceName="arma-clash";
 addons[]=
 {
 	"A3_Modules_F",
@@ -95,7 +95,7 @@ class AddonsMetaData
 {
 	class List
 	{
-		items=42;
+		items=43;
 		class Item0
 		{
 			className="A3_Modules_F";
@@ -296,87 +296,94 @@ class AddonsMetaData
 		};
 		class Item29
 		{
+			className="A3_Sounds_F";
+			name="Arma 3 - Sound Effects";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
+		class Item30
+		{
 			className="potato_aiCfgFixes";
 			name="potato_aiCfgFixes";
 			author="Potato";
 		};
-		class Item30
+		class Item31
 		{
 			className="potato_massCompat";
 			name="potato_massCompat";
 			author="Potato";
 		};
-		class Item31
+		class Item32
 		{
 			className="rhsusf_c_troops";
 			name="RHSUSF Infantry & Equipment";
 			author="Red Hammer Studios";
 			url="http://www.rhsmods.org/";
 		};
-		class Item32
+		class Item33
 		{
 			className="ace_compat_rhs_usf3";
 			name="ACE3 - RHS USF Compatibility";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item33
+		class Item34
 		{
 			className="ace_nightvision";
 			name="ACE3 - Night Vision";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item34
+		class Item35
 		{
 			className="ace_hearing";
 			name="ACE3 - Hearing";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item35
+		class Item36
 		{
 			className="ace_parachute";
 			name="ACE3 - Parachute";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item36
+		class Item37
 		{
 			className="ace_goggles";
 			name="ACE3 - Goggles";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item37
+		class Item38
 		{
 			className="A3_Weapons_F_Exp";
 			name="Arma 3 Apex - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item38
+		class Item39
 		{
 			className="ace_laserpointer";
 			name="ACE3 - Laser Pointer";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item39
+		class Item40
 		{
 			className="rhs_c_weapons";
 			name="AFRF Weapons Pack";
 			author="Red Hammer Studios";
 			url="http://www.rhsmods.org/";
 		};
-		class Item40
+		class Item41
 		{
 			className="acre_api";
 			name="ACRE2 - API";
 			author="ACRE2Team";
 			url="https://github.com/IDI-Systems/acre2";
 		};
-		class Item41
+		class Item42
 		{
 			className="A3_Air_F_EPB";
 			name="Arma 3 Adapt Episode - Aircraft";
@@ -6646,7 +6653,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={9331.0439,3.6800001,3848.3418};
-				angles[]={-0,4.4877272,0};
+				angles[]={0,4.4877272,0};
 			};
 			side="Empty";
 			flags=4;
@@ -6662,7 +6669,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={9335.0898,3.6800001,3829.6692};
-				angles[]={-0,4.4877272,0};
+				angles[]={0,4.4877272,0};
 			};
 			side="Empty";
 			flags=4;
@@ -18362,7 +18369,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={9335.8701,5.2110758,3829.9058};
-				angles[]={-0,4.4935942,0};
+				angles[]={0,4.4935942,0};
 			};
 			side="Empty";
 			flags=4;
@@ -18503,7 +18510,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={9332.0605,5.5430317,3848.5239};
-				angles[]={-0,4.5190587,0};
+				angles[]={0,4.5190587,0};
 			};
 			side="Empty";
 			flags=4;
@@ -18635,7 +18642,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={9390.4795,3.7967877,3818.8997};
-				angles[]={-0,0,0.03917928};
+				angles[]={0,0,0.03917928};
 			};
 			areaSize[]={5,-1,5};
 			flags=1;
@@ -18819,7 +18826,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={8676.3291,-0.023028802,4945.4365};
-						angles[]={0,2.8056734,-0};
+						angles[]={0,2.8056693,0};
 					};
 					side="West";
 					flags=2;
@@ -18828,7 +18835,7 @@ class Mission
 					};
 					id=665;
 					type="B_UAV_AI";
-					atlOffset=29.498224;
+					atlOffset=313.30099;
 				};
 				class Item1
 				{
@@ -18836,7 +18843,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={8676.4258,1.5420386,4945.4692};
-						angles[]={0,2.8056734,-0};
+						angles[]={0,2.8056693,0};
 					};
 					side="West";
 					class Attributes
@@ -18844,7 +18851,7 @@ class Mission
 					};
 					id=666;
 					type="B_UAV_AI";
-					atlOffset=31.070177;
+					atlOffset=313.30099;
 				};
 				class Item2
 				{
@@ -18896,15 +18903,15 @@ class Mission
 				};
 			};
 			id=663;
-			atlOffset=313.3009;
+			atlOffset=313.30099;
 		};
 		class Item91
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={8676.4258,285.34326,4945.4194};
-				angles[]={0,2.8056734,-0};
+				position[]={8676.4258,285.34335,4945.4199};
+				angles[]={0,2.8056693,0};
 			};
 			side="West";
 			flags=2;
@@ -18912,10 +18919,34 @@ class Mission
 			{
 				reportRemoteTargets=1;
 				reportOwnPosition=1;
+				pylons="[0];[0];";
 			};
 			id=664;
 			type="B_UAV_02_dynamicLoadout_F";
-			atlOffset=313.3009;
+			atlOffset=313.30099;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="potato_setVehicleAmmo_vehAmmoAttribute";
+					expression="[_this, _value] call potato_setVehicleAmmo_fnc_initVehicle";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=1;
+			};
 		};
 		class Item92
 		{
@@ -18930,7 +18961,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={12574.332,-0.048391409,4710.5244};
-						angles[]={0,4.6144128,0};
+						angles[]={0,4.6144061,0};
 					};
 					side="East";
 					flags=2;
@@ -18939,7 +18970,7 @@ class Mission
 					};
 					id=669;
 					type="O_UAV_AI";
-					atlOffset=67.526764;
+					atlOffset=515.17401;
 				};
 				class Item1
 				{
@@ -18947,7 +18978,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={12574.634,1.4906406,4710.5381};
-						angles[]={0,4.6144128,0};
+						angles[]={0,4.6144061,0};
 					};
 					side="East";
 					class Attributes
@@ -18955,7 +18986,7 @@ class Mission
 					};
 					id=670;
 					type="O_UAV_AI";
-					atlOffset=69.125237;
+					atlOffset=515.17401;
 				};
 				class Item2
 				{
@@ -19007,15 +19038,15 @@ class Mission
 				};
 			};
 			id=667;
-			atlOffset=515.17358;
+			atlOffset=515.17401;
 		};
 		class Item93
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={12574.634,449.13605,4710.4883};
-				angles[]={0,4.6144128,0};
+				position[]={12574.634,449.13644,4710.4888};
+				angles[]={0,4.6144061,0};
 			};
 			side="East";
 			flags=2;
@@ -19023,10 +19054,34 @@ class Mission
 			{
 				reportRemoteTargets=1;
 				reportOwnPosition=1;
+				pylons="[0];[0];";
 			};
 			id=668;
 			type="O_UAV_02_dynamicLoadout_F";
-			atlOffset=515.17358;
+			atlOffset=515.17401;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="potato_setVehicleAmmo_vehAmmoAttribute";
+					expression="[_this, _value] call potato_setVehicleAmmo_fnc_initVehicle";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=1;
+			};
 		};
 		class Item94
 		{
