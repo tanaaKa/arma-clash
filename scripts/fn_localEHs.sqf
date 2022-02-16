@@ -63,38 +63,44 @@
 player addEventHandler ["Killed", {
 	params ["_unit", "_killer", "_instigator", "_useEffects"];
 	
-	if (_killer isEqualTo _unit) exitWith {};
+	// do nothing if self-kill
+	if ((_killer isEqualTo _unit) or (_instigator isEqualTo _unit)) exitWith {};
 	
-	if (side _unit isEqualTo side _instigator) then { // Check for teamkill
-		if (_unit isEqualTo _instigator) exitWith {};
-		[_killer,-100] call grad_lbm_fnc_addFunds;
+	// check for teamkill, if so remove money from killer
+	if (side (group _unit) isEqualTo side (group _instigator)) then
+	{
+		[_killer, -100] call grad_lbm_fnc_addFunds;
 		_killerText = 
 		[ 
 			format  
 			[ 
-				"<t color='#B71900' font='PuristaBold' size = '0.6'>You teamkilled %1 (-100CR)</t>", 
+				"<t color='#B71900' font='PuristaBold' size = '0.6' shadow='1'>You teamkilled %1 (-100CR)</t>", 
 				name _unit
 			],-0.8,1.1,4,1,0.5,789
 		];
 		_killerText remoteExec ["BIS_fnc_dynamicText", _killer];
-	} else { // else award money
-		[_killer,100] call grad_lbm_fnc_addFunds;
-		_killerText = 
-		[ 
+	}
+	// else award money + msg to killer
+	else
+	{
+		[_killer, 100] call grad_lbm_fnc_addFunds;
+		_killerText =
+		[
 			format  
 			[ 
-				"<t color='#FFD500' font='PuristaBold' size = '0.6'>You killed %1 (+100CR)</t>", 
+				"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You killed %1 (+100CR)</t>", 
 				name _unit 
 			],-0.8,1.1,4,1,0.5,789
 		];
 		_killerText remoteExec ["BIS_fnc_dynamicText", _killer];
 	};
 	
+	// msg to self
 	_unitText = 
 	[ 
 		format  
 		[ 
-			"<t color='#FFD500' font='PuristaBold' size = '1'>You were killed by %1 from %2m</t>", 
+			"<t color='#FFD500' font='PuristaBold' size = '1' shadow='1'>You were killed by %1 from %2m</t>", 
 			name _instigator, _unit distance _killer 
 		],-1,-1,4,1,0,790
 	];
