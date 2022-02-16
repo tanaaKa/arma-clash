@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11726.93,108.28712,4325.4712};
-		dir[]={-0.36145031,-0.48116994,0.79865557};
-		up[]={-0.19839369,0.8766278,0.43836853};
-		aside[]={0.9110499,1.2849341e-007,0.41231635};
+		pos[]={9355.5879,28.68,3787.8594};
+		dir[]={0.17347145,-0.59482992,0.78491223};
+		up[]={0.12836441,0.80385143,0.58081484};
+		aside[]={0.97643775,1.1437805e-008,-0.21580034};
 	};
 };
 binarizationWanted=0;
-sourceName="arma-clash";
+sourceName="public_clash80_island";
 addons[]=
 {
 	"A3_Modules_F",
@@ -95,7 +95,7 @@ class AddonsMetaData
 {
 	class List
 	{
-		items=43;
+		items=42;
 		class Item0
 		{
 			className="A3_Modules_F";
@@ -296,94 +296,87 @@ class AddonsMetaData
 		};
 		class Item29
 		{
-			className="A3_Sounds_F";
-			name="Arma 3 - Sound Effects";
-			author="Bohemia Interactive";
-			url="https://www.arma3.com";
-		};
-		class Item30
-		{
 			className="potato_aiCfgFixes";
 			name="potato_aiCfgFixes";
 			author="Potato";
 		};
-		class Item31
+		class Item30
 		{
 			className="potato_massCompat";
 			name="potato_massCompat";
 			author="Potato";
 		};
-		class Item32
+		class Item31
 		{
 			className="rhsusf_c_troops";
 			name="RHSUSF Infantry & Equipment";
 			author="Red Hammer Studios";
 			url="http://www.rhsmods.org/";
 		};
-		class Item33
+		class Item32
 		{
 			className="ace_compat_rhs_usf3";
 			name="ACE3 - RHS USF Compatibility";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item34
+		class Item33
 		{
 			className="ace_nightvision";
 			name="ACE3 - Night Vision";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item35
+		class Item34
 		{
 			className="ace_hearing";
 			name="ACE3 - Hearing";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item36
+		class Item35
 		{
 			className="ace_parachute";
 			name="ACE3 - Parachute";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item37
+		class Item36
 		{
 			className="ace_goggles";
 			name="ACE3 - Goggles";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item38
+		class Item37
 		{
 			className="A3_Weapons_F_Exp";
 			name="Arma 3 Apex - Weapons and Accessories";
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item39
+		class Item38
 		{
 			className="ace_laserpointer";
 			name="ACE3 - Laser Pointer";
 			author="ACE-Team";
 			url="http://ace3mod.com/";
 		};
-		class Item40
+		class Item39
 		{
 			className="rhs_c_weapons";
 			name="AFRF Weapons Pack";
 			author="Red Hammer Studios";
 			url="http://www.rhsmods.org/";
 		};
-		class Item41
+		class Item40
 		{
 			className="acre_api";
 			name="ACRE2 - API";
 			author="ACRE2Team";
 			url="https://github.com/IDI-Systems/acre2";
 		};
-		class Item42
+		class Item41
 		{
 			className="A3_Air_F_EPB";
 			name="Arma 3 Adapt Episode - Aircraft";
@@ -412,7 +405,7 @@ class ScenarioData
 };
 class CustomAttributes
 {
-	class Category0
+	class Category1
 	{
 		name="Multiplayer";
 		class Attribute0
@@ -495,7 +488,7 @@ class CustomAttributes
 		};
 		nAttributes=1;
 	};
-	class Category1
+	class Category2
 	{
 		name="Scenario";
 		class Attribute0
@@ -7780,7 +7773,7 @@ class Mission
 			class Attributes
 			{
 				name="bsafezone";
-				onActivation="thisList setDamage 1;";
+				onActivation="_eastPlayers = allPlayers select {side _x == east};" \n "{" \n "  _x setDamage 1;" \n "} forEach _eastPlayers;";
 				sizeB=70;
 				sizeC=15;
 				repeatable=1;
@@ -7795,11 +7788,11 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={11654.02,14.06,4469.5322};
-			angle=4.6146669;
+			angle=4.6146674;
 			class Attributes
 			{
 				name="osafezone";
-				onActivation="thisList setDamage 1;";
+				onActivation="_westPlayers = allPlayers select {side _x == west};" \n "{" \n "  _x setDamage 1;" \n "} forEach _westPlayers;";
 				sizeB=70;
 				sizeC=15;
 				repeatable=1;
@@ -18835,7 +18828,7 @@ class Mission
 					};
 					id=665;
 					type="B_UAV_AI";
-					atlOffset=2000;
+					atlOffset=29.498224;
 				};
 				class Item1
 				{
@@ -18851,7 +18844,7 @@ class Mission
 					};
 					id=666;
 					type="B_UAV_AI";
-					atlOffset=2000;
+					atlOffset=31.070177;
 				};
 				class Item2
 				{
@@ -18970,7 +18963,7 @@ class Mission
 					};
 					id=669;
 					type="O_UAV_AI";
-					atlOffset=2000;
+					atlOffset=67.526764;
 				};
 				class Item1
 				{
@@ -18986,7 +18979,7 @@ class Mission
 					};
 					id=670;
 					type="O_UAV_AI";
-					atlOffset=2000;
+					atlOffset=69.125237;
 				};
 				class Item2
 				{

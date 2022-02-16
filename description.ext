@@ -74,67 +74,67 @@ class CfgGradBuymenu {
                 displayName = "P90";
                 description = "";
                 price = 300;
-                stock = 5;
+                stock = 999;
             };
 			class LMG_Zafir_F {
 				displayName = "Negev";
                 description = "";
                 price = 800;
-                stock = 5;
+                stock = 999;
 			};
 			class LMG_Mk200_F {
 				displayName = "Stoner 99";
                 description = "";
                 price = 800;
-                stock = 5;
+                stock = 999;
 			};
 			class arifle_TRG21_F {
 				displayName = "TAR-21";
                 description = "I guess somebody out there likes these......right?";
                 price = 400;
-                stock = 5;
+                stock = 999;
 			};
 			class SMG_01_F {
 				displayName = "Vector";
                 description = "";
                 price = 300;
-                stock = 5;
+                stock = 999;
 			};
 			class arifle_AK12_F {
 				displayName = "AK-15";
                 description = "";
                 price = 500;
-                stock = 5;
+                stock = 999;
 			};
 			class arifle_AKM_F {
 				displayName = "AKM";
                 description = "NYET. RIFLE IS FINE.";
                 price = 500;
-                stock = 5;
+                stock = 999;
 			};
 			class arifle_Mk20_plain_F {
 				displayName = "F2000";
                 description = "";
                 price = 375;
-                stock = 5;
+                stock = 999;
 			};
 			class arifle_MSBS65_Mark_F {
 				displayName = "MSBS Grot MR";
                 description = "";
                 price = 550;
-                stock = 5;
+                stock = 999;
 			};
 			class srifle_GM6_F {
 				displayName = "GM6 Lynx";
                 description = "";
                 price = 2000;
-                stock = 2;
+                stock = 5;
 			};
 			class srifle_LRR_F {
 				displayName = "M200 Intervention";
                 description = "";
                 price = 1000;
-                stock = 2;
+                stock = 5;
 			};
 			class srifle_EBR_F {
 				displayName = "Mk14 EBR";
@@ -146,13 +146,13 @@ class CfgGradBuymenu {
 				displayName = "HK416";
                 description = "";
                 price = 550;
-                stock = 5;
+                stock = 999;
 			};
 			class arifle_CTAR_blk_F {
 				displayName = "QBZ-95-1";
                 description = "";
                 price = 500;
-                stock = 5;
+                stock = 999;
 			};
 			// END RIFLES
 			
@@ -161,25 +161,25 @@ class CfgGradBuymenu {
 				displayName = "[LAUNCHER] NLAW";
                 description = "I don't think the Russians like these";
                 price = 600;
-                stock = 10;
+                stock = 30;
 			};
 			class launch_RPG32_F {
 				displayName = "[LAUNCHER] RPG-32";
                 description = "Wockets for the whole family";
                 price = 400;
-                stock = 3;
+                stock = 30;
 			};
 			class launch_MRAWS_green_F {
 				displayName = "[LAUNCHER] MAAWS";
                 description = "After all, why shouldn't I be able to kill everything?";
                 price = 400;
-                stock = 3;
+                stock = 30;
 			};
 			class launch_I_Titan_F {
 				displayName = "[LAUNCHER] Titan MPRL";
                 description = "An anti-air fire and forget launcher";
                 price = 400;
-                stock = 3;
+                stock = 30;
 			};
         };
 		
@@ -193,21 +193,21 @@ class CfgGradBuymenu {
                 description = "2 simple bandages in sterile packaging.";
                 amount = 2;
                 price = 50;
-                stock = 100;    
+                stock = 300;    
             };
 			class ACE_morphine {
 				displayName = "Morphine Autoinjector";
                 description = "This shit will numb any pain. Except for when tanaka yells at you. That always hurts.";
                 amount = 1;
                 price = 50;
-                stock = 100;     
+                stock = 300;     
 			};
 			class ACE_epinephrine {
 				displayName = "Epinephrine Autoinjector";
                 description = "Get your heart speeding up like you're on PCP.";
                 amount = 1;
                 price = 50;
-                stock = 100;  
+                stock = 300;  
 			};
 			class ACE_bloodIV_500 {
 				displayName = "Bloodbag (500ml)";
@@ -476,6 +476,20 @@ class CfgGradBuymenu {
                 amount = 1;
                 price = 250;
                 stock = 999; 
+			};
+			class B_Mortar_01_weapon_F {
+				displayName = "81mm Mortar Tube";
+                description = "";
+                amount = 1;
+                price = 250;
+                stock = 5; 
+			};
+			class B_Mortar_01_support_F {
+				displayName = "81mm Mortar Bipod";
+                description = "";
+                amount = 1;
+                price = 250;
+                stock = 5; 
 			};
 			// END BACKPACKS
 		};
