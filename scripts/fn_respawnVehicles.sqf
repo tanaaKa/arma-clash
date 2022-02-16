@@ -82,6 +82,20 @@ JST_fnc_addVehRespawnHandlers =
 			} forEach (attachedObjects _unit);
 			// respawn on server
 			[_unit, _vehArray] remoteExec ["JST_fnc_vehRespawn", 2];
+			
+			// Award points to the vehicle killer
+			if (_instigator isEqualTo _unit) exitWith {};
+			if (side _unit isEqualTo _killer || side _unit isEqualTo _instigator) exitWith {};
+			
+			[_killer, 350] call grad_lbm_fnc_addFunds;
+			_killerText =
+			[
+				format  
+				[ 
+					"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Vehicle Killed (+350CR)</t>"
+				],-0.8,1.1,4,1,0.5,789
+			];
+			_killerText remoteExec ["BIS_fnc_dynamicText", _killer];
 		}
 	];
 	// deleted: remove all handlers, start respawn loop
