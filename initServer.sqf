@@ -14,13 +14,6 @@ AllowedAirCrew =
 ];
 publicVariable "AllowedAirCrew";
 
-Engineers =
-[
-	"B_soldier_repair_F",
-	"O_soldier_repair_F"
-];
-publicVariable "Engineers";
-
 hillTrigger enableSimulationGlobal false;
 bluforHQ enableSimulationGlobal false;
 opforHQ enableSimulationGlobal false;
