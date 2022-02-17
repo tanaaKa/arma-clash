@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={9355.5879,28.68,3787.8594};
-		dir[]={0.17347145,-0.59482992,0.78491223};
-		up[]={0.12836441,0.80385143,0.58081484};
-		aside[]={0.97643775,1.1437805e-008,-0.21580034};
+		pos[]={11705.619,265.60474,4256.9331};
+		dir[]={-0.73765397,-0.60084802,-0.30799207};
+		up[]={-0.55445957,0.79935884,-0.23150323};
+		aside[]={-0.38529426,8.0792233e-008,0.922795};
 	};
 };
 binarizationWanted=0;
@@ -86,10 +86,8 @@ addons[]=
 	"A3_Weapons_F_Ammoboxes",
 	"acre_api",
 	"A3_Air_F_EPB_Heli_Light_03",
-	"A3_Modules_F_Curator_Environment",
 	"A3_Characters_F_Common",
-	"A3_Drones_F_Air_F_Gamma_UAV_02",
-	"A3_Modules_F_Supports"
+	"A3_Drones_F_Air_F_Gamma_UAV_02"
 };
 class AddonsMetaData
 {
@@ -405,7 +403,7 @@ class ScenarioData
 };
 class CustomAttributes
 {
-	class Category1
+	class Category0
 	{
 		name="Multiplayer";
 		class Attribute0
@@ -488,7 +486,7 @@ class CustomAttributes
 		};
 		nAttributes=1;
 	};
-	class Category2
+	class Category1
 	{
 		name="Scenario";
 		class Attribute0
@@ -4794,7 +4792,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=100;
+		items=93;
 		class Item0
 		{
 			dataType="Logic";
@@ -7773,11 +7771,8 @@ class Mission
 			class Attributes
 			{
 				name="bsafezone";
-				onActivation="_eastPlayers = allPlayers select {side _x == east};" \n "{" \n "  _x setDamage 1;" \n "} forEach _eastPlayers;";
 				sizeB=70;
 				sizeC=15;
-				repeatable=1;
-				activationBy="EAST";
 				isRectangle=1;
 				triggerInterval=2;
 			};
@@ -7788,15 +7783,12 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={11654.02,14.06,4469.5322};
-			angle=4.6146674;
+			angle=4.6146679;
 			class Attributes
 			{
 				name="osafezone";
-				onActivation="_westPlayers = allPlayers select {side _x == west};" \n "{" \n "  _x setDamage 1;" \n "} forEach _westPlayers;";
 				sizeB=70;
 				sizeC=15;
-				repeatable=1;
-				activationBy="WEST";
 				isRectangle=1;
 				triggerInterval=2;
 			};
@@ -18775,39 +18767,6 @@ class Mission
 		};
 		class Item89
 		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={9843.4551,7.9686298,3132};
-			};
-			id=662;
-			type="ModuleTimeMultiplier_F";
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="ModuleTimeMultiplier_F_TimeMultiplier";
-					expression="_this setVariable ['TimeMultiplier',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=12;
-						};
-					};
-				};
-				nAttributes=1;
-			};
-		};
-		class Item90
-		{
 			dataType="Group";
 			side="West";
 			class Entities
@@ -18898,7 +18857,7 @@ class Mission
 			id=663;
 			atlOffset=2000;
 		};
-		class Item91
+		class Item90
 		{
 			dataType="Object";
 			class PositionInfo
@@ -18941,7 +18900,7 @@ class Mission
 				nAttributes=1;
 			};
 		};
-		class Item92
+		class Item91
 		{
 			dataType="Group";
 			side="East";
@@ -19033,7 +18992,7 @@ class Mission
 			id=667;
 			atlOffset=2000;
 		};
-		class Item93
+		class Item92
 		{
 			dataType="Object";
 			class PositionInfo
@@ -19076,676 +19035,16 @@ class Mission
 				nAttributes=1;
 			};
 		};
-		class Item94
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={8457.8398,27.552824,3445.5};
-			};
-			id=673;
-			type="SupportRequester";
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="SupportRequester_BIS_SUPP_limit_UAV";
-					expression="_this setVariable ['BIS_SUPP_limit_UAV',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="15";
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="SupportRequester_BIS_SUPP_custom_HQ";
-					expression="_this setVariable ['BIS_SUPP_custom_HQ',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="";
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="SupportRequester_BIS_SUPP_limit_Transport";
-					expression="_this setVariable ['BIS_SUPP_limit_Transport',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="0";
-						};
-					};
-				};
-				class Attribute3
-				{
-					property="SupportRequester_BIS_SUPP_limit_Drop";
-					expression="_this setVariable ['BIS_SUPP_limit_Drop',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="0";
-						};
-					};
-				};
-				class Attribute4
-				{
-					property="SupportRequester_BIS_SUPP_limit_CAS_Heli";
-					expression="_this setVariable ['BIS_SUPP_limit_CAS_Heli',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="0";
-						};
-					};
-				};
-				class Attribute5
-				{
-					property="SupportRequester_BIS_SUPP_limit_Artillery";
-					expression="_this setVariable ['BIS_SUPP_limit_Artillery',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="5";
-						};
-					};
-				};
-				class Attribute6
-				{
-					property="SupportRequester_BIS_SUPP_limit_CAS_Bombing";
-					expression="_this setVariable ['BIS_SUPP_limit_CAS_Bombing',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="2";
-						};
-					};
-				};
-				nAttributes=7;
-			};
-		};
-		class Item95
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={8446.6494,21.087711,3608.626};
-			};
-			id=674;
-			type="SupportRequester";
-			atlOffset=-1.9073486e-006;
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="SupportRequester_BIS_SUPP_limit_UAV";
-					expression="_this setVariable ['BIS_SUPP_limit_UAV',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="15";
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="SupportRequester_BIS_SUPP_custom_HQ";
-					expression="_this setVariable ['BIS_SUPP_custom_HQ',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="";
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="SupportRequester_BIS_SUPP_limit_Transport";
-					expression="_this setVariable ['BIS_SUPP_limit_Transport',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="0";
-						};
-					};
-				};
-				class Attribute3
-				{
-					property="SupportRequester_BIS_SUPP_limit_Drop";
-					expression="_this setVariable ['BIS_SUPP_limit_Drop',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="0";
-						};
-					};
-				};
-				class Attribute4
-				{
-					property="SupportRequester_BIS_SUPP_limit_CAS_Heli";
-					expression="_this setVariable ['BIS_SUPP_limit_CAS_Heli',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="0";
-						};
-					};
-				};
-				class Attribute5
-				{
-					property="SupportRequester_BIS_SUPP_limit_Artillery";
-					expression="_this setVariable ['BIS_SUPP_limit_Artillery',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="5";
-						};
-					};
-				};
-				class Attribute6
-				{
-					property="SupportRequester_BIS_SUPP_limit_CAS_Bombing";
-					expression="_this setVariable ['BIS_SUPP_limit_CAS_Bombing',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="2";
-						};
-					};
-				};
-				nAttributes=7;
-			};
-		};
-		class Item96
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={4828.7378,61.751465,3706.7642};
-				angles[]={0.055144947,0,0.012000273};
-			};
-			id=675;
-			type="SupportProvider_Virtual_CAS_Bombing";
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_cooldown";
-					expression="_this setVariable ['BIS_SUPP_cooldown',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=600;
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_vehicleInit";
-					expression="_this setVariable ['BIS_SUPP_vehicleInit',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="";
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_vehicles";
-					expression="_this setVariable ['BIS_SUPP_vehicles',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="[]";
-						};
-					};
-				};
-				class Attribute3
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_filter";
-					expression="_this setVariable ['BIS_SUPP_filter',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="Side";
-						};
-					};
-				};
-				nAttributes=4;
-			};
-		};
-		class Item97
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={5164.2588,40.721317,2791.7534};
-				angles[]={0.016798066,0,6.2336264};
-			};
-			id=676;
-			type="SupportProvider_Virtual_CAS_Bombing";
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_cooldown";
-					expression="_this setVariable ['BIS_SUPP_cooldown',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=600;
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_vehicleInit";
-					expression="_this setVariable ['BIS_SUPP_vehicleInit',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="";
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_vehicles";
-					expression="_this setVariable ['BIS_SUPP_vehicles',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="[]";
-						};
-					};
-				};
-				class Attribute3
-				{
-					property="SupportProvider_Virtual_CAS_Bombing_BIS_SUPP_filter";
-					expression="_this setVariable ['BIS_SUPP_filter',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="Side";
-						};
-					};
-				};
-				nAttributes=4;
-			};
-		};
-		class Item98
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={7974.0869,35.380432,4247.1812};
-				angles[]={0.047961645,0,6.2775826};
-			};
-			id=677;
-			type="SupportProvider_Virtual_Artillery";
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_filter";
-					expression="_this setVariable ['BIS_SUPP_filter',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="Side";
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_vehicleInit";
-					expression="_this setVariable ['BIS_SUPP_vehicleInit',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="";
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_vehicles";
-					expression="_this setVariable ['BIS_SUPP_vehicles',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="[""B_Mortar_01_F""]";
-						};
-					};
-				};
-				class Attribute3
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_cooldown";
-					expression="_this setVariable ['BIS_SUPP_cooldown',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=0;
-						};
-					};
-				};
-				nAttributes=4;
-			};
-		};
-		class Item99
-		{
-			dataType="Logic";
-			class PositionInfo
-			{
-				position[]={8050.3931,34.315861,4274.7441};
-				angles[]={0,0,6.2471962};
-			};
-			id=678;
-			type="SupportProvider_Virtual_Artillery";
-			atlOffset=3.8146973e-006;
-			class CustomAttributes
-			{
-				class Attribute0
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_filter";
-					expression="_this setVariable ['BIS_SUPP_filter',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="Side";
-						};
-					};
-				};
-				class Attribute1
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_vehicleInit";
-					expression="_this setVariable ['BIS_SUPP_vehicleInit',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="";
-						};
-					};
-				};
-				class Attribute2
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_vehicles";
-					expression="_this setVariable ['BIS_SUPP_vehicles',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"STRING"
-								};
-							};
-							value="[""O_Mortar_01_F""]";
-						};
-					};
-				};
-				class Attribute3
-				{
-					property="SupportProvider_Virtual_Artillery_BIS_SUPP_cooldown";
-					expression="_this setVariable ['BIS_SUPP_cooldown',_value,true];";
-					class Value
-					{
-						class data
-						{
-							class type
-							{
-								type[]=
-								{
-									"SCALAR"
-								};
-							};
-							value=0;
-						};
-					};
-				};
-				nAttributes=4;
-			};
-		};
 	};
 	class Connections
 	{
 		class LinkIDProvider
 		{
-			nextID=105;
+			nextID=99;
 		};
 		class Links
 		{
-			items=105;
+			items=99;
 			class Item0
 			{
 				linkID=0;
@@ -20731,66 +20030,6 @@ class Mission
 				linkID=98;
 				item0=637;
 				item1=361;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item99
-			{
-				linkID=99;
-				item0=673;
-				item1=558;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item100
-			{
-				linkID=100;
-				item0=674;
-				item1=602;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item101
-			{
-				linkID=101;
-				item0=675;
-				item1=673;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item102
-			{
-				linkID=102;
-				item0=676;
-				item1=674;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item103
-			{
-				linkID=103;
-				item0=678;
-				item1=674;
-				class CustomData
-				{
-					type="Sync";
-				};
-			};
-			class Item104
-			{
-				linkID=104;
-				item0=677;
-				item1=673;
 				class CustomData
 				{
 					type="Sync";

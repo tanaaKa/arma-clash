@@ -19,14 +19,14 @@ BEGIN USER CONFIG
 // input all vehicles to respawn in format [vehName, crew restricted boolean, timer]
 CCO_vehs =
 [
-	[bifv1,		false,		(10*60)],
-	[bifv2,		false,		(10*60)],
-	[bheli1,	false,		(10*60)],
-	[bheli2,	false,		(5*60)],
-	[oifv1,		false,		(10*60)],
-	[oifv2,		false,		(10*60)],
-	[oheli1,	false,		(10*60)],
-	[oheli2,	false,		(5*60)],
+	[bifv1,		true,		(10*60)],
+	[bifv2,		true,		(10*60)],
+	[bheli1,	true,		(10*60)],
+	[bheli2,	true,		(5*60)],
+	[oifv1,		true,		(10*60)],
+	[oifv2,		true,		(10*60)],
+	[oheli1,	true,		(10*60)],
+	[oheli2,	true,		(5*60)],
 	[btruck1,	false,		(5*60)],
 	[btruck2,	false,		(5*60)],
 	[btruck3,	false,		(5*60)],

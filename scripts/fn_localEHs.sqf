@@ -30,14 +30,14 @@
 		_string remoteExec ["systemChat", side player]; 
 		tnk_createSideMarker =
 		{
-			{
-				_fobMarker = createMarkerLocal ["FOB", _object];
-				_fobMarker setMarkerShapeLocal "ICON";
-				_fobMarker setmarkerTypeLocal "loc_CivilDefense";
-				_fobMarker setMarkerTextLocal format ["FOB %1",name player];	
-			} forEach allPlayers select {side _x isEqualTo side player};
+			params["_object"];
+			
+			_fobMarker = createMarkerLocal ["FOB", _object];
+			_fobMarker setMarkerShapeLocal "ICON";
+			_fobMarker setmarkerTypeLocal "loc_CivilDefense";
+			_fobMarker setMarkerTextLocal format ["FOB %1",name player];	
 		};
-		remoteExec ["tnk_createSideMarker", side player];
+		[_object] remoteExec ["tnk_createSideMarker", side player];
 		
 		// Destruction event if the fob is destroyed
 		// TODO: Add ace interaction action to FOB here to destroy it
@@ -69,7 +69,7 @@ player addEventHandler ["Killed", {
 	// check for teamkill, if so remove money from killer
 	if (side (group _unit) isEqualTo side (group _instigator)) then
 	{
-		[_killer, -100] call grad_lbm_fnc_addFunds;
+		[_instigator, -100] call grad_lbm_fnc_addFunds;
 		_killerText = 
 		[ 
 			format  
@@ -78,7 +78,7 @@ player addEventHandler ["Killed", {
 				name _unit
 			],-0.8,1.1,4,1,0.5,789
 		];
-		_killerText remoteExec ["BIS_fnc_dynamicText", _killer];
+		_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
 	}
 	// else award money + msg to killer
 	else
@@ -101,7 +101,7 @@ player addEventHandler ["Killed", {
 		format  
 		[ 
 			"<t color='#FFD500' font='PuristaBold' size = '1' shadow='1'>You were killed by %1 from %2m</t>", 
-			name _instigator, _unit distance _killer 
+			name _instigator, _unit distance _instigator 
 		],-1,-1,4,1,0,790
 	];
 	_unitText remoteExec ["BIS_fnc_dynamicText", _unit];
