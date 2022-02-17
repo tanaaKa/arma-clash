@@ -61,6 +61,7 @@ publicVariable "AllowedAirCrew";
 JST_fnc_addVehRespawnHandlers =
 {
 	params ["_veh"];
+	if (JST_debug) then {systemChat "Adding eventHandlers to respawned vehicle."};
 	// killed: remove all handlers, start respawn loop
 	_veh addMPEventHandler
 	[
@@ -82,12 +83,10 @@ JST_fnc_addVehRespawnHandlers =
 			} forEach (attachedObjects _unit);
 			// respawn on server
 			[_unit, _vehArray] remoteExec ["JST_fnc_vehRespawn", 2];
-			
 			// Award points to the vehicle killer
 			if (_instigator isEqualTo _unit) exitWith {};
-			if (side _unit isEqualTo _killer || side _unit isEqualTo _instigator) exitWith {};
-			
-			[_killer, 350] call grad_lbm_fnc_addFunds;
+			if ((side _unit isEqualTo _killer) or (side _unit isEqualTo _instigator)) exitWith {};
+			[_instigator, 350] call grad_lbm_fnc_addFunds;
 			_killerText =
 			[
 				format  
@@ -95,7 +94,7 @@ JST_fnc_addVehRespawnHandlers =
 					"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Vehicle Killed (+350CR)</t>"
 				],-0.8,1.1,4,1,0.5,789
 			];
-			_killerText remoteExec ["BIS_fnc_dynamicText", _killer];
+			_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
 		}
 	];
 	// deleted: remove all handlers, start respawn loop
@@ -166,6 +165,7 @@ JST_fnc_vehRespawn =
 {
 	params ["_unit", "_vehArray"];
 	if (!isServer) exitWith {};
+	if (JST_debug) then {systemChat "Respawning a vehicle."};
 	// pull respawn data from dead unit
 	_vehArray params ["_unitVar", "_restricted", "_time", "_pos", "_vDirAndUp", "_class", "_config", "_name", "_attObjs"];
 	// wait respawn time
@@ -212,6 +212,7 @@ waitUntil {time > 3};
 
 // handle vehicles at start: save data, add handlers
 {
+	if (JST_debug) then {systemChat "Handling vehicle respawn setup."};
 	// find data
 	private _unitVar = _x select 0;
 	private _restricted = _x select 1;

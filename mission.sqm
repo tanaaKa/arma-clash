@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11705.619,265.60474,4256.9331};
-		dir[]={-0.73765397,-0.60084802,-0.30799207};
-		up[]={-0.55445957,0.79935884,-0.23150323};
-		aside[]={-0.38529426,8.0792233e-008,0.922795};
+		pos[]={9332.7842,125.84757,3491.4163};
+		dir[]={0.47245649,-0.32519132,0.81916791};
+		up[]={0.16246918,0.94564784,0.28169712};
+		aside[]={0.86624974,-1.3387762e-008,-0.49961081};
 	};
 };
 binarizationWanted=0;
-sourceName="public_clash80_island";
+sourceName="arma-clash";
 addons[]=
 {
 	"A3_Modules_F",
@@ -7783,7 +7783,7 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={11654.02,14.06,4469.5322};
-			angle=4.6146679;
+			angle=4.6146669;
 			class Attributes
 			{
 				name="osafezone";
@@ -18855,14 +18855,14 @@ class Mission
 				};
 			};
 			id=663;
-			atlOffset=2000;
+			atlOffset=2001.9836;
 		};
 		class Item90
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={8676.4258,1972.0424,4945.4199};
+				position[]={8636.9844,1972.105,5940.6426};
 				angles[]={0,2.8056693,0};
 			};
 			side="West";
@@ -18875,7 +18875,7 @@ class Mission
 			};
 			id=664;
 			type="B_UAV_02_dynamicLoadout_F";
-			atlOffset=2000;
+			atlOffset=2001.9836;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -18990,14 +18990,14 @@ class Mission
 				};
 			};
 			id=667;
-			atlOffset=2000;
+			atlOffset=1997.3147;
 		};
 		class Item92
 		{
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={12574.634,1933.9624,4710.4888};
+				position[]={12434.187,1933.9573,2185.083};
 				angles[]={0,4.6144061,0};
 			};
 			side="East";
@@ -19010,7 +19010,7 @@ class Mission
 			};
 			id=668;
 			type="O_UAV_02_dynamicLoadout_F";
-			atlOffset=2000;
+			atlOffset=1997.3147;
 			class CustomAttributes
 			{
 				class Attribute0
