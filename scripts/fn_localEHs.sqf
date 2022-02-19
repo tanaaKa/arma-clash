@@ -1,62 +1,77 @@
-// EH for placing objects - Engineers only!
+// EH for building objects and fobs
+// Note: not very elegant lmao
 [{
 	params ["_unit", "_object", "_cost"];
+	_isEngineer = true;
+	_build = true;
+	_nearFOB = false;
+	_inSpawn = (_unit inArea osafezone) || (_unit inArea bsafezone);
 	
-	/* TODO - Deny building if player is not engineer
-	if !(typeOf _unit isEqualTo "B_soldier_repair_F" || typeOf _unit isEqualTo "O_soldier_repair_F") exitWith {};
-	*/
+	// Check if unit is engineer
+	if !(typeOf _unit isEqualTo "B_soldier_repair_F" || typeOf _unit isEqualTo "O_soldier_repair_F") then {
+		// Deny building
+		_isEngineer = false;
+		_build = false;
+	};
 	
-	// Exit if not trying to place a fob
-	if !(typeOf _object isEqualTo "Land_Cargo_House_V1_F") exitWith {[player,20] call grad_lbm_fnc_addFunds;};
 	// Search for fob within 300 meters
-	private _nearestFob = nearestObjects [_unit, ["Land_Cargo_House_V1_F"], 300];
+	private _nearestFobs = nearestObjects [_unit, ["Land_Cargo_House_V1_F"], 600];
 	// Check if FOB is placeable
 	// True - no fob within 300m - therefore placeable
 	// False - 1 or more fobs within 300m - therefore not placeable
 	// We have to subtract 1 because it counts the current object we're trying to place (lmao)
-	private _return = (count _nearestFob - 1) isEqualTo 0;
-	if !(_return) then { // Send error if fob exists within 300m
-		hint "Cannot place. There is already a FOB within 300 meters of this position.";
-	} else {
-		// Add money for engineers building FOB
-		[player,100] call grad_lbm_fnc_addFunds;
-		_fobName = [(side _unit), getPos _object] call BIS_fnc_addRespawnPosition;
-		_object setVariable ["fobName", _fobName];
+	private _fobBuildable = ((count _nearestFobs - 1) isEqualTo 0);
+	private _nearFOB = (count (nearestObjects [_unit, ["Land_Cargo_House_V1_F"], 100])) > 0; // Build only around fobs
+	
+	if (_isEngineer && typeOf _object isEqualTo "Land_Cargo_House_V1_F" && _fobBuildable && !_inSpawn) then {
+		_build = true; // make it placeable
+		
+		_spawnPoint = [(side _unit), getPos _object] call BIS_fnc_addRespawnPosition;
+		_object setVariable ["fobName", _fobName]; // object to delete
+		_object setVariable ["fobRespawn", _spawnPoint]; // object to delete
+		systemChat format ["fobName: %1\nfobRespawn: %2",_fobName,_spawnPoint];
 		_object allowDamage false;
-		hint "FOB placed. Players may now respawn here";
 		
 		// Send hint and create marker for friendly players
 		_string = format ["A FOB has been built at %1 by %2", mapGridPosition _object, name player];
 		_string remoteExec ["systemChat", side player]; 
 		tnk_createSideMarker =
 		{
-			params["_object"];
+			params["_object","_name"];
 			
 			_fobMarker = createMarkerLocal ["FOB", _object];
 			_fobMarker setMarkerShapeLocal "ICON";
 			_fobMarker setmarkerTypeLocal "loc_CivilDefense";
-			_fobMarker setMarkerTextLocal format ["FOB %1",name player];	
+			_fobMarker setMarkerTextLocal format ["FOB %1",_name];	
 		};
-		[_object] remoteExec ["tnk_createSideMarker", side player];
-		
-		// Destruction event if the fob is destroyed
-		// TODO: Add ace interaction action to FOB here to destroy it
-		
-		/* 	
-		_object addMPEventHandler ["MPKilled", {
-			params ["_unit", "_killer", "_instigator", "_useEffects"];
-			
-			systemChat "A FOB has been destroyed";
-			
-			// Get respawn and marker variable to remove them
-			_respawnToDelete = ((_this select 0) getVariable "fobName");
-			_markerToDelete = ((_this select 0) getVariable "fobMarker");
-			_respawnToDelete call BIS_fnc_removeRespawnPosition;
-			deleteMarkerLocal _markerToDelete;
-		}]; */
+		[_object,name player] remoteExec ["tnk_createSideMarker", side player];
 	};
 	
-	_return
+	if (typeOf _object isEqualTo "Land_Cargo_House_V1_F" && !_fobBuildable) then {
+		_build = false;
+		hint "Cannot build. There is already a FOB within 600m of here.";
+	};
+	
+	if (_isEngineer && _inSpawn) then {	// Disable building in spawns
+		_build = false; 
+		hint "Building is disabled in the spawn.";
+	};
+	
+	if !(_isEngineer) then {
+		_build = false; 
+		hint "You can only build if you're an engineer.";
+	};
+	
+	if (_isEngineer && !_nearFOB) then {
+		_build = false; 
+		hint "You must be within 100m of the FOB to build.";
+	};
+	
+	if (_isEngineer && typeOf _object != "Land_Cargo_House_V1_F" && _nearFOB && !_inSpawn) then {
+		_build = true;
+	};
+	
+	_build	// always returns true/false. T - can be built / F - cannot be built
 }] call ace_fortify_fnc_addDeployHandler;
 
 // Economy system for kills + kill messages
@@ -76,7 +91,7 @@ player addEventHandler ["Killed", {
 			[ 
 				"<t color='#B71900' font='PuristaBold' size = '0.6' shadow='1'>You teamkilled %1 (-100CR)</t>", 
 				name _unit
-			],-0.8,1.1,4,1,0.5,789
+			],-0.8,1.1,4,1,0.25,789
 		];
 		_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
 	}
@@ -90,7 +105,7 @@ player addEventHandler ["Killed", {
 			[ 
 				"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You killed %1 (+100CR)</t>", 
 				name _unit 
-			],-0.8,1.1,4,1,0.5,789
+			],-0.8,1.1,4,1,0.25,789
 		];
 		_killerText remoteExec ["BIS_fnc_dynamicText", _killer];
 	};
@@ -118,5 +133,70 @@ player addEventHandler ["Killed", {
 		_unit removeItem "ACE_Fortify";
 	};
 	
-	_unit removeItem "ACRE_PRC148";
+	// Get all radios and remove those motherfuckers
+	private _radios = [];
+	{
+		if ((getNumber (configFile >> "CfgWeapons" >> _x >> "acre_isUnique")) > 0) then {
+			private _newBase = getText (configFile >> "CfgWeapons" >> _x >> "acre_baseClass");
+			_radios pushBack [_x, _newBase];
+		};
+	} forEach (items _unit);
+	
+	/* [_radios,_unit] spawn {
+		params["_radios","_unit"];
+		{
+			_unit removeItem _x;
+			sleep 0.25;
+		} forEach _radios;
+	}; */
+	
+	_radios spawn {
+		{
+			_x params ["_oldRadio"];
+			player removeItem _oldRadio;
+			sleep 0.25;
+		} forEach _this;
+	};
 }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+// Add object placed event handler to handle money
+["acex_fortify_objectPlaced", {
+	params["_unit","_side","_object"];
+	_moneyToPay = 0;
+	_fortName = "";
+	//systemChat format ["Object: %1", typeOf _object];
+	
+	// Pay these motherfuckers based on 
+	// We can set an entire table of payouts here based on object type
+	switch (typeOf _object) do {
+		case "Land_Cargo_House_V1_F": // FOBs
+		{
+			_fortName = "FOB";
+			_moneyToPay = 200;
+		};
+		default // Everything else basically
+		{
+			_fortName = "Fortification";
+			_moneyToPay = 20;
+		};
+	};
+	
+	// Add destruction action if it's a FOB
+	if (typeOf _object isEqualTo "Land_Cargo_House_V1_F") then {
+		_dfAction = ["destroyFOB","Place Charge on FOB","",{call TNK_fnc_destroyFOB},{true},{},[_object,(_object getVariable "fobRespawn")], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
+		[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
+	};
+	
+	// Finally
+	[player,_moneyToPay] call grad_lbm_fnc_addFunds;
+	_unitText = 
+	[
+		format
+		[ 
+			"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>%1 Built (+%2CR)</t>"
+			,_fortName,_moneyToPay
+		],-0.8,1.1,4,1,0.25,789
+		
+	];
+	_unitText remoteExec ["BIS_fnc_dynamicText", _unit];
+}] call CBA_fnc_addEventHandler;
