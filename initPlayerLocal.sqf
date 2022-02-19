@@ -1,6 +1,3 @@
-// Basic markers systems
-[] spawn TNK_fnc_playerMarkers;
-
 // Basic safezone system
 [] spawn TNK_fnc_safeZone;
 
