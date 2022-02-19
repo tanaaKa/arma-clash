@@ -6,22 +6,39 @@ class MissionSQM
 
 // Money systems
 #include "modules\grad-listBuymenu\grad_listBuymenu.hpp"
-//#include "modules\grad-moneymenu\grad_moneymenu.hpp"
+#include "modules\grad-moneymenu\grad_moneymenu.hpp"
 class CfgFunctions {
     #include "modules\grad-listBuymenu\cfgFunctions.hpp"
-	//#include "modules\grad-moneymenu\cfgFunctions.hpp"
+	#include "modules\grad-moneymenu\cfgFunctions.hpp"
 	#include "CfgFunctions.hpp"
 };
 
 // Misc settings
 disableChannels[] = {0,2,4,5,6};
 clashVersion = "1.0";
+respawnOnStart = 0;
 
 // ACE killtracking
 class CfgDebriefingSections {
 	class acex_killTracker {
 		title = "Acex Killed Events";
 		variable = "acex_killTracker_outputText";
+	};
+};
+
+class CfgSounds
+{
+	sounds[] = {};
+	class bombtick
+	{
+		// how the sound is referred to in the editor (e.g. trigger effects)
+		name = "bombtick";
+
+		// filename, volume, pitch, distance (optional)
+		sound[] = { "sounds\bombtick.ogg", 1, 1, 100 };
+
+		// subtitle delay in seconds, subtitle text
+		titles[] = {};
 	};
 };
 
@@ -59,7 +76,7 @@ class ACEX_Fortify_Presets {
 class CfgGradBuymenu {
     vehicleMarkers = 1;
     tracking = 1;
-    trackingTag = "myMission";
+    trackingTag = "AAS_Island";
 
     //buyables set:
     class bluforWeapons {
