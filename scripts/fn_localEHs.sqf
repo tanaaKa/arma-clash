@@ -1,3 +1,6 @@
+// Some base constants
+FOBOBJECT = "Land_Cargo_House_V1_F";
+
 // EH for building objects and fobs
 // Note: not very elegant lmao
 [{
@@ -15,39 +18,21 @@
 	};
 	
 	// Search for fob within 300 meters
-	private _nearestFobs = nearestObjects [_unit, ["Land_Cargo_House_V1_F"], 600];
+	private _nearestFobs = nearestObjects [_unit, [FOBOBJECT], 600];
 	// Check if FOB is placeable
 	// True - no fob within 300m - therefore placeable
 	// False - 1 or more fobs within 300m - therefore not placeable
 	// We have to subtract 1 because it counts the current object we're trying to place (lmao)
 	private _fobBuildable = ((count _nearestFobs - 1) isEqualTo 0);
-	private _nearFOB = (count (nearestObjects [_unit, ["Land_Cargo_House_V1_F"], 100])) > 0; // Build only around fobs
+	private _nearFOB = (count (nearestObjects [_unit, [FOBOBJECT], 100])) > 0; // Build only around fobs
 	
-	if (_isEngineer && typeOf _object isEqualTo "Land_Cargo_House_V1_F" && _fobBuildable && !_inSpawn) then {
+	if (_isEngineer && typeOf _object isEqualTo FOBOBJECT && _fobBuildable && !_inSpawn) then {
 		_build = true; // make it placeable
 		
-		_spawnPoint = [(side _unit), getPos _object] call BIS_fnc_addRespawnPosition;
-		_object setVariable ["fobName", _fobName]; // object to delete
-		_object setVariable ["fobRespawn", _spawnPoint]; // object to delete
-		systemChat format ["fobName: %1\nfobRespawn: %2",_fobName,_spawnPoint];
-		_object allowDamage false;
-		
-		// Send hint and create marker for friendly players
-		_string = format ["A FOB has been built at %1 by %2", mapGridPosition _object, name player];
-		_string remoteExec ["systemChat", side player]; 
-		tnk_createSideMarker =
-		{
-			params["_object","_name"];
-			
-			_fobMarker = createMarkerLocal ["FOB", _object];
-			_fobMarker setMarkerShapeLocal "ICON";
-			_fobMarker setmarkerTypeLocal "loc_CivilDefense";
-			_fobMarker setMarkerTextLocal format ["FOB %1",_name];	
-		};
-		[_object,name player] remoteExec ["tnk_createSideMarker", side player];
+		// Rest of the FOB code is down below in the FOB EH
 	};
 	
-	if (typeOf _object isEqualTo "Land_Cargo_House_V1_F" && !_fobBuildable) then {
+	if (typeOf _object isEqualTo FOBOBJECT && !_fobBuildable) then {
 		_build = false;
 		hint "Cannot build. There is already a FOB within 600m of here.";
 	};
@@ -67,7 +52,7 @@
 		hint "You must be within 100m of the FOB to build.";
 	};
 	
-	if (_isEngineer && typeOf _object != "Land_Cargo_House_V1_F" && _nearFOB && !_inSpawn) then {
+	if (_isEngineer && typeOf _object != FOBOBJECT && _nearFOB && !_inSpawn) then {
 		_build = true;
 	};
 	
@@ -142,14 +127,6 @@ player addEventHandler ["Killed", {
 		};
 	} forEach (items _unit);
 	
-	/* [_radios,_unit] spawn {
-		params["_radios","_unit"];
-		{
-			_unit removeItem _x;
-			sleep 0.25;
-		} forEach _radios;
-	}; */
-	
 	_radios spawn {
 		{
 			_x params ["_oldRadio"];
@@ -166,10 +143,10 @@ player addEventHandler ["Killed", {
 	_fortName = "";
 	//systemChat format ["Object: %1", typeOf _object];
 	
-	// Pay these motherfuckers based on 
+	// Pay these motherfuckers based on object placed
 	// We can set an entire table of payouts here based on object type
 	switch (typeOf _object) do {
-		case "Land_Cargo_House_V1_F": // FOBs
+		case FOBOBJECT: // FOBs
 		{
 			_fortName = "FOB";
 			_moneyToPay = 200;
@@ -181,10 +158,39 @@ player addEventHandler ["Killed", {
 		};
 	};
 	
-	// Add destruction action if it's a FOB
-	if (typeOf _object isEqualTo "Land_Cargo_House_V1_F") then {
-		_dfAction = ["destroyFOB","Place Charge on FOB","",{call TNK_fnc_destroyFOB},{true},{},[_object,(_object getVariable "fobRespawn")], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
-		[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
+	// Create a FOB if it's the fob object
+	if (typeOf _object isEqualTo FOBOBJECT) then {
+		_spawnPoint = [(side _unit), getPos _object] call BIS_fnc_addRespawnPosition;
+		_object setVariable ["fobRespawn", _spawnPoint]; // object to delete
+		//systemChat format ["fobRespawn: %1",_object getVariable "fobRespawn"];
+		_object allowDamage false;
+		
+		// Send hint and create marker for friendly players
+		_string = format ["A FOB has been built at %1 by %2", mapGridPosition _object, name player];
+		_string remoteExec ["systemChat", side player]; 
+		
+		_fobMarker = createMarker ["FOB", _object];
+		_fobMarker setMarkerShape "ICON";
+		_fobMarker setmarkerType "loc_CivilDefense";
+		_fobMarker setMarkerText format ["FOB %1",name player];
+		
+		// Hide marker from other team
+		{
+			if (side _x isNotEqualTo side player) then {
+				_fobMarker setMarkerAlphaLocal 0;
+			};
+		} forEach allPlayers;
+		
+		
+		// Create a destroy action for said FOB
+		tnk_destroyFOB =
+		{
+			params["_object"];
+			
+			_dfAction = ["destroyFOB","Place Charge on FOB","",{call TNK_fnc_destroyFOB},{true},{},[_object], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
+			[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
+		};
+		[_object] remoteExec ["tnk_destroyFOB"];
 	};
 	
 	// Finally
