@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11262.404,102.11009,4121.8442};
-		dir[]={0.86462003,-0.50221044,-0.015268878};
-		up[]={0.50213629,0.86474484,-0.0088674594};
-		aside[]={-0.017656837,-8.6321961e-008,-0.99985278};
+		pos[]={11653.756,31.890276,4415.6401};
+		dir[]={-0.7684353,-0.26717085,0.58152026};
+		up[]={-0.21305962,0.96364248,0.1612349};
+		aside[]={0.60345435,3.4185359e-007,0.79742265};
 	};
 };
 binarizationWanted=0;
@@ -8379,14 +8379,19 @@ class Mission
 		class Item49
 		{
 			dataType="Trigger";
-			position[]={9357.5703,3.6800001,3804.4299};
+			position[]={9376.8867,3.6800001,3817.9067};
+			angle=6.1441178;
 			class Attributes
 			{
 				name="bsafezone";
-				sizeB=70;
+				onActivation="{" \n "  _x setDamage 1;" \n "} forEach thisList";
+				sizeA=80;
+				sizeB=100;
 				sizeC=15;
+				repeatable=1;
+				activationBy="EAST";
 				isRectangle=1;
-				triggerInterval=2;
+				triggerInterval=1;
 			};
 			id=377;
 			type="EmptyDetector";
@@ -8394,12 +8399,13 @@ class Mission
 		class Item50
 		{
 			dataType="Trigger";
-			position[]={11654.02,14.06,4469.5322};
-			angle=4.6146669;
+			position[]={11642.779,14.06,4470.939};
+			angle=4.6146674;
 			class Attributes
 			{
 				name="osafezone";
-				sizeB=70;
+				sizeA=75;
+				sizeB=90;
 				sizeC=15;
 				isRectangle=1;
 				triggerInterval=2;
