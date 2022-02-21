@@ -83,18 +83,42 @@ JST_fnc_addVehRespawnHandlers =
 			} forEach (attachedObjects _unit);
 			// respawn on server
 			[_unit, _vehArray] remoteExec ["JST_fnc_vehRespawn", 2];
+	
 			// Award points to the vehicle killer
 			if (_instigator isEqualTo _unit) exitWith {};
 			if ((side _unit isEqualTo _killer) or (side _unit isEqualTo _instigator)) exitWith {};
-			[_instigator, 350] call grad_lbm_fnc_addFunds;
-			_killerText =
-			[
-				format  
-				[ 
-					"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Vehicle Killed (+350CR)</t>"
-				],-0.8,1.1,4,1,0.5,789
-			];
-			_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
+			_vehSide = getNumber(configfile >> "CfgVehicles" >> typeOf _veh >> "side");
+			switch (_vehSide) do {
+				case 0:
+				{
+					_vehSide = EAST;
+				};
+				case 1:
+				{
+					_vehSide = WEST;
+				};
+			};
+			if (side _instigator isNotEqualTo _vehSide) then {
+				[_instigator, 350] call grad_lbm_fnc_addFunds;
+				_killerText =
+				[
+					format  
+					[ 
+						"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Vehicle Killed (+350CR)</t>"
+					],-0.8,1.1,4,1,0.25,789
+				];
+				_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
+			} else {
+				[_instigator, -350] call grad_lbm_fnc_addFunds;
+				_killerText =
+				[
+					format  
+					[ 
+						"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Vehicle Teamkilled (-350CR)</t>"
+					],-0.8,1.1,4,1,0.25,789
+				];
+				_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
+			};
 		}
 	];
 	// deleted: remove all handlers, start respawn loop
