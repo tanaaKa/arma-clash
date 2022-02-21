@@ -19,12 +19,12 @@ BEGIN USER CONFIG
 // input all vehicles to respawn in format [vehName, crew restricted boolean, timer]
 CCO_vehs =
 [
-	[bifv1,		true,		(10*60)],
-	[bifv2,		true,		(10*60)],
+	[bifv1,		true,		(20*60)],
+	[bifv2,		true,		(20*60)],
 	[bheli1,	true,		(10*60)],
 	[bheli2,	true,		(5*60)],
-	[oifv1,		true,		(10*60)],
-	[oifv2,		true,		(10*60)],
+	[oifv1,		true,		(20*60)],
+	[oifv2,		true,		(20*60)],
 	[oheli1,	true,		(10*60)],
 	[oheli2,	true,		(5*60)],
 	[btruck1,	false,		(5*60)],
@@ -203,6 +203,19 @@ JST_fnc_vehRespawn =
 	_unitVar setPos [(_safePos select 0), (_safePos select 1), ((_safePos select 2) + 1.5)];
 	_unitVar setVectorDirAndUp _vDirAndUp;
 	[_unitVar, _config select 0, _config select 1] call BIS_fnc_initVehicle;
+	// Send notification
+	_side = "";
+	switch (getNumber (configfile >> "CfgVehicles" >> typeOf _unitVar >> "side")) do {
+		case 0:
+		{
+			_side = EAST;
+		};
+		case 1:
+		{
+			_side = WEST;
+		};
+	};
+	["RespawnVehicle",[getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "displayName"),"MAIN",getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "picture")]] remoteExec ["BIS_fnc_showNotification",_side];
 	// save respawn data onto vehicle
 	_unitVar setVariable ["CCO_vehArray", _vehArray, true];
 	// add handlers
