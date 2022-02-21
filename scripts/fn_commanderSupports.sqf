@@ -1,6 +1,6 @@
 // Adds supports to commanders when they JIP
 // Thanks BI!
-if !(typeOf (player) isEqualTo "O_officer_F" || typeOf (player) isEqualTo "B_officer_F") exitWith {};
+if (typeOf (player) isNotEqualTo "O_officer_F" || typeOf (player) isNotEqualTo "B_officer_F") exitWith {};
 
 if (side player isEqualTo WEST) then {
 	player synchronizeObjectsAdd [BluSupportRequester];
