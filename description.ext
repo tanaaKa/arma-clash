@@ -483,6 +483,16 @@ class CfgGradBuymenu {
                 stock = 50;
 			};
 			// END EXPLOSIVES
+			
+			// MISC
+			class ACE_artilleryTable {
+				displayName = "Mortar table";
+                description = "It's like having a small asian man do the math for you";
+                amount = 1;
+                price = 1;
+                stock = 999;
+			};
+			// END MISC
         };
 		
 		class Wearables {
