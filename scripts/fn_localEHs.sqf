@@ -150,6 +150,7 @@ player addEventHandler ["Killed", {
 	params["_unit","_side","_object"];
 	
 	// Locality Check
+	if (isServer) exitWith {};
 	if (player isNotEqualTo _unit) exitWith {};
 	
 	_moneyToPay = 0;
@@ -191,11 +192,12 @@ player addEventHandler ["Killed", {
 		systemChat format ["A FOB has been built at %1 by %2", mapGridPosition _object, name _unit];
 		
 		// Create a destroy action for said FOB
+		// Only engis and demolitions can destroy the FOB with a satchel in their inventory
 		_condition = 
 		{
-			typeOf _player isEqualTo "B_soldier_repair_F" || typeOf _player isEqualTo "O_soldier_repair_F" || typeOf _player isEqualTo "B_soldier_exp_F" || typeOf _player isEqualTo "O_soldier_exp_F";
+			(typeOf _player isEqualTo "B_soldier_repair_F" || typeOf _player isEqualTo "O_soldier_repair_F" || typeOf _player isEqualTo "B_soldier_exp_F" || typeOf _player isEqualTo "O_soldier_exp_F") && ("SatchelCharge_Remote_Mag" in items _player);
 		};
-		_dfAction = ["destroyFOB","Place Charge on FOB","",{call TNK_fnc_destroyFOB},_condition,{},[_object], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
+		_dfAction = ["destroyFOB","Place Charge on FOB","",{_player removeItem "SatchelCharge_Remote_Mag"; call TNK_fnc_destroyFOB},_condition,{},[_object], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
 		[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
 	};
 	
