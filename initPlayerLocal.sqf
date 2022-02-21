@@ -10,5 +10,8 @@
 // Set per-side markers
 [] spawn TNK_fnc_createMarkers;
 
+// Commander JIP support
+//[] spawn TNK_fnc_commanderSupports;
+
 // Save base loadout for respawn
 player setVariable ["tnk_loadout", getUnitLoadout player];
