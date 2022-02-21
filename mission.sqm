@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11621.174,23.573385,4504.7275};
-		dir[]={0.42899173,-0.3763392,-0.82118589};
-		up[]={0.17425783,0.92647988,-0.33356875};
-		aside[]={-0.88634908,-1.1676457e-007,-0.46303198};
+		pos[]={11262.404,102.11009,4121.8442};
+		dir[]={0.86462003,-0.50221044,-0.015268878};
+		up[]={0.50213629,0.86474484,-0.0088674594};
+		aside[]={-0.017656837,-8.6321961e-008,-0.99985278};
 	};
 };
 binarizationWanted=0;
@@ -5950,7 +5950,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="1";
+							value="0";
 						};
 					};
 				};
@@ -5969,7 +5969,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) == west) then { hillTrigger enableSimulationGlobal true; };   if ((_this select 1) == east) then { hillTrigger enableSimulationGlobal false;  };";
+							value="if ((_this select 1) isEqualTo WEST) then {    hillTrigger enableSimulationGlobal true;   };  ";
 						};
 					};
 				};
@@ -6121,7 +6121,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="1";
+							value="0.25";
 						};
 					};
 				};
@@ -6416,7 +6416,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="1";
+							value="0";
 						};
 					};
 				};
@@ -6435,7 +6435,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) == west) then {   milbaseTrigger enableSimulationGlobal false;   commTrigger enableSimulationGlobal true;  };   if ((_this select 1) == east) then {   commTrigger enableSimulationGlobal false;   milbaseTrigger enableSimulationGlobal true;  };";
+							value="if ((_this select 1) isEqualTo WEST) then {    milbaseTrigger enableSimulationGlobal false;   } else {   commTrigger enableSimulationGlobal false;  };   ";
 						};
 					};
 				};
@@ -6587,7 +6587,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="1";
+							value="0.25";
 						};
 					};
 				};
@@ -6717,7 +6717,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="1";
+							value="0";
 						};
 					};
 				};
@@ -6736,7 +6736,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) == west) then {   hillTrigger enableSimulationGlobal false;  };   if ((_this select 1) == east) then {  hillTrigger enableSimulationGlobal true;  };";
+							value="if ((_this select 1) isEqualTo EAST) then {    hillTrigger enableSimulationGlobal true;   };   ";
 						};
 					};
 				};
@@ -6888,7 +6888,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="1";
+							value="0.25";
 						};
 					};
 				};
@@ -8854,6 +8854,7 @@ class Mission
 			};
 			id=647;
 			type="I_supplyCrate_F";
+			atlOffset=2.3841858e-007;
 			class CustomAttributes
 			{
 				class Attribute0
