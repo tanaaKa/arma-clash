@@ -10,5 +10,6 @@ class TNK
 		class respawnVehicles{};
 		class serviceVehicles{};
 		class createMarkers{};
+		class commanderSupports{};
 	};
 };
