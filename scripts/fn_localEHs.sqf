@@ -62,37 +62,45 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 // Economy system for kills + kill messages
 player addEventHandler ["Killed", {
 	params ["_unit", "_killer", "_instigator", "_useEffects"];
+	_crew = [_instigator];
 	
 	// do nothing if self-kill
 	if ((_killer isEqualTo _unit) or (_instigator isEqualTo _unit)) exitWith {};
 	
-	// check for teamkill, if so remove money from killer
+	// Check if vehicle, if so set instigator to the entire crew
+	if !(isNull objectParent _instigator) then {_crew = crew vehicle _instigator};
+	
+	// check for teamkill, if so remove money from killer(s)
 	if (side (group _unit) isEqualTo side (group _instigator)) then
 	{
-		[_instigator, -100] call grad_lbm_fnc_addFunds;
-		_killerText = 
-		[ 
-			format  
+		{
+			[_x, -100] call grad_lbm_fnc_addFunds;
+			_killerText = 
 			[ 
-				"<t color='#B71900' font='PuristaBold' size = '0.6' shadow='1'>You teamkilled %1 (-100CR)</t>", 
-				name _unit
-			],-0.8,1.1,4,1,0.25,789
-		];
-		_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
+				format  
+				[ 
+					"<t color='#B71900' font='PuristaBold' size = '0.6' shadow='1'>You teamkilled %1 (-100CR)</t>", 
+					name _unit
+				],-0.8,1.1,4,1,0.25,789
+			];
+			_killerText remoteExec ["BIS_fnc_dynamicText", _x];
+		} forEach _crew;
 	}
-	// else award money + msg to killer
+	// else award money + msg to killer(s)
 	else
 	{
-		[_killer, 100] call grad_lbm_fnc_addFunds;
-		_killerText =
-		[
-			format  
-			[ 
-				"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You killed %1 (+100CR)</t>", 
-				name _unit 
-			],-0.8,1.1,4,1,0.25,789
-		];
-		_killerText remoteExec ["BIS_fnc_dynamicText", _killer];
+		{
+			[_x, 100] call grad_lbm_fnc_addFunds;
+			_killerText =
+			[
+				format  
+				[ 
+					"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You killed %1 (+100CR)</t>", 
+					name _unit 
+				],-0.8,1.1,4,1,0.25,789
+			];
+			_killerText remoteExec ["BIS_fnc_dynamicText", _x];
+		} forEach _crew;
 	};
 	
 	// msg to self
