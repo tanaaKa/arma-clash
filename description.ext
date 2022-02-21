@@ -72,6 +72,19 @@ class ACEX_Fortify_Presets {
     };
 };
 
+// Grad moneymenu setup
+class CfgGradMoneymenu {
+    canGiveDefault = 1;                                                    
+    canTransferToSidesDefault[] = {"east","west","independent","civilian"};
+    canTakeFromDeadDefault = 0;        
+    canSendDirectlyDefault = 0;                                    
+    canTakeFromSurrenderedDefault = 1;                                     
+    startMoney = 0;                                                        
+    startBankBalance = 0;                                                  
+    playersLoseMoneyOnDeath = 1;
+    atmObjects[] = {"Land_Atm_01_F"};                                      
+};
+
 // Grad buymenu setup
 class CfgGradBuymenu {
     vehicleMarkers = 1;
@@ -195,7 +208,7 @@ class CfgGradBuymenu {
 			class launch_I_Titan_F {
 				displayName = "[LAUNCHER] Titan MPRL";
                 description = "An anti-air fire and forget launcher";
-                price = 400;
+                price = 500;
                 stock = 30;
 			};
         };
@@ -365,6 +378,13 @@ class CfgGradBuymenu {
                 price = 200;
                 stock = 999;
 			};
+			class 200Rnd_556x45_Box_Tracer_F {
+				displayName = "[Minimi] LMG Ammunition";
+                description = "Two boxes of 5.56mm ammunition for the Minimi weapon system";
+                amount = 2;
+                price = 250;
+                stock = 999;
+			};
 			class RPG32_F {
 				displayName = "[RPG-32] Rocket";
                 description = "One magical 105mm anti-tank rocket";
@@ -376,7 +396,7 @@ class CfgGradBuymenu {
 				displayName = "[Titan MPRL] Missile";
                 description = "Fire and forget anti-air missile";
                 amount = 1;
-                price = 200;
+                price = 500;
                 stock = 999;
 			};
 			class MRAWS_HEAT_F {
@@ -498,15 +518,29 @@ class CfgGradBuymenu {
 				displayName = "81mm Mortar Tube";
                 description = "";
                 amount = 1;
-                price = 250;
+                price = 500;
                 stock = 5; 
 			};
 			class B_Mortar_01_support_F {
 				displayName = "81mm Mortar Bipod";
                 description = "";
                 amount = 1;
-                price = 250;
+                price = 500;
                 stock = 5; 
+			};
+			class I_C_HMG_02_high_weapon_F {
+				displayName = "M2 .50cal Weapon";
+                description = "";
+                amount = 1;
+                price = 500;
+                stock = 15; 
+			};
+			class I_C_HMG_02_support_high_F {
+				displayName = "M2 .50cal Tripod";
+                description = "";
+                amount = 1;
+                price = 500;
+                stock = 15;
 			};
 			// END BACKPACKS
 		};
