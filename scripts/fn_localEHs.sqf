@@ -114,8 +114,15 @@ player addEventHandler ["Killed", {
 // EH to remove radios and fortify on death
 ["CAManBase", "Killed", {
 	params ["_unit"];
+	// Delete fortify tool
 	if (typeOf _unit isEqualTo "B_soldier_repair_F" || typeOf _unit isEqualTo "O_soldier_repair_F") then {
 		_unit removeItem "ACE_Fortify";
+	};
+	
+	// Delete commander uav terminal
+	if (typeOf _unit isEqualTo "B_officer_F" || typeOf _unit isEqualTo "O_officer_F") then {
+		_unit removeItem "O_UavTerminal";
+		_unit removeItem "B_UavTerminal";
 	};
 	
 	// Get all radios and remove those motherfuckers
@@ -137,8 +144,14 @@ player addEventHandler ["Killed", {
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // Add object placed event handler to handle money
+// WARNING: THIS IS GLOBAL, HENCE THE LOCALITY CHECK AT THE TOP
+// TODO: Move to global EH file
 ["acex_fortify_objectPlaced", {
 	params["_unit","_side","_object"];
+	
+	// Locality Check
+	if (player isNotEqualTo _unit) exitWith {};
+	
 	_moneyToPay = 0;
 	_fortName = "";
 	//systemChat format ["Object: %1", typeOf _object];
@@ -151,7 +164,7 @@ player addEventHandler ["Killed", {
 			_fortName = "FOB";
 			_moneyToPay = 200;
 		};
-		default // Everything else basically
+		default 		// Everything else basically
 		{
 			_fortName = "Fortification";
 			_moneyToPay = 20;
@@ -161,40 +174,33 @@ player addEventHandler ["Killed", {
 	// Create a FOB if it's the fob object
 	if (typeOf _object isEqualTo FOBOBJECT) then {
 		_spawnPoint = [(side _unit), getPos _object] call BIS_fnc_addRespawnPosition;
-		_object setVariable ["fobRespawn", _spawnPoint]; // object to delete
-		//systemChat format ["fobRespawn: %1",_object getVariable "fobRespawn"];
+		_object setVariable ["fobRespawn", _spawnPoint]; // respawn to delete
 		_object allowDamage false;
 		
-		// Send hint and create marker for friendly players
-		_string = format ["A FOB has been built at %1 by %2", mapGridPosition _object, name player];
-		_string remoteExec ["systemChat", side player]; 
-		
-		_fobMarker = createMarker ["FOB", _object];
-		_fobMarker setMarkerShape "ICON";
-		_fobMarker setmarkerType "loc_CivilDefense";
-		_fobMarker setMarkerText format ["FOB %1",name player];
-		
-		// Hide marker from other team
+		// Create fob marker
 		{
-			if (side _x isNotEqualTo side player) then {
-				_fobMarker setMarkerAlphaLocal 0;
+			if (side _x isEqualTo side _unit) then {
+				_fobMarker = createMarkerLocal ["FOB", _object];
+				_fobMarker setMarkerShapeLocal "ICON";
+				_fobMarker setmarkerTypeLocal "loc_CivilDefense";
+				_fobMarker setMarkerTextLocal format ["FOB %1",name _unit];
 			};
 		} forEach allPlayers;
 		
+		// Hint
+		systemChat format ["A FOB has been built at %1 by %2", mapGridPosition _object, name _unit];
 		
 		// Create a destroy action for said FOB
-		tnk_destroyFOB =
+		_condition = 
 		{
-			params["_object"];
-			
-			_dfAction = ["destroyFOB","Place Charge on FOB","",{call TNK_fnc_destroyFOB},{true},{},[_object], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
-			[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
+			typeOf _player isEqualTo "B_soldier_repair_F" || typeOf _player isEqualTo "O_soldier_repair_F" || typeOf _player isEqualTo "B_soldier_exp_F" || typeOf _player isEqualTo "O_soldier_exp_F";
 		};
-		[_object] remoteExec ["tnk_destroyFOB"];
+		_dfAction = ["destroyFOB","Place Charge on FOB","",{call TNK_fnc_destroyFOB},_condition,{},[_object], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
+		[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
 	};
 	
 	// Finally
-	[player,_moneyToPay] call grad_lbm_fnc_addFunds;
+	[_unit,_moneyToPay] call grad_lbm_fnc_addFunds;
 	_unitText = 
 	[
 		format
