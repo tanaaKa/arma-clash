@@ -11,5 +11,7 @@ class TNK
 		class serviceVehicles{};
 		class createMarkers{};
 		class commanderSupports{};
+		class addHealBoxes{};
+		class heal{};
 	};
 };
