@@ -24,7 +24,7 @@ params["_FOB"];
 	// Send noti
 	"A FOB has been destroyed" remoteExec ["systemChat",0];
 	
-	// Delete the fob 60s later to allow for another FOB to be placed
-	uiSleep 60;
+	// Delete the fob 3 mins later to allow for another FOB to be placed
+	uiSleep 180;
 	deleteVehicle _FOB;
 };
