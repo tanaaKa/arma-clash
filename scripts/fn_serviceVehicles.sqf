@@ -52,6 +52,7 @@ JST_fnc_serviceVehicles =
 					[_veh, 1] remoteExec ["setFuel", _veh];
 					{
 						[format ["Servicing the %1 is complete!", _name]] remoteExec ["systemChat", _x];
+						"rearm" remoteExec ["playSound", _x];
 					} forEach _crew;
 				}
 				else
