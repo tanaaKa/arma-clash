@@ -35,7 +35,7 @@ class CfgSounds
 		name = "bombtick";
 
 		// filename, volume, pitch, distance (optional)
-		sound[] = { "sounds\bombtick.ogg", 1, 1, 100 };
+		sound[] = { "sounds\bombtick.ogg", 10, 1, 100 };
 
 		// subtitle delay in seconds, subtitle text
 		titles[] = {};
