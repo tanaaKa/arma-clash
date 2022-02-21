@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=950;
+		nextID=956;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11594.728,56.049591,4441.5054};
-		dir[]={0.86038882,-0.4662222,-0.20588557};
-		up[]={0.45342651,0.88466215,-0.10850171};
-		aside[]={-0.23272608,1.8189894e-008,-0.97255272};
+		pos[]={11629.291,24.58654,4471.9863};
+		dir[]={-0.17790829,-0.73215717,-0.65749109};
+		up[]={-0.19123477,0.68113571,-0.70674139};
+		aside[]={-0.96528649,0,0.26119357};
 	};
 };
 binarizationWanted=0;
@@ -101,13 +101,14 @@ addons[]=
 	"A3_Modules_F_Supports",
 	"A3_Static_F_Mortar_01",
 	"A3_Characters_F_Exp",
-	"A3_Static_F_Exp_Mortar_01"
+	"A3_Static_F_Exp_Mortar_01",
+	"A3_Air_F_Orange_UAV_06"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=51;
+		items=52;
 		class Item0
 		{
 			className="A3_Modules_F";
@@ -458,13 +459,21 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item51
+		{
+			className="A3_Air_F_Orange";
+			name="Arma 3 Orange - Aircraft";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 dlcs[]=
 {
 	"Contact",
 	"RHS_USAF",
-	"Expansion"
+	"Expansion",
+	"Orange"
 };
 randomSeed=15185293;
 class ScenarioData
@@ -5579,7 +5588,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=101;
+		items=105;
 		class Item0
 		{
 			dataType="Logic";
@@ -5782,7 +5791,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="1";
+							value="3";
 						};
 					};
 				};
@@ -7151,7 +7160,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="0";
+							value="3";
 						};
 					};
 				};
@@ -8400,7 +8409,7 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={11642.78,14.06,4470.939};
-			angle=4.6146679;
+			angle=4.6146669;
 			class Attributes
 			{
 				name="osafezone";
@@ -20694,8 +20703,9 @@ class Mission
 			class PositionInfo
 			{
 				position[]={7840.0078,34.256439,4547.396};
-				angles[]={0.023195164,0,0.0023920804};
+				angles[]={0.023195425,0,0.0023911009};
 			};
+			name="OpfArty";
 			id=944;
 			type="SupportProvider_Artillery";
 		};
@@ -20757,11 +20767,13 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={8047.0024,34.861977,4170.3379};
-				angles[]={0.019996032,0,6.2535939};
+				position[]={8047.002,34.861996,4170.3379};
+				angles[]={0.020001473,0,6.253602};
 			};
+			name="BluArty";
 			id=946;
 			type="SupportProvider_Artillery";
+			atlOffset=-3.8146973e-006;
 		};
 		class Item99
 		{
@@ -20833,16 +20845,178 @@ class Mission
 			type="B_T_Mortar_01_F";
 			atlOffset=-0.0046443939;
 		};
+		class Item101
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={9364.8936,4.123888,3814.2776};
+				angles[]={-0,1.4581637,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+				disableSimulation=1;
+			};
+			id=950;
+			type="Land_PortableDesk_01_sand_F";
+			atlOffset=-2.3841858e-007;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="allowDamage";
+					expression="_this allowdamage _value;";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				nAttributes=1;
+			};
+		};
+		class Item102
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={9364.9385,4.6763468,3814.2813};
+			};
+			side="Empty";
+			class Attributes
+			{
+				name="medbox1";
+			};
+			id=952;
+			type="Box_I_UAV_06_medical_F";
+			atlOffset=0.89600015;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="allowDamage";
+					expression="_this allowdamage _value;";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				nAttributes=1;
+			};
+		};
+		class Item103
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={11631.968,14.503888,4464.8413};
+				angles[]={-0,6.2046242,0};
+			};
+			side="Empty";
+			flags=4;
+			class Attributes
+			{
+				createAsSimpleObject=1;
+				disableSimulation=1;
+			};
+			id=953;
+			type="Land_PortableDesk_01_sand_F";
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="allowDamage";
+					expression="_this allowdamage _value;";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				nAttributes=1;
+			};
+		};
+		class Item104
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={11631.966,15.056347,4464.8862};
+				angles[]={0,4.7464576,0};
+			};
+			side="Empty";
+			class Attributes
+			{
+				name="medbox2";
+			};
+			id=954;
+			type="Box_I_UAV_06_medical_F";
+			atlOffset=0.89599991;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="allowDamage";
+					expression="_this allowdamage _value;";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"BOOL"
+								};
+							};
+							value=0;
+						};
+					};
+				};
+				nAttributes=1;
+			};
+		};
 	};
 	class Connections
 	{
 		class LinkIDProvider
 		{
-			nextID=104;
+			nextID=105;
 		};
 		class Links
 		{
-			items=104;
+			items=105;
 			class Item0
 			{
 				linkID=0;
@@ -21878,6 +22052,16 @@ class Mission
 				linkID=103;
 				item0=948;
 				item1=946;
+				class CustomData
+				{
+					type="Sync";
+				};
+			};
+			class Item104
+			{
+				linkID=104;
+				item0=891;
+				item1=361;
 				class CustomData
 				{
 					type="Sync";
