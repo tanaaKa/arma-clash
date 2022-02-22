@@ -203,6 +203,7 @@ JST_fnc_vehRespawn =
 	_unitVar setPos [(_safePos select 0), (_safePos select 1), ((_safePos select 2) + 1.5)];
 	_unitVar setVectorDirAndUp _vDirAndUp;
 	[_unitVar, _config select 0, _config select 1] call BIS_fnc_initVehicle;
+	_unitVar removeMagazinesTurret ["2Rnd_GAT_missiles_O", [0]];
 	// Send notification
 	_side = "";
 	switch (getNumber (configfile >> "CfgVehicles" >> typeOf _unitVar >> "side")) do {
