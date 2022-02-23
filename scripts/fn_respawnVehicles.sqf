@@ -161,6 +161,7 @@ JST_fnc_addVehRespawnHandlers =
 						waitUntil {((vehicle _unit) isEqualTo _vehicle) or (time >= (_time + 5))};
 						if (((assignedVehicleRole _unit) isEqualTo ["driver"]) or ((assignedVehicleRole _unit) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit) isEqualTo ["turret",[0]])) then
 						{
+							playsound "Hint3";
 							[_unit] remoteExec ["moveOut", _unit];
 							["You are not authorized air crew."] remoteExec ["systemChat", _unit];
 						};
@@ -174,8 +175,47 @@ JST_fnc_addVehRespawnHandlers =
 						waitUntil {((vehicle _unit) isEqualTo _vehicle) or (time >= (_time + 5))};
 						if (((assignedVehicleRole _unit) isEqualTo ["driver"]) or ((assignedVehicleRole _unit) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit) isEqualTo ["turret",[0]])) then
 						{
+							playsound "Hint3";
 							[_unit] remoteExec ["moveOut", _unit];
 							["You are not authorized crew."] remoteExec ["systemChat", _unit];
+						};
+					};
+				};
+			}
+		]
+	] remoteExec ["addEventHandler", 0, true];
+	// switch seats: prevents cheesing the seat system
+	[
+		_veh,
+		[
+			"SeatSwitched",
+			{
+				params ["_vehicle", "_unit1", "_unit2"];
+				// only run on local unit
+				if !(local _unit1) exitWith {};
+				if (_vehicle isKindOf "AIR") then
+				{
+					if !((typeOf _unit1) in AllowedAirCrew) then
+					{
+						if (((assignedVehicleRole _unit1) isEqualTo ["driver"]) or ((assignedVehicleRole _unit1) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit1) isEqualTo ["turret",[0]])) then
+						{
+							playsound "Hint3";
+							[_unit1] remoteExec ["moveOut", _unit1];
+							[_unit1,_vehicle] remoteExec ["moveInCargo", _unit1];
+							["You are not authorized air crew."] remoteExec ["systemChat", _unit1];
+						};
+					};
+				};
+				if (_vehicle isKindOf "APC_Tracked_02_base_F" || _vehicle isKindOf "Wheeled_APC_F") then
+				{
+					if !((typeOf _unit1) in AllowedGroundCrew) then
+					{
+						if (((assignedVehicleRole _unit1) isEqualTo ["driver"]) or ((assignedVehicleRole _unit1) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit1) isEqualTo ["turret",[0]])) then
+						{
+							playsound "Hint3";
+							[_unit1] remoteExec ["moveOut", _unit1];
+							[_unit1,_vehicle] remoteExec ["moveInCargo", _unit1];
+							["You are not authorized crew."] remoteExec ["systemChat", _unit1];
 						};
 					};
 				};
@@ -205,7 +245,7 @@ JST_fnc_vehRespawn =
 	[_unitVar, _config select 0, _config select 1] call BIS_fnc_initVehicle;
 	
 	// Remove minispikes from stalker
-	if (_class isEqualTo "O_APC_Tracked_02_cannon_F") then
+	if (_class isEqualTo "O_APC_Tracked_02_cannon_F") then {
 		_unitVar removeMagazinesTurret ["2Rnd_GAT_missiles_O", [0]];
 	};
 	// Send notification
