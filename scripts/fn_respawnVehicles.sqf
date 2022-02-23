@@ -161,7 +161,7 @@ JST_fnc_addVehRespawnHandlers =
 						waitUntil {((vehicle _unit) isEqualTo _vehicle) or (time >= (_time + 5))};
 						if (((assignedVehicleRole _unit) isEqualTo ["driver"]) or ((assignedVehicleRole _unit) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit) isEqualTo ["turret",[0]])) then
 						{
-							playsound "Hint3";
+							"Hint3" remoteExec ["playsound", _unit1];
 							[_unit] remoteExec ["moveOut", _unit];
 							["You are not authorized air crew."] remoteExec ["systemChat", _unit];
 						};
@@ -175,7 +175,7 @@ JST_fnc_addVehRespawnHandlers =
 						waitUntil {((vehicle _unit) isEqualTo _vehicle) or (time >= (_time + 5))};
 						if (((assignedVehicleRole _unit) isEqualTo ["driver"]) or ((assignedVehicleRole _unit) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit) isEqualTo ["turret",[0]])) then
 						{
-							playsound "Hint3";
+							"Hint3" remoteExec ["playsound", _unit1];
 							[_unit] remoteExec ["moveOut", _unit];
 							["You are not authorized crew."] remoteExec ["systemChat", _unit];
 						};
@@ -199,7 +199,7 @@ JST_fnc_addVehRespawnHandlers =
 					{
 						if (((assignedVehicleRole _unit1) isEqualTo ["driver"]) or ((assignedVehicleRole _unit1) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit1) isEqualTo ["turret",[0]])) then
 						{
-							playsound "Hint3";
+							"Hint3" remoteExec ["playsound", _unit1];
 							[_unit1] remoteExec ["moveOut", _unit1];
 							[_unit1,_vehicle] remoteExec ["moveInCargo", _unit1];
 							["You are not authorized air crew."] remoteExec ["systemChat", _unit1];
@@ -212,7 +212,7 @@ JST_fnc_addVehRespawnHandlers =
 					{
 						if (((assignedVehicleRole _unit1) isEqualTo ["driver"]) or ((assignedVehicleRole _unit1) isEqualTo ["gunner"]) or ((assignedVehicleRole _unit1) isEqualTo ["turret",[0]])) then
 						{
-							playsound "Hint3";
+							"Hint3" remoteExec ["playsound", _unit1];
 							[_unit1] remoteExec ["moveOut", _unit1];
 							[_unit1,_vehicle] remoteExec ["moveInCargo", _unit1];
 							["You are not authorized crew."] remoteExec ["systemChat", _unit1];
