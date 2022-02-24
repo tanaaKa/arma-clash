@@ -210,26 +210,26 @@ player addEventHandler ["Killed", {
 		_object allowDamage false;
 		
 		// Create fob markers + sound
+		tnk_CreateMarker =
 		{
-			if (side _x isEqualTo side _unit) then {
-				_tempName = format ["FOB%1",count activeFOBs];
-				_fobMarker = createMarkerLocal [_tempName, _object];
-				_fobMarker setMarkerShapeLocal "ICON";
-				_fobMarker setmarkerTypeLocal "loc_CivilDefense";
-				_fobMarker setMarkerTextLocal format ["FOB %1",_fobName];
-				_object setVariable ["fobMarker",_fobMarker]; // should this not be in a local loop?
-				activeFOBs pushBackUnique _tempName; // Add to array - UNIQUE - not the most performant
-				
-				_tempMarker = format ["100m%1", count activeFOBMarkers];
-				_100m = createMarkerLocal [_tempMarker, _object];
-				_100m setMarkerShapeLocal "ELLIPSE";
-				_100m setMarkerTypeLocal "ellipse";
-				_100m setMarkerSizeLocal [100,100];
-				_100m setMarkerBrushLocal "Border";
-				_object setVariable ["fobRadius",_100m]; // should this not be in a local loop?
-				activeFOBMarkers pushBackUnique _tempMarker; // Add to array - UNIQUE - not the most performant
-			};
-		} forEach allPlayers;
+			_tempName = format ["FOB%1",count activeFOBs];
+			_fobMarker = createMarkerLocal [_tempName, _object];
+			_fobMarker setMarkerShapeLocal "ICON";
+			_fobMarker setmarkerTypeLocal "loc_CivilDefense";
+			_fobMarker setMarkerTextLocal format ["%1",_fobName];
+			_object setVariable ["fobMarker",_fobMarker]; // should this not be in a local loop?
+			activeFOBs pushBackUnique _tempName; // Add to array - UNIQUE - not the most performant
+			
+			_tempMarker = format ["100m%1", count activeFOBMarkers];
+			_100m = createMarkerLocal [_tempMarker, _object];
+			_100m setMarkerShapeLocal "ELLIPSE";
+			_100m setMarkerTypeLocal "ellipse";
+			_100m setMarkerSizeLocal [100,100];
+			_100m setMarkerBrushLocal "Border";
+			_object setVariable ["fobRadius",_100m]; // should this not be in a local loop?
+			activeFOBMarkers pushBackUnique _tempMarker; // Add to array - UNIQUE - not the most performant
+		};
+		remoteExec ["tnk_CreateMarker",side _unit];
 		
 		// Create warning trigger
 		_detectEnemy = "EAST"; // must be a string for trigger condition
@@ -249,7 +249,7 @@ player addEventHandler ["Killed", {
 		_trg = createTrigger ["EmptyDetector", getPos _object];
 		_trg setTriggerArea [100, 100, 0, false];
 		_trg setTriggerActivation [_detectEnemy, "PRESENT", true];
-		_onAct = format ["if (side player isEqualTo %2) then { hint '%1 is under attack'};",_object getVariable "fobName",_hintSide];
+		_onAct = format ["if (side player isEqualTo %2) then { systemChat '%1 is under attack'};",_object getVariable "fobName",_hintSide];
 		_trg setTriggerStatements ["this", _onAct, ""];
 		_object setVariable ["fobTrigger", _trg];
 		
@@ -260,12 +260,16 @@ player addEventHandler ["Killed", {
 		
 		// Create a destroy action for said FOB
 		// Only engis and demolitions can destroy the FOB with a satchel in their inventory
-		_condition = 
+		tnk_createFOBAction =
 		{
-			(typeOf _player isEqualTo "B_soldier_repair_F" || typeOf _player isEqualTo "O_soldier_repair_F" || typeOf _player isEqualTo "B_soldier_exp_F" || typeOf _player isEqualTo "O_soldier_exp_F") && ("SatchelCharge_Remote_Mag" in magazines _player);
+			_condition = 
+			{
+				(typeOf _player isEqualTo "B_soldier_repair_F" || typeOf _player isEqualTo "O_soldier_repair_F" || typeOf _player isEqualTo "B_soldier_exp_F" || typeOf _player isEqualTo "O_soldier_exp_F") && ("SatchelCharge_Remote_Mag" in magazines _player);
+			};
+			_dfAction = ["destroyFOB","Place Charge on FOB","",{_player removeItem "SatchelCharge_Remote_Mag"; call TNK_fnc_destroyFOB;},_condition,{},[_object,(name _player)], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
+			[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
 		};
-		_dfAction = ["destroyFOB","Place Charge on FOB","",{_player removeItem "SatchelCharge_Remote_Mag"; call TNK_fnc_destroyFOB;},_condition,{},[_object,(name _player)], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
-		[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
+		remoteExec ["tnk_createFOBAction"];
 	};
 	
 	// Finally
