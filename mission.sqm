@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11669.377,39.043144,4440.0977};
-		dir[]={0.37034813,-0.59783244,0.71094209};
-		up[]={0.27619797,0.80162108,0.53020591};
-		aside[]={0.88688046,0,-0.461999};
+		pos[]={9345.917,28.68,3774.7129};
+		dir[]={0.47304791,-0.87228507,0.12388416};
+		up[]={0.84383124,0.48899487,0.22098683};
+		aside[]={0.2533426,-7.7998266e-008,-0.96737951};
 	};
 };
 binarizationWanted=0;
@@ -491,7 +491,7 @@ class ScenarioData
 };
 class CustomAttributes
 {
-	class Category0
+	class Category1
 	{
 		name="Multiplayer";
 		class Attribute0
@@ -574,7 +574,7 @@ class CustomAttributes
 		};
 		nAttributes=1;
 	};
-	class Category1
+	class Category2
 	{
 		name="Scenario";
 		class Attribute0
@@ -5959,7 +5959,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="0";
+							value="0.13";
 						};
 					};
 				};
@@ -6130,7 +6130,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="0.25";
+							value="0.13";
 						};
 					};
 				};
@@ -6425,7 +6425,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="0";
+							value="0.13";
 						};
 					};
 				};
@@ -6596,7 +6596,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="0.25";
+							value="0.13";
 						};
 					};
 				};
@@ -6726,7 +6726,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="0";
+							value="0.13";
 						};
 					};
 				};
@@ -6897,7 +6897,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="0.25";
+							value="0.13";
 						};
 					};
 				};
@@ -10451,7 +10451,7 @@ class Mission
 								isBackpack=0;
 								class MagazineCargo
 								{
-									items=5;
+									items=6;
 									class Item0
 									{
 										name="16Rnd_9x21_Mag";
@@ -10481,6 +10481,12 @@ class Mission
 										name="Chemlight_green";
 										count=2;
 										ammoLeft=1;
+									};
+									class Item5
+									{
+										name="30Rnd_65x39_caseless_black_mag";
+										count=8;
+										ammoLeft=30;
 									};
 								};
 							};
