@@ -1,5 +1,5 @@
 // conversion rate from seconds of pre-existing gametime in seconds to funds for JIPs
-private _funds = serverTime * 0.4;
+private _funds = time * 0.4;
 
 // ensure base funds for players at mission start
 if (_funds < 200) then {_funds = 200};
