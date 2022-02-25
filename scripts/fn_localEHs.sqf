@@ -289,3 +289,80 @@ player addEventHandler ["Killed", {
 	playSound _soundToPlay;
 	
 }] call CBA_fnc_addEventHandler;
+
+// get in and get out eventhandlers to reward pilots and drivers for transporting pax
+// reward is adjusted to 0-200 credits per player transported based on playable map size
+player addEventHandler
+[
+	"GetInMan",
+	{
+		params ["_unit", "_role", "_vehicle", "_turret"];
+		// only run on machine of player who got in a vehicle
+		if !(player isEqualTo _unit) exitWith {};
+		[_unit, _role, _vehicle, _turret] spawn 
+		{
+			params ["_unit", "_role", "_vehicle", "_turret"];
+			// log starting pos of vehicle
+			private _pos = position _vehicle;
+			// wait for seat corrections for fat fingered bitches
+			UIsleep 5;
+			// if in pax seat, log data of vehicle, else set 0
+			if (_role isEqualTo "cargo") then
+			{
+				CLASH_getInData = [_pos, _vehicle];
+			}
+			else
+			{
+				CLASH_getInData = 0;
+			};
+		};
+	}
+];
+player addEventHandler
+[
+	"GetOutMan",
+	{
+		params ["_unit", "_role", "_vehicle", "_turret"];
+		// only run on machine of player who got in a vehicle
+		if !(player isEqualTo _unit) exitWith {};
+		[_unit, _role, _vehicle, _turret] spawn 
+		{
+			params ["_unit", "_role", "_vehicle", "_turret"];
+			// if error in data (e.g. player was the driver) do nothing
+			if (CLASH_getInData isEqualTo 0) then
+			{}
+			else
+			{
+				// if unit was in pax seat, reward driver of vehicle based on distance driven compared to map size
+				if ((_role isEqualTo "cargo") and (_vehicle isEqualTo (CLASH_getInData select 1))) then
+				{
+					// calculate reward
+					private _disPax = round ((CLASH_getInData select 0) distance2D (position _vehicle));
+					private _disMap = round ((markerPos "respawn_west") distance2D (markerPos "respawn_east"));
+					private _reward = linearConversion [0, _disMap, _disPax, 0, 200, true];
+					// reward driver
+					[driver _vehicle, _reward] call grad_lbm_fnc_addFunds;
+					_driverText =
+					[
+						format  
+						[ 
+							"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You transported %1 %2m(+%3CR)</t>", 
+							name _unit,
+							_disPax,
+							_reward
+						],-0.8,1.1,4,1,0.25,789
+					];
+					_driverText remoteExec ["BIS_fnc_dynamicText", driver _vehicle];
+					"FD_CP_Clear_F" remoteExec ["playSound", driver _vehicle];
+					// reset data
+					CLASH_getInData = 0;
+				}
+				// if things don't match up with this being a transport trip, reset data and do nothing
+				else
+				{
+					CLASH_getInData = 0;
+				};
+			};
+		};
+	}
+];
