@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=958;
+		nextID=960;
 	};
 	class MarkerIDProvider
 	{
@@ -500,7 +500,7 @@ class ScenarioData
 };
 class CustomAttributes
 {
-	class Category1
+	class Category0
 	{
 		name="Multiplayer";
 		class Attribute0
@@ -583,7 +583,7 @@ class CustomAttributes
 		};
 		nAttributes=1;
 	};
-	class Category2
+	class Category1
 	{
 		name="Scenario";
 		class Attribute0
@@ -7914,6 +7914,7 @@ class Mission
 			};
 			id=334;
 			type="O_Heli_Light_02_unarmed_F";
+			atlOffset=9.5367432e-007;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -9102,6 +9103,7 @@ class Mission
 			};
 			id=651;
 			type="I_Heli_light_03_dynamicLoadout_F";
+			atlOffset=2.3841858e-007;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -9241,6 +9243,7 @@ class Mission
 			};
 			id=652;
 			type="I_Heli_light_03_unarmed_F";
+			atlOffset=2.3841858e-007;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -9426,7 +9429,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={11608.527,14.06,4483.0439};
-				angles[]={-0,1.5390314,0};
+				angles[]={0,1.5390314,0};
 			};
 			side="Empty";
 			flags=4;
@@ -19582,6 +19585,7 @@ class Mission
 					};
 					id=919;
 					type="O_soldier_repair_F";
+					atlOffset=9.5367432e-007;
 				};
 				class Item1
 				{
@@ -20031,6 +20035,7 @@ class Mission
 					};
 					id=922;
 					type="O_soldier_repair_F";
+					atlOffset=9.5367432e-007;
 				};
 				class Item4
 				{
@@ -20187,6 +20192,7 @@ class Mission
 			{
 			};
 			id=918;
+			atlOffset=9.5367432e-007;
 			class CustomAttributes
 			{
 				class Attribute0

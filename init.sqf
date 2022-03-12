@@ -10,5 +10,7 @@ CLASH_safeZones = [bsafezone, osafezone];
 [oPC,"bluforWeapons",oOF,oHelipad,"BUY MENU (No Refunds!)","Buy Items",{side player == EAST}] call grad_lbm_fnc_addInteraction;
 
 // Active fob list
-activeFOBs = [];
-activeFOBMarkers = [];
+B_activeFOBs = [];
+O_activeFOBs = [];
+B_activeFOBMarkers = [];
+O_activeFOBMarkers = [];

@@ -39,11 +39,23 @@ params["_FOB","_playerName"];
 	_sString = format ["%1 has been destroyed",_FOB getVariable "fobName"];
 	_sString remoteExec ["systemChat",0];
 	
-	//Update arrays
-	activeFOBs deleteAt (activeFOBs find _fobMarker);
-	activeFOBMarkers deleteAt (activeFOBMarkers find _fobRadius);
+	// Update arrays
+	if (side player isEqualTo WEST) then
+	{
+		B_activeFOBs deleteAt (B_activeFOBs find _fobMarker);
+		B_activeFOBMarkers deleteAt (B_activeFOBMarkers find _fobRadius);
+		publicVariable "B_activeFOBs";
+		publicVariable "B_activeFOBMarkers";
+	}
+	else
+	{
+		O_activeFOBs deleteAt (O_activeFOBs find _fobMarker);
+		O_activeFOBMarkers deleteAt (O_activeFOBMarkers find _fobRadius);
+		publicVariable "O_activeFOBs";
+		publicVariable "O_activeFOBMarkers";
+	};
 	
-	// Delete the fob 3 mins later to allow for another FOB to be placed
+	// cleanup fob wreck
 	uiSleep 180;
 	deleteVehicle _FOB;
 };
