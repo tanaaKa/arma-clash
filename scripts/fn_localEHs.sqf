@@ -217,7 +217,40 @@ player addEventHandler ["Killed", {
 		_object allowDamage false;
 		
 		// Create fob markers
-		[_object,_fobName,_fobMarker] remoteExec ["clash_fnc_createMarker", side _unit, true];
+		_tempName = format ["FOB%1", count activeFOBs];
+		_fobMarker = createMarkerLocal [_tempName, _object];
+		_fobMarker setMarkerShapeLocal "ICON";
+		_fobMarker setmarkerTypeLocal "loc_CivilDefense";
+		_fobMarker setMarkerText format ["%1",_fobName];
+		_object setVariable ["fobMarker",_fobMarker, true];
+		if (side player isEqualTo West) then
+		{
+			B_activeFOBs pushBackUnique _tempName;
+			publicVariable "B_activeFOBS";
+		}
+		else
+		{
+			O_activeFOBs pushBackUnique _tempName;
+			publicVariable "O_activeFOBS";
+		};
+
+		_tempMarker = format ["100m%1", count activeFOBMarkers];
+		_100m = createMarkerLocal [_tempMarker, _object];
+		_100m setMarkerShapeLocal "ELLIPSE";
+		_100m setMarkerTypeLocal "ellipse";
+		_100m setMarkerSizeLocal [100,100];
+		_100m setMarkerBrush "Border";
+		_object setVariable ["fobRadius", _100m, true];
+		if (side player isEqualTo West) then
+		{
+			B_activeFOBMarkers pushBackUnique _tempMarker;
+			publicVariable "B_activeFOBMarkers";
+		}
+		else
+		{
+			O_activeFOBMarkers pushBackUnique _tempMarker;
+			publicVariable "O_activeFOBMarkers";
+		};
 		
 		// Create warning trigger
 		_detectSide = switch (_object getVariable "fobSide") do
