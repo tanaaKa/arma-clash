@@ -2,6 +2,9 @@
 
 params["_object","_fobName","_fobMarker"];
 
+// do nothing if FOB dead
+if !(alive _object) exitWith {};
+
 _tempName = format ["FOB%1",count activeFOBs];
 _fobMarker = createMarkerLocal [_tempName, _object];
 _fobMarker setMarkerShapeLocal "ICON";
