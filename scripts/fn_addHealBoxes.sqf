@@ -8,7 +8,7 @@
 		"(_caller distance _target < 3)",  
 		{},  
 		{},
-		{[player] call TNK_fnc_heal},
+		{[player] call clash_fnc_heal},
 		{},  
 		[],
 		1,  

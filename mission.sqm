@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=956;
+		nextID=958;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={9335.3809,16.866863,3753.0999};
-		dir[]={0.82492381,-0.47056457,0.31316075};
-		up[]={0.43993095,0.88236552,0.16700828};
-		aside[]={0.35491043,0,-0.93490028};
+		pos[]={11629.308,113.89909,4303.8369};
+		dir[]={0.023819545,-0.57984394,0.8143816};
+		up[]={0.016952418,0.81472701,0.57959688};
+		aside[]={0.99957359,7.0067472e-009,-0.029236205};
 	};
 };
 binarizationWanted=0;
-sourceName="public_clash80_island";
+sourceName="arma-clash";
 addons[]=
 {
 	"A3_Modules_F",
@@ -102,13 +102,14 @@ addons[]=
 	"A3_Static_F_Mortar_01",
 	"A3_Characters_F_Exp",
 	"A3_Static_F_Exp_Mortar_01",
-	"A3_Air_F_Orange_UAV_06"
+	"A3_Air_F_Orange_UAV_06",
+	"A3_Characters_F_AoW"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=52;
+		items=53;
 		class Item0
 		{
 			className="A3_Modules_F";
@@ -466,6 +467,13 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
+		class Item52
+		{
+			className="A3_Characters_F_AoW";
+			name="Arma 3 Art of War - Characters and Clothing";
+			author="Bohemia Interactive";
+			url="https://www.arma3.com";
+		};
 	};
 };
 dlcs[]=
@@ -473,7 +481,8 @@ dlcs[]=
 	"Contact",
 	"RHS_USAF",
 	"Expansion",
-	"Orange"
+	"Orange",
+	"AoW"
 };
 randomSeed=15185293;
 class ScenarioData
@@ -491,7 +500,7 @@ class ScenarioData
 };
 class CustomAttributes
 {
-	class Category0
+	class Category1
 	{
 		name="Multiplayer";
 		class Attribute0
@@ -574,7 +583,7 @@ class CustomAttributes
 		};
 		nAttributes=1;
 	};
-	class Category1
+	class Category2
 	{
 		name="Scenario";
 		class Attribute0
@@ -5588,7 +5597,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=105;
+		items=106;
 		class Item0
 		{
 			dataType="Logic";
@@ -7901,11 +7910,10 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				name="oheli1";
+				name="o_th";
 			};
 			id=334;
 			type="O_Heli_Light_02_unarmed_F";
-			atlOffset=9.5367432e-007;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -7960,7 +7968,9 @@ class Mission
 			flags=4;
 			class Attributes
 			{
-				name="oheli2";
+				name="o_ah";
+				textures="Opfor";
+				pylons="PylonWeapon_2000Rnd_65x39_belt;PylonRack_12Rnd_missiles;";
 			};
 			id=335;
 			type="O_Heli_Light_02_dynamicLoadout_F";
@@ -7968,8 +7978,8 @@ class Mission
 			{
 				class Attribute0
 				{
-					property="ammoBox";
-					expression="[_this,_value] call bis_fnc_initAmmoBox;";
+					property="VehicleCustomization";
+					expression="if (local _this) then {([_this] + _value + [true]) call (uinamespace getvariable 'BIS_fnc_initVehicle')};";
 					class Value
 					{
 						class data
@@ -7978,10 +7988,71 @@ class Mission
 							{
 								type[]=
 								{
-									"STRING"
+									"ARRAY"
 								};
 							};
-							value="[[[[""arifle_Katiba_C_F"",""FirstAidKit""],[2,8]],[[""SmokeShell"",""SmokeShellRed"",""30Rnd_65x39_caseless_green""],[2,2,4]],[[""ToolKit"",""ItemGPS""],[1,1]],[[""B_Parachute""],[8]]],false]";
+							class value
+							{
+								items=2;
+								class Item0
+								{
+									class data
+									{
+										class type
+										{
+											type[]=
+											{
+												"ARRAY"
+											};
+										};
+										class value
+										{
+											items=2;
+											class Item0
+											{
+												class data
+												{
+													class type
+													{
+														type[]=
+														{
+															"STRING"
+														};
+													};
+													value="Opfor";
+												};
+											};
+											class Item1
+											{
+												class data
+												{
+													class type
+													{
+														type[]=
+														{
+															"SCALAR"
+														};
+													};
+													value=1;
+												};
+											};
+										};
+									};
+								};
+								class Item1
+								{
+									class data
+									{
+										class type
+										{
+											type[]=
+											{
+												"ARRAY"
+											};
+										};
+									};
+								};
+							};
 						};
 					};
 				};
@@ -8004,7 +8075,26 @@ class Mission
 						};
 					};
 				};
-				nAttributes=2;
+				class Attribute2
+				{
+					property="ammoBox";
+					expression="[_this,_value] call bis_fnc_initAmmoBox;";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="[[[[""arifle_Katiba_C_F"",""FirstAidKit""],[2,8]],[[""SmokeShell"",""SmokeShellRed"",""30Rnd_65x39_caseless_green""],[2,2,4]],[[""ToolKit"",""ItemGPS""],[1,1]],[[""B_Parachute""],[8]]],false]";
+						};
+					};
+				};
+				nAttributes=3;
 			};
 		};
 		class Item27
@@ -8999,19 +9089,19 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={9335.8701,5.2110758,3829.9058};
+				position[]={9335.8701,5.2110758,3829.906};
 				angles[]={0,4.4935942,0};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
-				name="bheli1";
+				name="b_ah";
 				textures="Green";
+				pylons="PylonRack_12Rnd_missiles;;";
 			};
 			id=651;
 			type="I_Heli_light_03_dynamicLoadout_F";
-			atlOffset=2.3841858e-007;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -9140,18 +9230,17 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={9332.0605,5.5430317,3848.5239};
+				position[]={9332.0605,5.5430317,3848.5242};
 				angles[]={0,4.5190587,0};
 			};
 			side="Empty";
 			flags=4;
 			class Attributes
 			{
-				name="bheli2";
+				name="b_th";
 			};
 			id=652;
 			type="I_Heli_light_03_unarmed_F";
-			atlOffset=2.3841858e-007;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -9255,17 +9344,17 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={9380.9639,5.0728836,3798.429};
-				angles[]={0,1.5390314,0};
+				position[]={9380.9639,3.7078836,3798.429};
+				angles[]={0.0055992967,1.5390314,0.0032018756};
 			};
 			side="Empty";
+			flags=4;
 			class Attributes
 			{
 				name="blu_veh_pad";
 			};
 			id=655;
 			type="HeliH";
-			atlOffset=1.365;
 		};
 		class Item70
 		{
@@ -9336,17 +9425,17 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={11608.527,15.425,4483.0439};
-				angles[]={0,1.5390314,0};
+				position[]={11608.527,14.06,4483.0439};
+				angles[]={-0,1.5390314,0};
 			};
 			side="Empty";
+			flags=4;
 			class Attributes
 			{
 				name="opf_veh_pad";
 			};
 			id=659;
 			type="HeliH";
-			atlOffset=1.3649998;
 		};
 		class Item73
 		{
@@ -9361,13 +9450,12 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={11601.492,15.376,4492.834};
+				position[]={11601.492,14.06,4492.834};
 			};
 			areaSize[]={5,-1,5};
 			flags=1;
 			id=661;
 			type="ModuleHideTerrainObjects_F";
-			atlOffset=1.316;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -13895,6 +13983,7 @@ class Mission
 							class primaryWeapon
 							{
 								name="arifle_MX_Black_F";
+								firemode="arifle_MX_Black_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_black_mag";
@@ -13971,7 +14060,7 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_khk";
+								typeName="B_Carryall_mcamo";
 								isBackpack=1;
 								class MagazineCargo
 								{
@@ -13991,7 +14080,7 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=6;
+									items=7;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -14020,6 +14109,11 @@ class Mission
 									class Item5
 									{
 										name="MineDetector";
+										count=1;
+									};
+									class Item6
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -14054,6 +14148,7 @@ class Mission
 							class primaryWeapon
 							{
 								name="arifle_MX_Black_F";
+								firemode="arifle_MX_Black_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_black_mag";
@@ -14130,7 +14225,7 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_khk";
+								typeName="B_Carryall_mcamo";
 								isBackpack=1;
 								class MagazineCargo
 								{
@@ -14150,7 +14245,7 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=6;
+									items=7;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -14179,6 +14274,11 @@ class Mission
 									class Item5
 									{
 										name="MineDetector";
+										count=1;
+									};
+									class Item6
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -14214,6 +14314,7 @@ class Mission
 							class primaryWeapon
 							{
 								name="arifle_MX_Black_F";
+								firemode="arifle_MX_Black_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_black_mag";
@@ -14290,7 +14391,7 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_khk";
+								typeName="B_Carryall_mcamo";
 								isBackpack=1;
 								class MagazineCargo
 								{
@@ -14310,7 +14411,7 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=6;
+									items=7;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -14339,6 +14440,11 @@ class Mission
 									class Item5
 									{
 										name="MineDetector";
+										count=1;
+									};
+									class Item6
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -14374,6 +14480,7 @@ class Mission
 							class primaryWeapon
 							{
 								name="arifle_MX_Black_F";
+								firemode="arifle_MX_Black_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_black_mag";
@@ -14450,7 +14557,7 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_khk";
+								typeName="B_Carryall_mcamo";
 								isBackpack=1;
 								class MagazineCargo
 								{
@@ -14470,7 +14577,7 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=6;
+									items=7;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -14499,6 +14606,11 @@ class Mission
 									class Item5
 									{
 										name="MineDetector";
+										count=1;
+									};
+									class Item6
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -14521,7 +14633,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={9370.8242,3.6814389,3800.0034};
+						position[]={9370.8242,3.6814389,3800.0029};
 					};
 					side="West";
 					flags=5;
@@ -14534,6 +14646,7 @@ class Mission
 							class primaryWeapon
 							{
 								name="arifle_MX_Black_F";
+								firemode="arifle_MX_Black_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_black_mag";
@@ -14610,7 +14723,7 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_khk";
+								typeName="B_Carryall_mcamo";
 								isBackpack=1;
 								class MagazineCargo
 								{
@@ -14630,7 +14743,7 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=6;
+									items=7;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -14659,6 +14772,11 @@ class Mission
 									class Item5
 									{
 										name="MineDetector";
+										count=1;
+									};
+									class Item6
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -19335,6 +19453,7 @@ class Mission
 							{
 								name="arifle_Katiba_ACO_pointer_F";
 								flashlight="acc_pointer_IR";
+								firemode="arifle_Katiba_ACO_pointer_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_green";
@@ -19421,11 +19540,11 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_ocamo";
+								typeName="B_Carryall_ocamo";
 								isBackpack=1;
 								class ItemCargo
 								{
-									items=4;
+									items=5;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -19446,6 +19565,11 @@ class Mission
 										name="ACE_Fortify";
 										count=1;
 									};
+									class Item4
+									{
+										name="ToolKit";
+										count=1;
+									};
 								};
 							};
 							map="ItemMap";
@@ -19458,7 +19582,6 @@ class Mission
 					};
 					id=919;
 					type="O_soldier_repair_F";
-					atlOffset=9.5367432e-007;
 				};
 				class Item1
 				{
@@ -19479,6 +19602,7 @@ class Mission
 							{
 								name="arifle_Katiba_ACO_pointer_F";
 								flashlight="acc_pointer_IR";
+								firemode="arifle_Katiba_ACO_pointer_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_green";
@@ -19565,11 +19689,11 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_ocamo";
+								typeName="B_Carryall_ocamo";
 								isBackpack=1;
 								class ItemCargo
 								{
-									items=4;
+									items=5;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -19588,6 +19712,11 @@ class Mission
 									class Item3
 									{
 										name="ACE_Fortify";
+										count=1;
+									};
+									class Item4
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -19623,6 +19752,7 @@ class Mission
 							{
 								name="arifle_Katiba_ACO_pointer_F";
 								flashlight="acc_pointer_IR";
+								firemode="arifle_Katiba_ACO_pointer_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_green";
@@ -19709,11 +19839,11 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_ocamo";
+								typeName="B_Carryall_ocamo";
 								isBackpack=1;
 								class ItemCargo
 								{
-									items=4;
+									items=5;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -19732,6 +19862,11 @@ class Mission
 									class Item3
 									{
 										name="ACE_Fortify";
+										count=1;
+									};
+									class Item4
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -19753,7 +19888,7 @@ class Mission
 					dataType="Object";
 					class PositionInfo
 					{
-						position[]={11650.274,14.06144,4490.0234};
+						position[]={11650.274,14.06144,4490.0239};
 					};
 					side="East";
 					flags=5;
@@ -19767,6 +19902,7 @@ class Mission
 							{
 								name="arifle_Katiba_ACO_pointer_F";
 								flashlight="acc_pointer_IR";
+								firemode="arifle_Katiba_ACO_pointer_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_green";
@@ -19853,11 +19989,11 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_ocamo";
+								typeName="B_Carryall_ocamo";
 								isBackpack=1;
 								class ItemCargo
 								{
-									items=4;
+									items=5;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -19878,6 +20014,11 @@ class Mission
 										name="ACE_Fortify";
 										count=1;
 									};
+									class Item4
+									{
+										name="ToolKit";
+										count=1;
+									};
 								};
 							};
 							map="ItemMap";
@@ -19890,7 +20031,6 @@ class Mission
 					};
 					id=922;
 					type="O_soldier_repair_F";
-					atlOffset=9.5367432e-007;
 				};
 				class Item4
 				{
@@ -19911,6 +20051,7 @@ class Mission
 							{
 								name="arifle_Katiba_ACO_pointer_F";
 								flashlight="acc_pointer_IR";
+								firemode="arifle_Katiba_ACO_pointer_F:Single";
 								class primaryMuzzleMag
 								{
 									name="30Rnd_65x39_caseless_green";
@@ -19997,11 +20138,11 @@ class Mission
 							};
 							class backpack
 							{
-								typeName="B_AssaultPack_ocamo";
+								typeName="B_Carryall_ocamo";
 								isBackpack=1;
 								class ItemCargo
 								{
-									items=4;
+									items=5;
 									class Item0
 									{
 										name="ACE_elasticBandage";
@@ -20020,6 +20161,11 @@ class Mission
 									class Item3
 									{
 										name="ACE_Fortify";
+										count=1;
+									};
+									class Item4
+									{
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -20041,7 +20187,6 @@ class Mission
 			{
 			};
 			id=918;
-			atlOffset=9.5367432e-007;
 			class CustomAttributes
 			{
 				class Attribute0
@@ -21048,6 +21193,36 @@ class Mission
 				};
 				nAttributes=1;
 			};
+		};
+		class Item105
+		{
+			dataType="Group";
+			side="West";
+			class Entities
+			{
+				items=1;
+				class Item0
+				{
+					dataType="Object";
+					class PositionInfo
+					{
+						position[]={12094.777,0.0014388561,5128.6299};
+					};
+					side="West";
+					flags=3;
+					class Attributes
+					{
+					};
+					id=957;
+					type="B_Officer_Parade_Veteran_F";
+					atlOffset=36.617905;
+				};
+			};
+			class Attributes
+			{
+			};
+			id=956;
+			atlOffset=36.617905;
 		};
 	};
 	class Connections

@@ -1,4 +1,4 @@
-class TNK
+class clash
 {
 	class scripts
 	{
@@ -13,5 +13,7 @@ class TNK
 		class commanderSupports{};
 		class addHealBoxes{};
 		class heal{};
+		class createMarker{};
+		class createFOBAction{};
 	};
 };

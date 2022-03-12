@@ -1,8 +1,8 @@
 // Setup vehicle respawns and restrictions
-[] spawn TNK_fnc_respawnVehicles;
+[] spawn clash_fnc_respawnVehicles;
 
 // Vehicle service
-[] spawn TNK_fnc_serviceVehicles;
+[] spawn clash_fnc_serviceVehicles;
 
 hillTrigger enableSimulationGlobal false;
 bluforHQ enableSimulationGlobal false;

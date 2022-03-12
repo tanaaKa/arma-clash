@@ -18,8 +18,16 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 		_build = false;
 	};
 	
-	// Search for fob within 300 meters
+	// Search for fob building within x meters
 	private _nearestFobs = nearestObjects [_unit, [FOBOBJECT], 600];
+	// remove from list if dead because nearestObjects finds dead objects for a while
+	for "_i" from ((count _nearestFobs) - 1) to 0 step -1 do
+	{
+		if !(alive (_nearestFobs select _i)) then
+		{
+			_nearestFobs deleteAt _i;
+		};
+	};
 	// Check if FOB is placeable
 	// True - no fob within 300m - therefore placeable
 	// False - 1 or more fobs within 300m - therefore not placeable
@@ -137,8 +145,7 @@ player addEventHandler ["Killed", {
 	_unitText remoteExec ["BIS_fnc_dynamicText", _unit];
 	
 	// Set money the player had on death
-	_currentMoney = [_unit] call grad_lbm_fnc_getFunds;
-	profileNamespace setVariable ["tnk_aas_money",_currentMoney];
+	// moved to onPlayerKilled to cover for deaths other than killed EH
 }];
 
 // EH to remove radios and fortify on death
@@ -209,49 +216,25 @@ player addEventHandler ["Killed", {
 		_object setVariable ["fobName", _fobName];			// FOB name for use in hints/chats
 		_object allowDamage false;
 		
-		// Create fob markers + sound
-		tnk_CreateMarker =
-		{
-			params["_object","_fobName","_fobMarker"];
-			
-			_tempName = format ["FOB%1",count activeFOBs];
-			_fobMarker = createMarkerLocal [_tempName, _object];
-			_fobMarker setMarkerShapeLocal "ICON";
-			_fobMarker setmarkerTypeLocal "loc_CivilDefense";
-			_fobMarker setMarkerTextLocal format ["%1",_fobName];
-			_object setVariable ["fobMarker",_fobMarker]; // should this not be local
-			activeFOBs pushBackUnique _tempName; // Add to array - UNIQUE - not the most performant
-			
-			_tempMarker = format ["100m%1", count activeFOBMarkers];
-			_100m = createMarkerLocal [_tempMarker, _object];
-			_100m setMarkerShapeLocal "ELLIPSE";
-			_100m setMarkerTypeLocal "ellipse";
-			_100m setMarkerSizeLocal [100,100];
-			_100m setMarkerBrushLocal "Border";
-			_object setVariable ["fobRadius",_100m]; // should this not be local
-			activeFOBMarkers pushBackUnique _tempMarker; // Add to array - UNIQUE - not the most performant
-		};
-		[_object,_fobName,_fobMarker] remoteExec ["tnk_CreateMarker",side _unit];
+		// Create fob markers
+		[_object,_fobName,_fobMarker] remoteExec ["clash_fnc_createMarker", side _unit, true];
 		
 		// Create warning trigger
-		_detectEnemy = "EAST"; // must be a string for trigger condition
-		_hintSide = WEST;
-		switch (_object getVariable "fobSide") do {
-			case EAST:
-			{
-				_detectEnemy = "WEST";
-				_hintSide = EAST;
-			};
-			case WEST:
-			{
-				_detectEnemy = "EAST";
-				_hintSide = WEST;
-			};
+		_detectSide = switch (_object getVariable "fobSide") do
+		{
+			case EAST: {WEST};
+			case WEST: {EAST};
+		};
+		_hintSide = switch (_object getVariable "fobSide") do
+		{
+			case EAST: {EAST};
+			case WEST: {WEST};
 		};
 		_trg = createTrigger ["EmptyDetector", getPos _object];
 		_trg setTriggerArea [100, 100, 0, false];
-		_trg setTriggerActivation [_detectEnemy, "PRESENT", true];
-		_onAct = format ["if (side player isEqualTo %2) then { systemChat '%1 is under attack'};",_object getVariable "fobName",_hintSide];
+		_trg setTriggerActivation [str _detectSide, "PRESENT", true];
+		_trg setTriggerInterval 5;
+		_onAct = format ["if (side player isEqualTo %2) then { systemChat '%1 is under attack'};", _object getVariable "fobName", _hintSide];
 		_trg setTriggerStatements ["this", _onAct, ""];
 		_object setVariable ["fobTrigger", _trg];
 		
@@ -260,19 +243,8 @@ player addEventHandler ["Killed", {
 		format ["A FOB has been built at %1 by %2", mapGridPosition _object, name _unit] remoteExec ["systemChat", side _unit];
 		"FD_Finish_F" remoteExec ["playSound", side _unit];
 		
-		// Create a destroy action for said FOB
-		// Only engis and demolitions can destroy the FOB with a satchel in their inventory
-		tnk_createFOBAction =
-		{
-			params["_object"];
-			_condition = 
-			{
-				(typeOf _player isEqualTo "B_soldier_repair_F" || typeOf _player isEqualTo "O_soldier_repair_F" || typeOf _player isEqualTo "B_soldier_exp_F" || typeOf _player isEqualTo "O_soldier_exp_F") && ("SatchelCharge_Remote_Mag" in magazines _player);
-			};
-			_dfAction = ["destroyFOB","Place Charge on FOB","",{_player removeItem "SatchelCharge_Remote_Mag"; call TNK_fnc_destroyFOB;},_condition,{},[_object,(name player)], {[0,0,0]}, 5] call ace_interact_menu_fnc_createAction;
-			[_object, 0, ["ACE_MainActions"], _dfAction] call ace_interact_menu_fnc_addActionToObject;
-		};
-		[_object] remoteExec ["tnk_createFOBAction"];
+		// add destroy action to engs
+		[_object] remoteExec ["clash_fnc_createFOBAction", 0, true];
 	};
 	
 	// Finally
