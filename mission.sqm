@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={11629.308,113.89909,4303.8369};
-		dir[]={0.023819545,-0.57984394,0.8143816};
-		up[]={0.016952418,0.81472701,0.57959688};
-		aside[]={0.99957359,7.0067472e-009,-0.029236205};
+		pos[]={11424.3,84.584404,4214.3633};
+		dir[]={-0.93159151,-0.14814472,-0.33201718};
+		up[]={-0.13954717,0.9889679,-0.049734633};
+		aside[]={-0.33572131,-1.398148e-007,0.94198585};
 	};
 };
 binarizationWanted=0;
@@ -102,14 +102,13 @@ addons[]=
 	"A3_Static_F_Mortar_01",
 	"A3_Characters_F_Exp",
 	"A3_Static_F_Exp_Mortar_01",
-	"A3_Air_F_Orange_UAV_06",
-	"A3_Characters_F_AoW"
+	"A3_Air_F_Orange_UAV_06"
 };
 class AddonsMetaData
 {
 	class List
 	{
-		items=53;
+		items=52;
 		class Item0
 		{
 			className="A3_Modules_F";
@@ -467,13 +466,6 @@ class AddonsMetaData
 			author="Bohemia Interactive";
 			url="https://www.arma3.com";
 		};
-		class Item52
-		{
-			className="A3_Characters_F_AoW";
-			name="Arma 3 Art of War - Characters and Clothing";
-			author="Bohemia Interactive";
-			url="https://www.arma3.com";
-		};
 	};
 };
 dlcs[]=
@@ -481,8 +473,7 @@ dlcs[]=
 	"Contact",
 	"RHS_USAF",
 	"Expansion",
-	"Orange",
-	"AoW"
+	"Orange"
 };
 randomSeed=15185293;
 class ScenarioData
@@ -5590,14 +5581,14 @@ class Mission
 		year=2035;
 		month=6;
 		day=24;
-		hour=12;
+		hour=8;
 		minute=0;
 		startFogDecay=0.014;
 		forecastFogDecay=0.014;
 	};
 	class Entities
 	{
-		items=106;
+		items=105;
 		class Item0
 		{
 			dataType="Logic";
@@ -21199,36 +21190,6 @@ class Mission
 				};
 				nAttributes=1;
 			};
-		};
-		class Item105
-		{
-			dataType="Group";
-			side="West";
-			class Entities
-			{
-				items=1;
-				class Item0
-				{
-					dataType="Object";
-					class PositionInfo
-					{
-						position[]={12094.777,0.0014388561,5128.6299};
-					};
-					side="West";
-					flags=3;
-					class Attributes
-					{
-					};
-					id=957;
-					type="B_Officer_Parade_Veteran_F";
-					atlOffset=36.617905;
-				};
-			};
-			class Attributes
-			{
-			};
-			id=956;
-			atlOffset=36.617905;
 		};
 	};
 	class Connections

@@ -184,116 +184,89 @@ player addEventHandler ["Killed", {
 // WARNING: THIS IS GLOBAL, HENCE THE LOCALITY CHECK AT THE TOP
 // TODO: Move to global EH file
 ["acex_fortify_objectPlaced", {
-	params["_unit","_side","_object"];
-	_fortName = "Fortification";
-	_moneyToPay = 20;
-	_soundToPlay = "FD_CP_Clear_F";
+	params["_unit", "_side", "_object"];
 	
-	// Locality Check
-	if (player isNotEqualTo _unit) exitWith {};
+	// only run on player placing the object
+	if !(player isEqualTo _unit) exitWith {};
 	
-	// Pay these motherfuckers based on object placed
-	// We can set an entire table of payouts here based on object type
-	switch (typeOf _object) do {
-		case FOBOBJECT: // FOBs
+	// init reward vars into default values
+	private _fortName = "Fortification";
+	private _moneyToPay = 20;
+	private _soundToPlay = "FD_CP_Clear_F";
+		
+	// switch through table of possible objects
+	switch (typeOf _object) do
+	{
+		case FOBOBJECT: // FOB
 		{
+			// alter reward vars
 			_fortName = "FOB";
 			_moneyToPay = 200;
 			_soundToPlay = "FD_Finish_F";
+			
+			// find needed side variables
+			private _fobSide = side _unit;
+			private _enemySide = switch (_fobSide) do
+			{
+				case EAST: {WEST};
+				case WEST: {EAST};
+			};
+			
+			// create spawnpoint
+			private _spawnPoint = [_fobSide, getPos _object] call BIS_fnc_addRespawnPosition;
+			
+			// create name str based on who created it
+			private _fobName = format ["FOB %1", name _unit];
+			
+			// set invincible, can only be destroyed by certain units
+			_object allowDamage false;
+			
+			// create marker
+			[_object, _fobName, true] remoteExec ["clash_fnc_handleFOBMarker", _fobSide, true];
+			
+			// create trigger that warns fob side when enemy nearby
+			private _trg = createTrigger ["EmptyDetector", getPos _object];
+			_trg setTriggerArea [100, 100, 0, false];
+			_trg setTriggerActivation [str _enemySide, "PRESENT", true];
+			_trg setTriggerInterval 3;
+			private _onAct = format ["if (side player isEqualTo %1) then {systemChat 'Enemies near %2!'};", _fobSide, _fobName];
+			_trg setTriggerStatements ["this", _onAct, ""];
+			
+			// save vars onto the fob for later use by other clients
+			_object setVariable ["clash_fobRespawn", _spawnPoint];
+			_object setVariable ["clash_fobSide", _fobSide];
+			_object setVariable ["clash_fobName", _fobName];
+			_object setVariable ["clash_fobTrigger", _trg];
+			
+			// broadcast hint and sound to fob side
+			format ["A FOB has been built by %1", name _unit] remoteExec ["systemChat", _fobSide];
+			"FD_Finish_F" remoteExec ["playSound", _fobSide];
+			
+			// add destroy action to engs
+			[_object] remoteExec ["clash_fnc_createFOBAction", 0, true];
 		};
-		default 		// Everything else basically
+		default // all other object types
 		{
 			
 		};
 	};
 	
-	// Create a FOB if it's the fob object
-	if (typeOf _object isEqualTo FOBOBJECT) then {
-		_spawnPoint = [(side _unit), getPos _object] call BIS_fnc_addRespawnPosition;
-		_object setVariable ["fobRespawn", _spawnPoint]; 	// respawn to delete
-		_object setVariable ["fobSide", side _unit];		// makes FOBs side-based
-		_fobName = format ["FOB %1",name _unit];
-		_object setVariable ["fobName", _fobName];			// FOB name for use in hints/chats
-		_object allowDamage false;
-		
-		// Create fob markers
-		_tempName = format ["FOB%1", count activeFOBs];
-		_fobMarker = createMarkerLocal [_tempName, _object];
-		_fobMarker setMarkerShapeLocal "ICON";
-		_fobMarker setmarkerTypeLocal "loc_CivilDefense";
-		_fobMarker setMarkerText format ["%1",_fobName];
-		_object setVariable ["fobMarker",_fobMarker, true];
-		if (side player isEqualTo West) then
-		{
-			B_activeFOBs pushBackUnique _tempName;
-			publicVariable "B_activeFOBS";
-		}
-		else
-		{
-			O_activeFOBs pushBackUnique _tempName;
-			publicVariable "O_activeFOBS";
-		};
-
-		_tempMarker = format ["100m%1", count activeFOBMarkers];
-		_100m = createMarkerLocal [_tempMarker, _object];
-		_100m setMarkerShapeLocal "ELLIPSE";
-		_100m setMarkerTypeLocal "ellipse";
-		_100m setMarkerSizeLocal [100,100];
-		_100m setMarkerBrush "Border";
-		_object setVariable ["fobRadius", _100m, true];
-		if (side player isEqualTo West) then
-		{
-			B_activeFOBMarkers pushBackUnique _tempMarker;
-			publicVariable "B_activeFOBMarkers";
-		}
-		else
-		{
-			O_activeFOBMarkers pushBackUnique _tempMarker;
-			publicVariable "O_activeFOBMarkers";
-		};
-		
-		// Create warning trigger
-		_detectSide = switch (_object getVariable "fobSide") do
-		{
-			case EAST: {WEST};
-			case WEST: {EAST};
-		};
-		_hintSide = switch (_object getVariable "fobSide") do
-		{
-			case EAST: {EAST};
-			case WEST: {WEST};
-		};
-		_trg = createTrigger ["EmptyDetector", getPos _object];
-		_trg setTriggerArea [100, 100, 0, false];
-		_trg setTriggerActivation [str _detectSide, "PRESENT", true];
-		_trg setTriggerInterval 5;
-		_onAct = format ["if (side player isEqualTo %2) then { systemChat '%1 is under attack'};", _object getVariable "fobName", _hintSide];
-		_trg setTriggerStatements ["this", _onAct, ""];
-		_object setVariable ["fobTrigger", _trg];
-		
-		// Hint + sound
-		// Might be better to move this into the loop above
-		format ["A FOB has been built at %1 by %2", mapGridPosition _object, name _unit] remoteExec ["systemChat", side _unit];
-		"FD_Finish_F" remoteExec ["playSound", side _unit];
-		
-		// add destroy action to engs
-		[_object] remoteExec ["clash_fnc_createFOBAction", 0, true];
-	};
-	
-	// Finally
-	[_unit,_moneyToPay] call grad_lbm_fnc_addFunds;
+	// reward player for placing object
+	[_unit, _moneyToPay] call grad_lbm_fnc_addFunds;
 	_unitText = 
 	[
 		format
 		[ 
-			"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>%1 Built (+%2CR)</t>"
-			,_fortName,_moneyToPay
-		],-0.8,1.1,4,1,0.25,789
+			"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>%1 Built (+%2CR)</t>",
+			_fortName,
+			_moneyToPay
+		],
+		-0.8,1.1,4,1,0.25,789
 		
 	];
 	_unitText remoteExec ["BIS_fnc_dynamicText", _unit];
 	
-	// Play sound
+	// play sound
 	playSound _soundToPlay;
 	
 }] call CBA_fnc_addEventHandler;

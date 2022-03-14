@@ -1,61 +1,45 @@
-params["_FOB","_playerName"];
+// destroy fob, called by ace action, local to player with action
 
-// play ticking sound
-[_FOB,_playerName] spawn {
-	params["_FOB","_playerName"];
-	
-	_fobName = _FOB getVariable "fobName";
-	_fobRadius = _FOB getVariable "fobRadius";
-	_fobMarker =  _FOB getVariable "fobMarker";
-	_fobTrigger = _FOB getVariable "fobTrigger";
-	_spawnTodelete = _FOB getVariable "fobRespawn";
-	
-	_bNoti = format ["A charge has been rigged on %1 by %2",_fobName,_playerName];
-	_bNoti remoteExec ["systemChat"];
-	
-	// Remove action
-	[_FOB, 0, ["ACE_MainActions", "destroyFOB"]] call ace_interact_menu_fnc_removeActionFromObject;
-	
-	
-	//systemChat format ["_FOB: %1\n_spawn: %2",_FOB,_spawnTodelete];
-	[_FOB, "bombtick", 100] call CBA_fnc_globalSay3d;
+params ["_fob"];
 
-	uiSleep 30; // 30s countdown
-	// TODO: Sleep here during countdown that allows the bomb to be "defused"
-
-	// Big boom
-	"Bo_GBU12_LGB" createVehicle (getpos _FOB);
-	_FOB setDamage 1;
+// play ticking sound, blow up, delete fob, remove spawnpoint
+[_fob] spawn
+{
+	params ["_fob"];
 	
-	// Delete the warning trigger and markers
-	deleteVehicle _fobTrigger;
-	deleteMarker _fobMarker;
-	deleteMarker _fobRadius;
-
-	// Delete spawn point
-	_spawnTodelete call BIS_fnc_removeRespawnPosition;
-
-	// Send noti
-	_sString = format ["%1 has been destroyed",_FOB getVariable "fobName"];
-	_sString remoteExec ["systemChat",0];
+	private _name = name player;
 	
-	// Update arrays
-	if (side player isEqualTo WEST) then
-	{
-		B_activeFOBs deleteAt (B_activeFOBs find _fobMarker);
-		B_activeFOBMarkers deleteAt (B_activeFOBMarkers find _fobRadius);
-		publicVariable "B_activeFOBs";
-		publicVariable "B_activeFOBMarkers";
-	}
-	else
-	{
-		O_activeFOBs deleteAt (O_activeFOBs find _fobMarker);
-		O_activeFOBMarkers deleteAt (O_activeFOBMarkers find _fobRadius);
-		publicVariable "O_activeFOBs";
-		publicVariable "O_activeFOBMarkers";
-	};
+	// pull vars from object
+	_spawnPoint = _fob getVariable "clash_fobRespawn";
+	_fobSide = _fob getVariable "clash_fobSide";
+	_fobName = _fob getVariable "clash_fobName";
+	_trig = _fob getVariable "clash_fobTrigger";
+	_mkrIconStr =  _fob getVariable "clash_fobMkrIcon";
+	_mkrCircleStr = _fob getVariable "clash_fobMkrCircle";
 	
-	// cleanup fob wreck
-	uiSleep 180;
-	deleteVehicle _FOB;
+	// broadcast chat to all players
+	[format ["A charge has been rigged on %1 by %2", _fobName, _name]] remoteExec ["systemChat"];
+	
+	// remove "place charge" action
+	[_fob, 0, ["ACE_MainActions", "destroyFOB"]] remoteExec ["ace_interact_menu_fnc_removeActionFromObject"];
+	
+	// start 30 second ticking
+	[_fob, "bombtick", 200] call CBA_fnc_globalSay3d;
+	uiSleep 30;
+	
+	// to do: allow the bomb to be "defused"
+
+	// big boom
+	"Bo_GBU12_LGB" createVehicle (getpos _fob);
+	_fob setDamage 1;
+	
+	// delete the warning trigger and markers
+	deleteVehicle _trig;
+	[_fob, _fobName, false] remoteExec ["clash_fnc_handleFOBMarker", _fobSide];
+
+	// delete spawn point
+	_spawnPoint call BIS_fnc_removeRespawnPosition;
+
+	// broadcast notification
+	[format ["%1 has been destroyed", _fobName]] remoteExec ["systemChat", _fobSide];
 };

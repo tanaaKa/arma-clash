@@ -32,8 +32,7 @@ _destroyFOBAction =
 	_condition,
 	{},
 	[
-		_object,
-		(name player)
+		_object
 	],
 	{
 		[0,0,0]

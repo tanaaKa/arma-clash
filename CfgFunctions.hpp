@@ -13,7 +13,7 @@ class clash
 		class commanderSupports{};
 		class addHealBoxes{};
 		class heal{};
-		class createMarker{};
+		class handleFOBMarker{};
 		class createFOBAction{};
 	};
 };
