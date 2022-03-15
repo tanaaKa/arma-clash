@@ -15,5 +15,6 @@ class clash
 		class heal{};
 		class handleFOBMarker{};
 		class createFOBAction{};
+		class killEvents{};
 	};
 };

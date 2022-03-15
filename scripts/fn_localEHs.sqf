@@ -87,66 +87,53 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 	_build	// always returns true/false. T - can be built / F - cannot be built
 }] call ace_fortify_fnc_addDeployHandler;
 
-// Economy system for kills + kill messages
-player addEventHandler ["Killed", {
-	params ["_unit", "_killer", "_instigator", "_useEffects"];
-	_crew = [_instigator];
-	
-	// do nothing if self-kill
-	if ((_killer isEqualTo _unit) or (_instigator isEqualTo _unit)) exitWith {};
-	
-	// Check if vehicle, if so set instigator to the entire crew
-	if !(isNull objectParent _instigator) then {_crew = crew vehicle _instigator};
-	
-	// check for teamkill, if so remove money from killer(s)
-	if (side (group _unit) isEqualTo side (group _instigator)) then
+// saves instigator of last hit in case of kills on vehicles / target clicking respawn not recording real killer
+player addEventHandler
+[
+	"Hit",
 	{
+		params ["_unit", "_source", "_damage", "_instigator"];
+		// if hit was from real unit, record unit
+		if (!(_instigator isEqualTo _unit) and (_instigator isKindOf "CAManBase")) then
 		{
-			[_x, -100] call grad_lbm_fnc_addFunds;
-			_killerText = 
-			[ 
-				format  
-				[ 
-					"<t color='#B71900' font='PuristaBold' size = '0.6' shadow='1'>You teamkilled %1 (-100CR)</t>", 
-					name _unit
-				],-0.8,1.1,4,1,0.25,789
-			];
-			_killerText remoteExec ["BIS_fnc_dynamicText", _x];
-			"FD_CP_Clear_F" remoteExec ["playSound",_x];
-		} forEach _crew;
+			_unit setVariable ["clash_lastHitter", _instigator];
+		};
 	}
-	// else award money + msg to killer(s)
-	else
+];
+
+// runs kills tracker on respawn (no gaming the system, Godonan... last hit will still get credited)
+player addEventHandler
+[
+	"Respawn",
 	{
+		params ["_unit", "_corpse"];
+		// if there was a valid last hit in the past life not yet rewarded, credit hitter with kill
+		private _lastHitter = _unit getVariable ["clash_lastHitter", 0];
+		if !(_lastHitter isEqualTo 0) then
 		{
-			[_x, 100] call grad_lbm_fnc_addFunds;
-			_killerText =
-			[
-				format  
-				[ 
-					"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You killed %1 (+100CR)</t>", 
-					name _unit 
-				],-0.8,1.1,4,1,0.25,789
-			];
-			_killerText remoteExec ["BIS_fnc_dynamicText", _x];
-			"FD_CP_Clear_F" remoteExec ["playSound",_x];
-		} forEach _crew;
-	};
-	
-	// msg to self
-	_unitText = 
-	[ 
-		format  
-		[ 
-			"<t color='#FFD500' font='PuristaBold' size = '1' shadow='1'>You were killed by %1 from %2m</t>", 
-			name _instigator, _unit distance _instigator 
-		],-1,-1,4,1,0,790
-	];
-	_unitText remoteExec ["BIS_fnc_dynamicText", _unit];
-	
-	// Set money the player had on death
-	// moved to onPlayerKilled to cover for deaths other than killed EH
-}];
+			[_unit] spawn clash_fnc_killEvents;
+		};
+		// in any case, load money and loadout
+		_unit setUnitLoadout (_unit getVariable ["clash_loadout", []]);
+		[_unit, (profileNamespace getVariable "clash_aas_money")] call grad_lbm_fnc_setFunds;
+	}
+];
+
+// kills tracker
+player addEventHandler
+[
+	"Killed",
+	{
+		params ["_unit", "_killer", "_instigator", "_useEffects"];
+		// if kill was from real unit, record unit
+		if (!(_instigator isEqualTo _unit) and (_instigator isKindOf "CAManBase")) then
+		{
+			_unit setVariable ["clash_lastHitter", _instigator];
+		};
+		// perform kill events
+		[_unit] spawn clash_fnc_killEvents;
+	}
+];
 
 // EH to remove radios and fortify on death
 ["CAManBase", "Killed", {

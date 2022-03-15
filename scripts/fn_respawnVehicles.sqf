@@ -62,6 +62,21 @@ JST_fnc_addVehRespawnHandlers =
 {
 	params ["_veh"];
 	if (JST_debug) then {systemChat "Adding eventHandlers to respawned vehicle."};
+	// hit: record hitter
+	_veh addMPEventHandler
+	[
+		"MPHit",
+		{
+			params ["_unit", "_causedBy", "_damage", "_instigator"];
+			// do not run if not server
+			if !(isServer) exitWith {};
+			// record last hitter
+			if !(_unit isEqualTo _instigator) then
+			{
+				_veh setVariable ["clash_lastHitter", _instigator];
+			};
+		}
+	];
 	// killed: remove all handlers, start respawn loop
 	_veh addMPEventHandler
 	[
@@ -76,7 +91,7 @@ JST_fnc_addVehRespawnHandlers =
 			_unit removeAllMPEventHandlers "MPKilled";
 			[_unit, "Deleted"] remoteExec ["removeAllEventHandlers", 0];
 			[_unit, "GetIn"] remoteExec ["removeAllEventHandlers", 0];
-			[_unit, "Fired"] remoteExec ["removeAllEventHandlers", 0];
+			[_unit, "SeatSwitched"] remoteExec ["removeAllEventHandlers", 0];
 			// delete all attached objects
 			{
 				deleteVehicle _x;
@@ -84,41 +99,15 @@ JST_fnc_addVehRespawnHandlers =
 			// respawn on server
 			[_unit, _vehArray] remoteExec ["JST_fnc_vehRespawn", 2];
 	
-			// Award points to the vehicle killer
-			if (_instigator isEqualTo _unit) exitWith {};
-			if ((side _unit isEqualTo _killer) or (side _unit isEqualTo _instigator)) exitWith {};
-			_vehSide = getNumber(configfile >> "CfgVehicles" >> typeOf _veh >> "side");
-			switch (_vehSide) do {
-				case 0:
-				{
-					_vehSide = EAST;
-				};
-				case 1:
-				{
-					_vehSide = WEST;
-				};
+			// award points to the vehicle killer
+			
+			// if kill was from real unit, record unit
+			if (!(_instigator isEqualTo _unit) and (_instigator isKindOf "CAManBase")) then
+			{
+				_unit setVariable ["clash_lastHitter", _instigator];
 			};
-			if (side _instigator isNotEqualTo _vehSide) then {
-				[_instigator, 350] call grad_lbm_fnc_addFunds;
-				_killerText =
-				[
-					format  
-					[ 
-						"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Vehicle Killed (+350CR)</t>"
-					],-0.8,1.1,4,1,0.25,789
-				];
-				_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
-			} else {
-				[_instigator, -350] call grad_lbm_fnc_addFunds;
-				_killerText =
-				[
-					format  
-					[ 
-						"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Vehicle Teamkilled (-350CR)</t>"
-					],-0.8,1.1,4,1,0.25,789
-				];
-				_killerText remoteExec ["BIS_fnc_dynamicText", _instigator];
-			};
+			// perform kill events
+			[_unit] spawn clash_fnc_killEvents;
 		}
 	];
 	// deleted: remove all handlers, start respawn loop
@@ -135,7 +124,7 @@ JST_fnc_addVehRespawnHandlers =
 			_unit removeAllMPEventHandlers "MPKilled";
 			[_unit, "Deleted"] remoteExec ["removeAllEventHandlers", 0];
 			[_unit, "GetIn"] remoteExec ["removeAllEventHandlers", 0];
-			[_unit, "Fired"] remoteExec ["removeAllEventHandlers", 0];
+			[_unit, "SeatSwitched"] remoteExec ["removeAllEventHandlers", 0];
 			// delete all attached objects
 			{
 				deleteVehicle _x;
