@@ -10,6 +10,7 @@ class MissionSQM
 class CfgFunctions {
     #include "modules\grad-listBuymenu\cfgFunctions.hpp"
 	#include "modules\grad-moneymenu\cfgFunctions.hpp"
+	#include "modules\JST_Frontline\CfgFunctions.hpp"
 	#include "CfgFunctions.hpp"
 };
 

@@ -12,3 +12,6 @@ commTrigger enableSimulationGlobal true;
 
 // Bleed settings
 [[WEST,EAST], 0.6, 1, 15] call BIS_fnc_bleedTickets;
+
+// Frontline visualization, deactivated while still chasing minor bugs with it
+//[] execVM "modules\JST_Frontline\JST_FL_init.sqf";
