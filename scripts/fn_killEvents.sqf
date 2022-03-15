@@ -84,14 +84,22 @@ if (_killerSide isEqualTo _deadSide) then
 		// remove money
 		[_x, _reward * -1] call grad_lbm_fnc_addFunds;
 		// send message
-		[ 
+		/*[ 
 			format  
 			[ 
 				"<t color='#B71900' font='PuristaBold' size = '0.6' shadow='1'>You teamkilled %1 (-%2CR)</t>", 
 				_deadName,
 				_reward
 			],-0.8,1.1,4,1,0.25,789
-		] remoteExec ["BIS_fnc_dynamicText", _x];
+		] remoteExec ["BIS_fnc_dynamicText", _x];*/
+		[ 
+			format  
+			[ 
+				"You teamkilled %1 (-%2CR)!",
+				_deadName,
+				_reward
+			]
+		] remoteExec ["systemChat", _x];
 		// send sound
 		"FD_CP_Clear_F" remoteExec ["playSound", _x];
 	} forEach _killers;
@@ -107,13 +115,20 @@ else
 		// send money
 		[_x, _reward] call grad_lbm_fnc_addFunds;
 		// send message
-		[
+		/*[
 			format  
 			[ 
 				"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You killed %1 (+100CR)</t>", 
 				_deadName
 			],-0.8,1.1,4,1,0.25,789
-		] remoteExec ["BIS_fnc_dynamicText", _x];
+		] remoteExec ["BIS_fnc_dynamicText", _x];*/
+		[
+			format  
+			[ 
+				"You killed %1 (+100CR)", 
+				_deadName
+			]
+		] remoteExec ["systemChat", _x];
 		// send sound
 		"FD_CP_Clear_F" remoteExec ["playSound",_x];
 	} forEach _killers;
@@ -124,7 +139,7 @@ else
 // message to self if was man
 if (!_wasVehicle) then
 {
-	[
+	/*[
 		format  
 		[ 
 			"<t color='#FFD500' font='PuristaBold' size = '1' shadow='1'>You were %1 by %2 from %3m</t>", 
@@ -132,7 +147,16 @@ if (!_wasVehicle) then
 			_killerName,
 			_unit distance _lastHitter 
 		],-1,-1,4,1,0,790
-	] remoteExec ["BIS_fnc_dynamicText", _unit];
+	] remoteExec ["BIS_fnc_dynamicText", _unit];*/
+	[
+		format  
+		[ 
+			"You were %1 by %2 from %3m", 
+			_killType,
+			_killerName,
+			_unit distance _lastHitter 
+		]
+	] remoteExec ["systemChat", _unit];
 };
 
 // allow future kill events and reset last hitter (probably not necessary but I'm paranoid)
