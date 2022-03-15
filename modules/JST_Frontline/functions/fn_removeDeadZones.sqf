@@ -11,7 +11,7 @@ private _enemy2 = switch (_side) do {case WEST: {2}; case EAST: {0}; case INDEPE
 private _enemyPolys2 = switch (_side) do {case WEST: {_indPolys}; case EAST: {_bluPolys}; case INDEPENDENT: {_bluPolys}};
 
 // set main base pos based on side
-private _basePos = switch (_side) do {case WEST: {markerPos JST_bluBaseMkrStr}; case EAST: {markerPos JST_opfBaseMkrStr}; case INDEPENDENT: {markerPos JST_indBaseMkrStr}};
+private _basePos = switch (_side) do {case WEST: {markerPos JST_FL_bluBaseMkrStr}; case EAST: {markerPos JST_FL_opfBaseMkrStr}; case INDEPENDENT: {markerPos JST_FL_indBaseMkrStr}};
 
 // iterate through all polys of side
 for "_i" from ((count _polys) - 1) to 0 step -1 do

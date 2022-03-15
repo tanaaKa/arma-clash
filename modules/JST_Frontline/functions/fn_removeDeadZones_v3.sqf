@@ -12,7 +12,7 @@ private _enemy1polys = switch (_enemy1) do {case 0: {_bluBorders}; case 1: {_opf
 private _enemy2 = switch (_side) do {case 0: {2}; case 1: {0}; case 2: {0}};
 private _enemy2polys = switch (_enemy1) do {case 0: {_bluBorders}; case 1: {_opfBorders}; case 2: {_indBorders}};
 // set main base pos based on square's side
-private _basePos = switch (_side) do {case 0: {markerPos JST_bluBaseMkrStr}; case 1: {markerPos JST_opfBaseMkrStr}; case 2: {markerPos JST_indBaseMkrStr}};
+private _basePos = switch (_side) do {case 0: {markerPos JST_FL_bluBaseMkrStr}; case 1: {markerPos JST_FL_opfBaseMkrStr}; case 2: {markerPos JST_FL_indBaseMkrStr}};
 	
 // iterate through all borders
 for "_i" from ((count _borders) - 1) to 0 step -1 do

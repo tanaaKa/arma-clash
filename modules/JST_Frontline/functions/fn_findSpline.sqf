@@ -66,7 +66,7 @@ private _spline = [];
 	_pntB params ["_bX", "_bY"];
 	_pntC params ["_cX", "_cY"];
 	_pntD params ["_dX", "_dY"];
-	for "_t" from 0 to 1 step 0.1 do
+	for "_t" from 0 to 1 step 0.2 do
 	{
 		private _tX = (1-_t)^3*_aX + 3*(1-_t)^2*_t*_bX + 3*(1-_t)*_t^2*_cX + _t^3*_dX;
 		private _tY = (1-_t)^3*_aY + 3*(1-_t)^2*_t*_bY + 3*(1-_t)*_t^2*_cY + _t^3*_dY;

@@ -40,6 +40,6 @@ if (_side < 3) then
 	{
 		JST_hashMap set [_squareStr, [_side, _a select 1, _a select 2, _a select 3, _a select 4, _a select 5, _a select 6, _a select 7, _a select 8, _a select 9, _a select 10]];
 		_squareStr setMarkerColorLocal _mkrColorStr;
-		_squareStr setMarkerAlpha JST_shadingAlpha;
+		_squareStr setMarkerAlpha JST_FL_shadingAlpha;
 	};
 };

@@ -15,7 +15,7 @@ switch (_side) do
 			{
 				JST_hashMap set [_key, [0, _val select 1, _val select 2, _val select 3, _val select 4, _val select 5, _val select 6, _val select 7, _val select 8, _val select 9, _val select 10]];
 				_key setMarkerColorLocal "ColorBLUFOR";
-				_key setMarkerAlpha JST_shadingAlpha;
+				_key setMarkerAlpha JST_FL_shadingAlpha;
 			};
 		} forEach JST_hashMap;
 	};
@@ -28,7 +28,7 @@ switch (_side) do
 			{
 				JST_hashMap set [_key, [1, _val select 1, _val select 2, _val select 3, _val select 4, _val select 5, _val select 6, _val select 7, _val select 8, _val select 9, _val select 10]];
 				_key setMarkerColorLocal "ColorOPFOR";
-				_key setMarkerAlpha JST_shadingAlpha;
+				_key setMarkerAlpha JST_FL_shadingAlpha;
 			};
 		} forEach JST_hashMap;
 	};
@@ -41,7 +41,7 @@ switch (_side) do
 			{
 				JST_hashMap set [_key, [2, _val select 1, _val select 2, _val select 3, _val select 4, _val select 5, _val select 6, _val select 7, _val select 8, _val select 9, _val select 10]];
 				_key setMarkerColorLocal "ColorINDEPENDENT";
-				_key setMarkerAlpha JST_shadingAlpha;
+				_key setMarkerAlpha JST_FL_shadingAlpha;
 			};
 		} forEach JST_hashMap;
 	};

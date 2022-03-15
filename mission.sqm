@@ -8,18 +8,18 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=960;
+		nextID=993;
 	};
 	class MarkerIDProvider
 	{
-		nextID=13;
+		nextID=16;
 	};
 	class Camera
 	{
-		pos[]={11424.3,84.584404,4214.3633};
-		dir[]={-0.93159151,-0.14814472,-0.33201718};
-		up[]={-0.13954717,0.9889679,-0.049734633};
-		aside[]={-0.33572131,-1.398148e-007,0.94198585};
+		pos[]={11451.438,101.70522,4240.5337};
+		dir[]={-0.95110768,-0.25335428,-0.17665148};
+		up[]={-0.24909425,0.96737361,-0.046264865};
+		aside[]={-0.18260938,0,0.98318559};
 	};
 };
 binarizationWanted=0;
@@ -5588,7 +5588,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=105;
+		items=118;
 		class Item0
 		{
 			dataType="Logic";
@@ -5978,7 +5978,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo WEST) then {    hillTrigger enableSimulationGlobal true;   };  ";
+							value="if ((_this select 1) isEqualTo WEST) then { hillTrigger enableSimulationGlobal true}; ";
 						};
 					};
 				};
@@ -6382,7 +6382,7 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={10751.136,30.295105,4175.5171};
+				position[]={10750.625,30.19417,4175.3042};
 				angles[]={6.0438657,0,0.095713861};
 			};
 			areaSize[]={100,0,100};
@@ -6444,7 +6444,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo WEST) then {    milbaseTrigger enableSimulationGlobal false;   } else {   commTrigger enableSimulationGlobal false;  };   ";
+							value="if ((_this select 1) isEqualTo WEST) then { milbaseTrigger enableSimulationGlobal false;  commTrigger enableSimulationGlobal true} else {   commTrigger enableSimulationGlobal false;  milbaseTrigger enableSimulationGlobal true}; ";
 						};
 					};
 				};
@@ -6745,7 +6745,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo EAST) then {    hillTrigger enableSimulationGlobal true;   };   ";
+							value="if ((_this select 1) isEqualTo EAST) then {hillTrigger enableSimulationGlobal true}; ";
 						};
 					};
 				};
@@ -8242,7 +8242,7 @@ class Mission
 		class Item40
 		{
 			dataType="Trigger";
-			position[]={10751.93,30.458752,4175.875};
+			position[]={10752.108,30.434469,4175.7056};
 			class Attributes
 			{
 				name="hillTrigger";
@@ -21190,6 +21190,128 @@ class Mission
 				};
 				nAttributes=1;
 			};
+		};
+		class Item105
+		{
+			dataType="Marker";
+			position[]={10636.284,0,4089.1289};
+			name="JST_coverMap";
+			markerType="RECTANGLE";
+			type="";
+			alpha=0;
+			a=1800;
+			b=1000;
+			angle=339.19183;
+			id=960;
+			atlOffset=-25.271097;
+		};
+		class Item106
+		{
+			dataType="Marker";
+			position[]={9249.3477,0,2211.8809};
+			name="blu_border_1";
+			type="Empty";
+			id=961;
+			atlOffset=32.60284;
+		};
+		class Item107
+		{
+			dataType="Marker";
+			position[]={12779.018,0,3757.884};
+			name="opf_border_1";
+			type="Empty";
+			id=973;
+			atlOffset=72.059227;
+		};
+		class Item108
+		{
+			dataType="Marker";
+			position[]={10488.021,1.2768459,2711.2212};
+			name="blu_border_2";
+			type="Empty";
+			id=983;
+			atlOffset=32.60284;
+		};
+		class Item109
+		{
+			dataType="Marker";
+			position[]={10677.784,12.780888,3576.4487};
+			name="blu_border_3";
+			type="Empty";
+			id=984;
+			atlOffset=32.60284;
+		};
+		class Item110
+		{
+			dataType="Marker";
+			position[]={10799.693,9.904974,4712.4771};
+			name="blu_border_4";
+			type="Empty";
+			id=985;
+			atlOffset=32.60284;
+		};
+		class Item111
+		{
+			dataType="Marker";
+			position[]={10285.675,-2.9785156,5130.1304};
+			name="blu_border_5";
+			type="Empty";
+			id=986;
+			atlOffset=29.408619;
+		};
+		class Item112
+		{
+			dataType="Marker";
+			position[]={8484.9785,3.0457115,4471.2412};
+			name="blu_border_6";
+			type="Empty";
+			id=987;
+			atlOffset=32.60284;
+		};
+		class Item113
+		{
+			dataType="Marker";
+			position[]={11235.061,35.496799,3213.6338};
+			name="opf_border_2";
+			type="Empty";
+			id=988;
+			atlOffset=72.059227;
+		};
+		class Item114
+		{
+			dataType="Marker";
+			position[]={10679.873,52.122635,3576.2178};
+			name="opf_border_3";
+			type="Empty";
+			id=989;
+			atlOffset=72.059227;
+		};
+		class Item115
+		{
+			dataType="Marker";
+			position[]={10801.63,49.230453,4712.3545};
+			name="opf_border_4";
+			type="Empty";
+			id=990;
+			atlOffset=72.059227;
+		};
+		class Item116
+		{
+			dataType="Marker";
+			position[]={11071.213,38.08234,5392.5146};
+			name="opf_border_5";
+			type="Empty";
+			id=991;
+			atlOffset=72.059227;
+		};
+		class Item117
+		{
+			dataType="Marker";
+			position[]={12058.806,36.88998,5761.6484};
+			name="opf_border_6";
+			type="Empty";
+			id=992;
+			atlOffset=72.059227;
 		};
 	};
 	class Connections

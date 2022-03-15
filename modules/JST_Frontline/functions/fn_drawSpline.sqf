@@ -2,6 +2,9 @@
 
 params ["_spline", "_leftSide", "_rightSide"];
 
+// error check: if left and right side are the same, do nothing (must be a glitch!)
+if (_leftSide isEqualTo _rightSide) exitWith {};
+
 // left means + 270, right means + 90
 
 // set left/right side colors

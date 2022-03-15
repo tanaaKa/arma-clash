@@ -6,45 +6,43 @@
 // User inputs
 ////////////////////////////////////////////////////
 
-// cycle interval; recommend between 5 and 10 seconds depending on map size and playercount
-JST_FL_int = 5;
+// cycle interval; recommend between 5 and 15 seconds depending on map size and playercount
+JST_FL_int = 10;
 
 // map draw delay - time in seconds between a square being "taken" and it actually changing colors
 JST_FL_delay = 0;
 
 // whether to shade territory (border lines are drawn regardless)
 JST_FL_shading = true;
+JST_FL_shadingAlpha = 0.1;
 
 // border marker name prefixes; leave as "" if side not used
-JST_bluBorderStr = "blu_border_";
-JST_opfBorderStr = "opf_border_";
-JST_indBorderStr = "";
+JST_FL_bluBorderStr = "blu_border_";
+JST_FL_opfBorderStr = "opf_border_";
+JST_FL_indBorderStr = "";
 
 // main base marker names; leave as "" if side not used
-JST_bluBaseMkrStr = "respawn_west";
-JST_opfBaseMkrStr = "respawn_east";
-JST_indBaseMkrStr = "";
+JST_FL_bluBaseMkrStr = "respawn_west";
+JST_FL_opfBaseMkrStr = "respawn_east";
+JST_FL_indBaseMkrStr = "";
 
 // cover map marker name; should be exact geometrical duplicate of actual cover map module
-JST_coverMapStr = "JST_coverMap";
+JST_FL_coverMapStr = "JST_coverMap";
 
 // show debug hint
-JST_fl_debug = false;
+JST_FL_debug = false;
 
 ////////////////////////////////////////////////////
 // Operations
 ////////////////////////////////////////////////////
 
-// set territory shading alpha
-JST_shadingAlpha = if (JST_FL_shading) then {0.2} else {0};
-
 // calculate required length of historical position data to save on units based on map draw delay
 if (JST_FL_delay < 1) then {JST_FL_delay = 1};
-JST_historyLength = round (JST_FL_delay/JST_FL_int);
-if (JST_historyLength < 1) then {JST_historyLength = 1};
+JST_FL_historyLength = round (JST_FL_delay/JST_FL_int);
+if (JST_FL_historyLength < 1) then {JST_FL_historyLength = 1};
 
 // get AO data
-[JST_coverMapStr] call JST_fnc_getAO;
+[JST_FL_coverMapStr] call JST_fnc_getAO;
 
 // build hash map data structure containing basic data about every single 100m^2 grid in the AO
 [] call JST_fnc_initHashMap;
@@ -53,11 +51,11 @@ if (JST_historyLength < 1) then {JST_historyLength = 1};
 [] call JST_fnc_initMarkers;
 
 // draw starting territories
-[([JST_bluBorderStr] call JST_fnc_findStartPoly), WEST] call JST_fnc_setSideByPoly;
-[([JST_opfBorderStr] call JST_fnc_findStartPoly), EAST] call JST_fnc_setSideByPoly;
-[([JST_indBorderStr] call JST_fnc_findStartPoly), INDEPENDENT] call JST_fnc_setSideByPoly;
+[([JST_FL_bluBorderStr] call JST_fnc_findStartPoly), WEST] call JST_fnc_setSideByPoly;
+[([JST_FL_opfBorderStr] call JST_fnc_findStartPoly), EAST] call JST_fnc_setSideByPoly;
+[([JST_FL_indBorderStr] call JST_fnc_findStartPoly), INDEPENDENT] call JST_fnc_setSideByPoly;
 
-if (JST_fl_debug) then {systemChat "Initial draw done."};
+if (JST_FL_debug) then {systemChat "Initial draw done."};
 
 // start MAIN LOOP
 JST_FL_thread = [] spawn
@@ -82,7 +80,7 @@ JST_FL_thread = [] spawn
 			else
 			{
 				// pull location history from historyLength ago, if available, otherwise just update it and move on
-				if ((count _history) < JST_historyLength) then
+				if ((count _history) < JST_FL_historyLength) then
 				{
 					_history pushBack (getPos _x);
 					_x setVariable ["JST_unitHistory", _history];
@@ -169,17 +167,17 @@ JST_FL_thread = [] spawn
 		private _timeStop = time + 5;
 		while {((count _pntsBluBdrs) > 0) and (time < _timeStop)} do
 		{
-			[_bluBorders, _pntsBluBdrs] call JST_fnc_orderPoints_v3;
+			[_bluBorders, _pntsBluBdrs] call JST_fnc_orderPointsGrid;
 		};
 		_timeStop = time + 5;
 		while {((count _pntsOpfBdrs) > 0) and (time < _timeStop)} do
 		{
-			[_opfBorders, _pntsOpfBdrs] call JST_fnc_orderPoints_v3;
+			[_opfBorders, _pntsOpfBdrs] call JST_fnc_orderPointsGrid;
 		};
 		_timeStop = time + 5;
 		while {((count _pntsIndBdrs) > 0) and (time < _timeStop)} do
 		{
-			[_indBorders, _pntsIndBdrs] call JST_fnc_orderPoints_v3;
+			[_indBorders, _pntsIndBdrs] call JST_fnc_orderPointsGrid;
 		};
 		
 		private _time3 = diag_tickTime;
@@ -192,151 +190,20 @@ JST_FL_thread = [] spawn
 		private _time4 = diag_tickTime;
 		
 		// reduce border arrays down to frontline points only
-		// iterate through blu borders and remove points that are NOT shared with enemy borders (not included in the frontline)
-		for "_i" from ((count _bluBorders) - 1) to 0 step -1 do
-		{
-			private _bluBdr = _bluBorders select _i;
-			for "_k" from ((count _bluBdr) - 1) to 0 step -1 do
-			{
-				private _bluPnt = _bluBdr select _k;
-				private _shared = false;
-				// check against opf borders
-				{
-					if (_shared) exitWith {};
-					private _opfBdr = _x;
-					{
-						private _opfPnt = _x;
-						if (_bluPnt isEqualTo _opfPnt) exitWith {_shared = true};
-					} forEach _opfBdr;
-				} forEach _opfBorders;
-				// check against ind borders
-				{
-					if (_shared) exitWith {};
-					private _indBdr = _x;
-					{
-						private _indPnt = _x;
-						if (_bluPnt isEqualTo _indPnt) exitWith {_shared = true};
-					} forEach _indBdr;
-				} forEach _indBorders;
-				// if point not shared, remove from border
-				if (!_shared) then {_bluBdr deleteAt _k};
-			};
-		};
-		// iterate through opf borders and remove points that are NOT shared with enemy borders (not included in the frontline)
-		for "_i" from ((count _opfBorders) - 1) to 0 step -1 do
-		{
-			private _opfBdr = _opfBorders select _i;
-			for "_k" from ((count _opfBdr) - 1) to 0 step -1 do
-			{
-				private _opfPnt = _opfBdr select _k;
-				private _shared = false;
-				// check against blu borders
-				{
-					if (_shared) exitWith {};
-					private _bluBdr = _x;
-					{
-						private _bluPnt = _x;
-						if (_bluPnt isEqualTo _opfPnt) exitWith {_shared = true};
-					} forEach _bluBdr;
-				} forEach _bluBorders;
-				// check against ind borders
-				{
-					if (_shared) exitWith {};
-					private _indBdr = _x;
-					{
-						private _indPnt = _x;
-						if (_bluPnt isEqualTo _indPnt) exitWith {_shared = true};
-					} forEach _indBdr;
-				} forEach _indBorders;
-				// if point not shared, remove from border
-				if (!_shared) then {_opfBdr deleteAt _k};
-			};
-		};
-		// iterate through ind borders and remove points that are NOT shared with enemy borders (not included in the frontline)
-		for "_i" from ((count _indBorders) - 1) to 0 step -1 do
-		{
-			private _indBdr = _indBorders select _i;
-			for "_k" from ((count _indBdr) - 1) to 0 step -1 do
-			{
-				private _indPnt = _indBdr select _k;
-				private _shared = false;
-				// check against blu borders
-				{
-					if (_shared) exitWith {};
-					private _bluBdr = _x;
-					{
-						private _bluPnt = _x;
-						if (_bluPnt isEqualTo _indPnt) exitWith {_shared = true};
-					} forEach _bluBdr;
-				} forEach _bluBorders;
-				// check against opf borders
-				{
-					if (_shared) exitWith {};
-					private _opfBdr = _x;
-					{
-						private _opfPnt = _x;
-						if (_opfPnt isEqualTo _indPnt) exitWith {_shared = true};
-					} forEach _opfBdr;
-				} forEach _opfBorders;
-				// if point not shared, remove from border
-				if (!_shared) then {_indBdr deleteAt _k};
-			};
-		};
+		[_bluBorders, _opfBorders, _indBorders] call JST_fnc_removeDuplicatePoints; // tests blu against opf and ind
+		[_opfBorders, _bluBorders, _indBorders] call JST_fnc_removeDuplicatePoints;
+		[_indBorders, _opfBorders, _bluBorders] call JST_fnc_removeDuplicatePoints;
 		
 		// remove duplicate frontlines by checking if a point is shared between remaining border arrays
 		private _frontlines = [];
-		// remove blu borders that have a point shared by an opf or ind border, or if empty
-		for "_i" from ((count _bluBorders) - 1) to 0 step -1 do
+		[_bluBorders, _opfBorders, _indBorders, _frontlines] call JST_fnc_removeDuplicateArrays;
+		[_opfBorders, _bluBorders, _indBorders, _frontlines] call JST_fnc_removeDuplicateArrays;
+		[_indBorders, _bluBorders, _opfBorders, _frontlines] call JST_fnc_removeDuplicateArrays;
+		
+		// check and fix list of points starting/ending in their geographic middle
 		{
-			private _bluBdr = _bluBorders select _i;
-			// if empty, remove border from list of blu borders
-			if ((count _bluBdr) isEqualTo 0) then
-			{
-				_bluBorders deleteAt _i
-			}
-			else
-			{
-				// pick first point as arbitrary test point
-				private _bluPnt = _bluBdr select 0;
-				private _shared = false;
-				// iterate through opf borders
-				{
-					if (_bluPnt in _x) exitWith {_shared = true};
-				} forEach _opfBorders;
-				// iterate through ind borders
-				{
-					if (_bluPnt in _x) exitWith {_shared = true};
-				} forEach _indBorders;
-				// if point shared, delete border from list of blu borders, else add to frontlines
-				if (_shared) then {_bluBorders deleteAt _i} else {_frontlines pushBack _bluBdr};
-			};
-		};
-		// remove opf borders that have a point shared by an blu or ind border, or if empty
-		for "_i" from ((count _opfBorders) - 1) to 0 step -1 do
-		{
-			private _opfBdr = _opfBorders select _i;
-			// if empty, remove border from list of blu borders
-			if ((count _opfBdr) isEqualTo 0) then
-			{
-				_opfBorders deleteAt _i
-			}
-			else
-			{
-				// pick first point as arbitrary test point
-				private _opfPnt = _opfBdr select 0;
-				private _shared = false;
-				// iterate through blu borders
-				{
-					if (_opfPnt in _x) exitWith {_shared = true};
-				} forEach _bluBorders;
-				// iterate through ind borders
-				{
-					if (_opfPnt in _x) exitWith {_shared = true};
-				} forEach _indBorders;
-				// if point shared, delete border from list of blu borders, else add to frontlines
-				if (_shared) then {_opfBorders deleteAt _i} else {_frontlines pushBack _opfBdr};
-			};
-		};
+			[_x] call JST_fnc_orderPointsSpline;
+		} forEach _frontlines;
 		
 		private _time5 = diag_tickTime;
 		
@@ -378,7 +245,7 @@ JST_FL_thread = [] spawn
 		private _time7 = diag_tickTime;
 		
 		// debug reports
-		if (JST_fl_debug) then
+		if (JST_FL_debug) then
 		{
 			private _fps = diag_fps;
 			hintSilent parseText format 
