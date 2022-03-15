@@ -114,8 +114,8 @@ player addEventHandler
 			[_unit] spawn clash_fnc_killEvents;
 		};
 		// in any case, load money and loadout
-		_unit setUnitLoadout (_unit getVariable ["clash_loadout", []]);
-		[_unit, (profileNamespace getVariable "clash_aas_money")] call grad_lbm_fnc_setFunds;
+		player setUnitLoadout (profileNamespace getVariable ["clash_loadout", []]);
+		[player, (profileNamespace getVariable "clash_aas_money")] call grad_lbm_fnc_setFunds;
 	}
 ];
 

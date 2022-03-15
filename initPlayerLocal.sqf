@@ -17,7 +17,7 @@
 [] spawn clash_fnc_commanderSupports;
 
 // Save base loadout for respawn
-player setVariable ["clash_loadout", getUnitLoadout player];
+profileNamespace setVariable ["clash_loadout", getUnitLoadout player];
 
 // Disable carrying of buy pcs
 [bPC, false] call ace_dragging_fnc_setCarryable;
