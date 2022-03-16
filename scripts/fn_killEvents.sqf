@@ -125,8 +125,9 @@ else
 		[
 			format  
 			[ 
-				"You killed %1 (+100CR)", 
-				_deadName
+				"You killed %1 (+%2CR)", 
+				_deadName,
+				_reward
 			]
 		] remoteExec ["systemChat", _x];
 		// send sound

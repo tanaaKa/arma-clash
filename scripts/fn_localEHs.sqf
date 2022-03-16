@@ -93,10 +93,11 @@ player addEventHandler
 	"Hit",
 	{
 		params ["_unit", "_source", "_damage", "_instigator"];
-		// if hit was from real unit, record unit
+		// if hit was from real unit, record it
 		if (!(_instigator isEqualTo _unit) and (_instigator isKindOf "CAManBase")) then
 		{
 			_unit setVariable ["clash_lastHitter", _instigator];
+			if (JST_debug) then {[format ["%1 was hit by %2", _unit, _instigator]] remoteExec ["systemChat"]};
 		};
 	}
 ];
@@ -116,6 +117,7 @@ player addEventHandler
 		// in any case, load money and loadout
 		player setUnitLoadout (profileNamespace getVariable ["clash_loadout", []]);
 		[player, (profileNamespace getVariable "clash_aas_money")] call grad_lbm_fnc_setFunds;
+		if (JST_debug) then {["Respawn handler fired."] remoteExec ["systemChat"]};
 	}
 ];
 
@@ -132,6 +134,7 @@ player addEventHandler
 		};
 		// perform kill events
 		[_unit] spawn clash_fnc_killEvents;
+		if (JST_debug) then {[format ["%1 was killed by %2", _unit, _instigator]] remoteExec ["systemChat"]};
 	}
 ];
 

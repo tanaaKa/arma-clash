@@ -71,9 +71,10 @@ JST_fnc_addVehRespawnHandlers =
 			// do not run if not server
 			if !(isServer) exitWith {};
 			// record last hitter
-			if !(_unit isEqualTo _instigator) then
+			if (!(_instigator isEqualTo _unit) and (_instigator isKindOf "CAManBase")) then
 			{
-				_veh setVariable ["clash_lastHitter", _instigator];
+				_unit setVariable ["clash_lastHitter", _instigator];
+				if (JST_debug) then {[format ["%1 was hit by %2", _unit, _instigator]] remoteExec ["systemChat"]};
 			};
 		}
 	];
@@ -98,7 +99,7 @@ JST_fnc_addVehRespawnHandlers =
 			} forEach (attachedObjects _unit);
 			// respawn on server
 			[_unit, _vehArray] remoteExec ["JST_fnc_vehRespawn", 2];
-	
+
 			// award points to the vehicle killer
 			
 			// if kill was from real unit, record unit
@@ -108,6 +109,7 @@ JST_fnc_addVehRespawnHandlers =
 			};
 			// perform kill events
 			[_unit] spawn clash_fnc_killEvents;
+			if (JST_debug) then {[format ["%1 was killed by %2", _unit, _instigator]] remoteExec ["systemChat"]};
 		}
 	];
 	// deleted: remove all handlers, start respawn loop
