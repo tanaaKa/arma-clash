@@ -312,8 +312,7 @@ player addEventHandler
 					private _disMap = round ((markerPos "respawn_west") distance2D (markerPos "respawn_east"));
 					private _reward = linearConversion [0, _disMap, _disPax, 0, 200, true];
 					// reward driver
-					[driver _vehicle, _reward] call grad_lbm_fnc_addFunds;
-					_driverText =
+					/*[driver _vehicle, _reward] call grad_lbm_fnc_addFunds;
 					[
 						format  
 						[ 
@@ -322,8 +321,8 @@ player addEventHandler
 							_disPax,
 							_reward
 						],-0.8,1.1,4,1,0.25,789
-					];
-					_driverText remoteExec ["BIS_fnc_dynamicText", driver _vehicle];
+					]  remoteExec ["BIS_fnc_dynamicText", driver _vehicle];*/
+					[format ["You transported %1 %2m (+%3CR)", name _unit, _disPax, _reward]] remoteExec ["systemChat", driver _vehicle];
 					"FD_CP_Clear_F" remoteExec ["playSound", driver _vehicle];
 					// reset data
 					CLASH_getInData = 0;

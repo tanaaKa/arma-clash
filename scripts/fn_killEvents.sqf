@@ -149,17 +149,16 @@ if (!_wasVehicle) then
 			_unit distance _lastHitter 
 		],-1,-1,4,1,0,790
 	] remoteExec ["BIS_fnc_dynamicText", _unit];*/
-	[
-		format  
+
+	systemChat format  
 		[ 
 			"You were %1 by %2 from %3m", 
 			_killType,
 			_killerName,
 			_unit distance _lastHitter 
 		]
-	] remoteExec ["systemChat", _unit];
 };
 
 // allow future kill events and reset last hitter (probably not necessary but I'm paranoid)
-_unit setVariable ["clash_lastHitter", 0];
-_unit setVariable ["clash_killEventsRunning", false];
+player setVariable ["clash_lastHitter", 0];
+player setVariable ["clash_killEventsRunning", false];
