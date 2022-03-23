@@ -29,7 +29,7 @@ JST_FL_indBaseMkrStr = "";
 // cover map marker name; should be exact geometrical duplicate of actual cover map module
 JST_FL_coverMapStr = "JST_coverMap";
 
-// show debug hint
+// show debug stuff
 JST_FL_debug = false;
 
 ////////////////////////////////////////////////////
@@ -200,10 +200,25 @@ JST_FL_thread = [] spawn
 		[_opfBorders, _bluBorders, _indBorders, _frontlines] call JST_fnc_removeDuplicateArrays;
 		[_indBorders, _bluBorders, _opfBorders, _frontlines] call JST_fnc_removeDuplicateArrays;
 		
+		// debug frontlines
+		[] call JST_fnc_resetDebugMarkers;
+		if (JST_FL_debug) then
+		{
+			[_frontlines, "COLORBLACK"] call JST_fnc_debugPoints;
+			["Showing _frontline points pre-ordering..."] remoteExec ["systemChat", 0];
+		};
+		
 		// check and fix list of points starting/ending in their geographic middle
 		{
 			[_x] call JST_fnc_orderPointsSpline;
 		} forEach _frontlines;
+		
+		// debug frontlines
+		if (JST_FL_debug) then
+		{
+			[_frontlines, "COLORYELLOW"] call JST_fnc_debugPoints;
+			["Showing _frontline points post-ordering..."] remoteExec ["systemChat", 0];
+		};
 		
 		private _time5 = diag_tickTime;
 		

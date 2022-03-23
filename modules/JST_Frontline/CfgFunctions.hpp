@@ -4,6 +4,7 @@ class JST
 	{
         file = "modules\JST_Frontline\functions";
         class checkSquare {};
+		class debugPoints {};
         class drawLine {};
         class drawPoly {};
         class drawSpline {};
@@ -23,6 +24,7 @@ class JST
         class removeDeadZones_v3 {};
 		class removeDuplicatePoints {};
 		class removeDuplicateArrays {};
+		class resetDebugMarkers {};
         class setSideByPoly {};
         class testIfSamePoints {};
         class testIfSamePolys {};

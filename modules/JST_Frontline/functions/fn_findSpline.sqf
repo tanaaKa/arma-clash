@@ -1,17 +1,27 @@
-// find spline curve that intersects all points of given poly by breaking poly into a series of cubic bezier curves
+// find spline curve that intersects all points of given frontline by breaking it into a series of cubic bezier curves
 // uses resolution _t; _t = 0.1 means function will return 10 times the number of input points, 0.2 = 5 times, etc.
 
-params ["_poly"];
+params ["_frontline"];
+
+// error checks:
+private _pnt1 = _frontline select 0;
+private _pnt2 = _frontline select 1;
+private _pnt3 = _frontline select ((count _frontline) - 2);
+private _pnt4 = _frontline select ((count _frontline) - 1);
+//	if first point and second point are > 150m apart, remove first point
+if ((_pnt1 distance2D _pnt2) > 150) then {_frontline deleteAt 0};
+// if second to last point and last point are > 150m apart, remove last point
+if ((_pnt3 distance2D _pnt4) > 150) then {_frontline deleteAt ((count _frontline) - 1)};
 
 // find bezier curve control points for the poly points
-private _polyCPs = [];
+private _frontlineCPs = [];
 {
 	private _pnt = _x;
 	// if not first or last point (most points)
-	if ((_forEachIndex > 0) and (_forEachIndex < ((count _poly) - 1))) then
+	if ((_forEachIndex > 0) and (_forEachIndex < ((count _frontline) - 1))) then
 	{
-		private _pntL = _poly select (_forEachIndex - 1);
-		private _pntR = _poly select (_forEachIndex + 1);
+		private _pntL = _frontline select (_forEachIndex - 1);
+		private _pntR = _frontline select (_forEachIndex + 1);
 		// calculate left control point
 		private _cpDisL = (_pntR distance2D _pntL)/3;
 		private _cpDirL = _pntR getDir _pntL;
@@ -21,30 +31,30 @@ private _polyCPs = [];
 		private _cpDirR = _pntL getDir _pntR;
 		private _cpR = _pnt getPos [_cpDisR, _cpDirR];
 		// add control points into new poly array
-		_polyCPs pushBack [_pnt, _cpL, _cpR];
+		_frontlineCPs pushBack [_pnt, _cpL, _cpR];
 	}
 	else
 	{
 		// if first point
 		if (_forEachIndex isEqualTo 0) then
 		{
-			private _pntR = _poly select 1;
+			private _pntR = _frontline select 1;
 			private _cpDis = (_pnt distance2D _pntR)/3;
 			private _cpDir = _pnt getDir _pntR;
 			private _cp = _pnt getPos [_cpDis, _cpDir];
-			_polyCPs pushBack [_pnt, nil, _cp];
+			_frontlineCPs pushBack [_pnt, nil, _cp];
 		}
 		// if last point
 		else
 		{
-			private _pntL = _poly select (_forEachIndex - 1);
+			private _pntL = _frontline select (_forEachIndex - 1);
 			private _cpDis = (_pnt distance2D _pntL)/3;
 			private _cpDir = _pnt getDir _pntL;
 			private _cp = _pnt getPos [_cpDis, _cpDir];
-			_polyCPs pushBack [_pnt, _cp, nil];
+			_frontlineCPs pushBack [_pnt, _cp, nil];
 		};
 	};
-} forEach _poly;
+} forEach _frontline;
 
 // build array of cubic bezier curves that make up the poly
 private _cubicBeziers = [];
@@ -53,10 +63,10 @@ private _cubicBeziers = [];
 	if (_forEachIndex > 0) then
 	{
 		private _pnt = _x;
-		_previousPnt = _polyCPs select (_forEachIndex - 1);
+		_previousPnt = _frontlineCPs select (_forEachIndex - 1);
 		_cubicBeziers pushBack [_previousPnt select 0, _previousPnt select 2, _pnt select 1, _pnt select 0];
 	};
-} forEach _polyCPs;
+} forEach _frontlineCPs;
 
 // create large array of points along spline describing the bezier curves for drawing
 private _spline = [];
