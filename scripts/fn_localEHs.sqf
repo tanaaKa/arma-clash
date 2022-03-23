@@ -102,6 +102,7 @@ player addEventHandler
 	}
 ];
 
+/*
 // runs kills tracker on respawn (no gaming the system, Godonan... last hit will still get credited)
 player addEventHandler
 [
@@ -120,6 +121,7 @@ player addEventHandler
 		if (JST_debug) then {["Respawn handler fired."] remoteExec ["systemChat"]};
 	}
 ];
+*/
 
 // kills tracker
 player addEventHandler
