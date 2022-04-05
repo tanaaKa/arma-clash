@@ -17,23 +17,7 @@ BEGIN USER CONFIG
 */
 
 // input all vehicles to respawn in format [vehName, crew restricted boolean, timer]
-CCO_vehs =
-[
-	[bifv1,		true,		(15*60)],
-	[bifv2,		true,		(15*60)],
-	[o_ah,		true,		(15*60)],
-	[o_th,		true,		(5*60)],
-	[oifv1,		true,		(15*60)],
-	[oifv2,		true,		(15*60)],
-	[b_ah,		true,		(15*60)],
-	[b_th,		true,		(5*60)],
-	[btruck1,	false,		(5*60)],
-	[btruck2,	false,		(5*60)],
-	[btruck3,	false,		(5*60)],
-	[otruck1,	false,		(5*60)],
-	[otruck2,	false,		(5*60)],
-	[otruck3,	false,		(5*60)]
-];
+#include "vehicles_island.hpp"
 
 // input allowed crew classes for GROUND vehicles
 AllowedGroundCrew =
@@ -53,7 +37,7 @@ END USER CONFIG
 */
 
 // temp workaround until I find a smarter, server-only way of handling crew restrictions
-publicVariable "CCO_vehs";
+publicVariable "Clash_vehs";
 publicVariable "AllowedGroundCrew";
 publicVariable "AllowedAirCrew";
 
@@ -87,7 +71,7 @@ JST_fnc_addVehRespawnHandlers =
 			// do not run if not server
 			if !(isServer) exitWith {};
 			// pull data
-			private _vehArray = _unit getVariable "CCO_vehArray";
+			private _vehArray = _unit getVariable "Clash_vehArray";
 			// remove all event handlers
 			_unit removeAllMPEventHandlers "MPKilled";
 			[_unit, "Deleted"] remoteExec ["removeAllEventHandlers", 0];
@@ -121,7 +105,7 @@ JST_fnc_addVehRespawnHandlers =
 			// do not run if not server
 			if !(isServer) exitWith {};
 			// pull data
-			private _vehArray = _unit getVariable "CCO_vehArray";
+			private _vehArray = _unit getVariable "Clash_vehArray";
 			// remove all event handlers
 			_unit removeAllMPEventHandlers "MPKilled";
 			[_unit, "Deleted"] remoteExec ["removeAllEventHandlers", 0];
@@ -251,7 +235,7 @@ JST_fnc_vehRespawn =
 	};
 	["RespawnVehicle",[getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "displayName"),"MAIN",getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "picture")]] remoteExec ["BIS_fnc_showNotification",_side];
 	// save respawn data onto vehicle
-	_unitVar setVariable ["CCO_vehArray", _vehArray, true];
+	_unitVar setVariable ["Clash_vehArray", _vehArray, true];
 	// add handlers
 	[_unitVar] spawn JST_fnc_addVehRespawnHandlers;
 	// add to zeuses
@@ -305,9 +289,9 @@ waitUntil {time > 3};
 	} forEach (attachedObjects _unitVar);
 	// store data on vehicle
 	private _vehArray = [_unitVar, _restricted, _time, _pos, [_vDir, _vUp], _class, _config, _name, _attObjs];
-	_unitVar setVariable ["CCO_vehArray", _vehArray, true];
+	_unitVar setVariable ["Clash_vehArray", _vehArray, true];
 	// add handlers
 	[_unitVar] call JST_fnc_addVehRespawnHandlers;
 	// short sleep to avoid overload
 	UIsleep 0.25;
-} forEach CCO_vehs;
+} forEach Clash_vehs;
