@@ -18,7 +18,7 @@ params ["_fob"];
 	_mkrCircleStr = _fob getVariable "clash_fobMkrCircle";
 	
 	// broadcast chat to all players
-	[format ["A charge has been rigged on %1 by %2", _fobName, _name]] remoteExec ["systemChat"];
+	[format ["A charge has been rigged on FOB%1 by %2", _fobName, _name]] remoteExec ["systemChat"];
 	
 	// remove "place charge" action
 	[_fob, 0, ["ACE_MainActions", "destroyFOB"]] remoteExec ["ace_interact_menu_fnc_removeActionFromObject"];
@@ -48,5 +48,5 @@ params ["_fob"];
 	_spawnPoint call BIS_fnc_removeRespawnPosition;
 
 	// broadcast notification
-	[format ["%1 has been destroyed", _fobName]] remoteExec ["systemChat", _fobSide];
+	[format ["FOB%1 has been destroyed", _fobName]] remoteExec ["systemChat", _fobSide];
 };

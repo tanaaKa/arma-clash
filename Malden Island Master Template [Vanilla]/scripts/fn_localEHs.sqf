@@ -228,8 +228,11 @@ player addEventHandler
 			// create spawnpoint
 			private _spawnPoint = [_fobSide, getPos _object] call BIS_fnc_addRespawnPosition;
 			
-			// create name str based on who created it
-			private _fobName = format ["FOB %1", name _unit];
+			// select random name for the FOB
+			private _id = random ((count clash_fobNames) - 1);
+			private _fobName = clash_fobNames select _id;
+			clash_fobNames deleteAt _id;
+			publicVariable "clash_fobNames";
 			
 			// set invincible, can only be destroyed by certain units
 			_object allowDamage false;
@@ -242,14 +245,14 @@ player addEventHandler
 			_trg setTriggerArea [100, 100, 0, false];
 			_trg setTriggerActivation [str _enemySide, "PRESENT", true];
 			_trg setTriggerInterval 3;
-			private _onAct = format ["if (side player isEqualTo %1) then {systemChat 'Enemies near %2!'};", _fobSide, _fobName];
+			private _onAct = format ["if (side player isEqualTo %1) then {systemChat 'Enemies near FOB%2!'};", _fobSide, _fobName];
 			_trg setTriggerStatements ["this", _onAct, ""];
 			
 			// save vars onto the fob for later use by other clients
-			_object setVariable ["clash_fobRespawn", _spawnPoint];
-			_object setVariable ["clash_fobSide", _fobSide];
-			_object setVariable ["clash_fobName", _fobName];
-			_object setVariable ["clash_fobTrigger", _trg];
+			_object setVariable ["clash_fobRespawn", _spawnPoint, true];
+			_object setVariable ["clash_fobSide", _fobSide, true];
+			_object setVariable ["clash_fobName", _fobName, true];
+			_object setVariable ["clash_fobTrigger", _trg, true];
 			
 			// broadcast hint and sound to fob side
 			format ["A FOB has been built by %1", name _unit] remoteExec ["systemChat", _fobSide];

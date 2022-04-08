@@ -28,6 +28,12 @@ JST_fnc_serviceVehicles =
 				{
 					["Shut down and get out to receive vehicle service."] remoteExec ["systemChat", _x];
 				} forEach _crew;
+				{
+					if !(alive _x) then
+					{
+						_veh deleteVehicleCrew _x;
+					};
+				} forEach _crew;
 				private _timeStop = time + 15;
 				waitUntil {(time >= _timeStop) or (!(isEngineOn _veh) and ((count crew _veh) isEqualTo 0))};
 				if (time >= _timeStop) exitWith

@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={5762.6504,127.53808,8701.5};
-		dir[]={-0.67362535,-0.45249826,0.58438492};
-		up[]={-0.34180972,0.89176297,0.2965273};
-		aside[]={0.65530783,-8.7427907e-008,0.75537932};
+		pos[]={6056.791,112.13477,10374.383};
+		dir[]={-0.16031304,-0.4524515,0.8772614};
+		up[]={-0.081335239,0.89178896,0.44508088};
+		aside[]={0.98370951,0,0.17976566};
 	};
 };
 binarizationWanted=0;
@@ -63,6 +63,7 @@ addons[]=
 	"ace_explosives",
 	"A3_Weapons_F_Explosives",
 	"ace_trenches",
+	"A3_Weapons_F_Items",
 	"rhs_c_troops",
 	"potato_aiCfgFixes",
 	"rhs_sounds",
@@ -12390,6 +12391,25 @@ class Mission
 							{
 								typeName="B_AssaultPack_cbr";
 								isBackpack=1;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="SatchelCharge_Remote_Mag";
+										count=1;
+										ammoLeft=1;
+									};
+								};
+								class ItemCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="ToolKit";
+										count=1;
+									};
+								};
 							};
 							map="ItemMap";
 							compass="ItemCompass";
@@ -12508,6 +12528,25 @@ class Mission
 							{
 								typeName="B_AssaultPack_cbr";
 								isBackpack=1;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="SatchelCharge_Remote_Mag";
+										count=1;
+										ammoLeft=1;
+									};
+								};
+								class ItemCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="ToolKit";
+										count=1;
+									};
+								};
 							};
 							map="ItemMap";
 							compass="ItemCompass";
@@ -12626,6 +12665,25 @@ class Mission
 							{
 								typeName="B_AssaultPack_cbr";
 								isBackpack=1;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="SatchelCharge_Remote_Mag";
+										count=1;
+										ammoLeft=1;
+									};
+								};
+								class ItemCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="ToolKit";
+										count=1;
+									};
+								};
 							};
 							map="ItemMap";
 							compass="ItemCompass";
@@ -12744,6 +12802,25 @@ class Mission
 							{
 								typeName="B_AssaultPack_cbr";
 								isBackpack=1;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="SatchelCharge_Remote_Mag";
+										count=1;
+										ammoLeft=1;
+									};
+								};
+								class ItemCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="ToolKit";
+										count=1;
+									};
+								};
 							};
 							map="ItemMap";
 							compass="ItemCompass";
@@ -12862,6 +12939,25 @@ class Mission
 							{
 								typeName="B_AssaultPack_cbr";
 								isBackpack=1;
+								class MagazineCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="SatchelCharge_Remote_Mag";
+										count=1;
+										ammoLeft=1;
+									};
+								};
+								class ItemCargo
+								{
+									items=1;
+									class Item0
+									{
+										name="ToolKit";
+										count=1;
+									};
+								};
 							};
 							map="ItemMap";
 							compass="ItemCompass";
@@ -16877,6 +16973,20 @@ class Mission
 										ammoLeft=30;
 									};
 								};
+								class ItemCargo
+								{
+									items=2;
+									class Item0
+									{
+										name="ACE_EntrenchingTool";
+										count=1;
+									};
+									class Item1
+									{
+										name="ACE_Fortify";
+										count=1;
+									};
+								};
 							};
 							class backpack
 							{
@@ -16894,15 +17004,10 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=2;
+									items=1;
 									class Item0
 									{
-										name="ACE_EntrenchingTool";
-										count=1;
-									};
-									class Item1
-									{
-										name="ACE_Fortify";
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -17021,6 +17126,20 @@ class Mission
 										ammoLeft=30;
 									};
 								};
+								class ItemCargo
+								{
+									items=2;
+									class Item0
+									{
+										name="ACE_EntrenchingTool";
+										count=1;
+									};
+									class Item1
+									{
+										name="ACE_Fortify";
+										count=1;
+									};
+								};
 							};
 							class backpack
 							{
@@ -17038,15 +17157,10 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=2;
+									items=1;
 									class Item0
 									{
-										name="ACE_EntrenchingTool";
-										count=1;
-									};
-									class Item1
-									{
-										name="ACE_Fortify";
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -17165,6 +17279,20 @@ class Mission
 										ammoLeft=30;
 									};
 								};
+								class ItemCargo
+								{
+									items=2;
+									class Item0
+									{
+										name="ACE_EntrenchingTool";
+										count=1;
+									};
+									class Item1
+									{
+										name="ACE_Fortify";
+										count=1;
+									};
+								};
 							};
 							class backpack
 							{
@@ -17182,15 +17310,10 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=2;
+									items=1;
 									class Item0
 									{
-										name="ACE_EntrenchingTool";
-										count=1;
-									};
-									class Item1
-									{
-										name="ACE_Fortify";
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -17309,6 +17432,20 @@ class Mission
 										ammoLeft=30;
 									};
 								};
+								class ItemCargo
+								{
+									items=2;
+									class Item0
+									{
+										name="ACE_EntrenchingTool";
+										count=1;
+									};
+									class Item1
+									{
+										name="ACE_Fortify";
+										count=1;
+									};
+								};
 							};
 							class backpack
 							{
@@ -17326,15 +17463,10 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=2;
+									items=1;
 									class Item0
 									{
-										name="ACE_EntrenchingTool";
-										count=1;
-									};
-									class Item1
-									{
-										name="ACE_Fortify";
+										name="ToolKit";
 										count=1;
 									};
 								};
@@ -17453,6 +17585,20 @@ class Mission
 										ammoLeft=30;
 									};
 								};
+								class ItemCargo
+								{
+									items=2;
+									class Item0
+									{
+										name="ACE_EntrenchingTool";
+										count=1;
+									};
+									class Item1
+									{
+										name="ACE_Fortify";
+										count=1;
+									};
+								};
 							};
 							class backpack
 							{
@@ -17470,15 +17616,10 @@ class Mission
 								};
 								class ItemCargo
 								{
-									items=2;
+									items=1;
 									class Item0
 									{
-										name="ACE_EntrenchingTool";
-										count=1;
-									};
-									class Item1
-									{
-										name="ACE_Fortify";
+										name="ToolKit";
 										count=1;
 									};
 								};
