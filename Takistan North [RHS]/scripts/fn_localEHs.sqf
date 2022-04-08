@@ -19,7 +19,7 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 	};
 	
 	// Search for fob building within x meters
-	private _nearestFobs = nearestObjects [_unit, [FOBOBJECT], 600];
+	private _nearestFobs = nearestObjects [_unit, [FOBOBJECT], 500];
 	// remove from list if dead because nearestObjects finds dead objects for a while
 	for "_i" from ((count _nearestFobs) - 1) to 0 step -1 do
 	{
@@ -28,24 +28,38 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 			_nearestFobs deleteAt _i;
 		};
 	};
-	// Check if FOB is placeable
-	// True - no fob within 300m - therefore placeable
-	// False - 1 or more fobs within 300m - therefore not placeable
+	// Check if FOB is in a legal location (not near another FOB)
+	// True - no fob within 500m - therefore placeable
+	// False - 1 or more fobs within 500m - therefore not placeable
 	// We have to subtract 1 because it counts the current object we're trying to place (lmao)
-	private _fobBuildable = ((count _nearestFobs - 1) isEqualTo 0);
+	private _notNearOtherFOB = ((count _nearestFobs - 1) isEqualTo 0);
+	// only allow 2 FOBs to exist at a time
+	if (isNil "Clash_bluFobCount") then {Clash_bluFobCount = 0};
+	if (isNil "Clash_opfFobCount") then {Clash_opfFobCount = 0};
+	private _notAtFobLimit = switch (side player) do
+	{
+		case WEST: {if (Clash_bluFobCount < 2) then {true} else {false}};
+		case EAST: {if (Clash_opfFobCount < 2) then {true} else {false}};
+	};
 	private _nearFOB = (count (nearestObjects [_unit, [FOBOBJECT], 100])) > 0; // Build only around fobs
 	private _fobSide = (_nearestFobs select 0 getVariable "fobSide");
 	
-	if (_isEngineer && typeOf _object isEqualTo FOBOBJECT && _fobBuildable && !_inSpawn) then {
+	if (_isEngineer && typeOf _object isEqualTo FOBOBJECT && _notNearOtherFOB && _notAtFobLimit && !_inSpawn) then {
 		_build = true; // make it placeable
 		
 		// Rest of the FOB code is down below in the FOB EH
 	};
 	
-	if (typeOf _object isEqualTo FOBOBJECT && !_fobBuildable) then {
+	if (typeOf _object isEqualTo FOBOBJECT && !_notNearOtherFOB) then {
 		_build = false;
 		playsound "Hint3";
-		systemChat "Cannot build. There is already a FOB within 600m of here.";
+		systemChat "Cannot build. There is a friendly or enemy FOB within 500m. Build farther away from it.";
+	};
+	
+	if (typeOf _object isEqualTo FOBOBJECT && !_notAtFobLimit) then {
+		_build = false;
+		playsound "Hint3";
+		systemChat "Cannot build. Only two friendly FOBs can exist at a time. Destroy an existing FOB to build another.";
 	};
 	
 	if (_isEngineer && _inSpawn) then {	// Disable building in spawns
@@ -69,13 +83,13 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 	if (_isEngineer && _fobSide isNotEqualTo side _unit) then {
 		_build = false; 
 		playsound "Hint3";
-		systemChat "You cannot build at an enemy FOB";
+		systemChat "You cannot build near an enemy FOB.";
 	};
 	
 	if (_isEngineer && !_heightCheck) then {
 		_build = false; 
 		playsound "Hint3";
-		systemChat "You cannot build floating objects";
+		systemChat "You cannot build floating objects.";
 	};
 	
 	// I really hate how I have to do this but there's so many fucking variables to check for
@@ -204,6 +218,13 @@ player addEventHandler
 				case WEST: {EAST};
 			};
 			
+			// increase side FOB count
+			switch (_fobSide) do
+			{
+				case WEST: {Clash_bluFobCount = Clash_bluFobCount + 1; publicVariable "Clash_bluFobCount"};
+				case EAST: {Clash_opfFobCount = Clash_opfFobCount + 1; publicVariable "Clash_opfFobCount"};
+			};
+			
 			// create spawnpoint
 			private _spawnPoint = [_fobSide, getPos _object] call BIS_fnc_addRespawnPosition;
 			
@@ -314,16 +335,13 @@ player addEventHandler
 					private _disMap = round ((markerPos "respawn_west") distance2D (markerPos "respawn_east"));
 					private _reward = linearConversion [0, _disMap, _disPax, 0, 200, true];
 					// reward driver
-					/*[driver _vehicle, _reward] call grad_lbm_fnc_addFunds;
+					[driver _vehicle, _reward] call grad_lbm_fnc_addFunds;
 					[
 						format  
 						[ 
-							"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>You transported %1 %2m(+%3CR)</t>", 
-							name _unit,
-							_disPax,
-							_reward
+							"<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>Credits awarded for transport!</t>"
 						],-0.8,1.1,4,1,0.25,789
-					]  remoteExec ["BIS_fnc_dynamicText", driver _vehicle];*/
+					]  remoteExec ["BIS_fnc_dynamicText", driver _vehicle];
 					[format ["You transported %1 %2m (+%3CR)", name _unit, _disPax, _reward]] remoteExec ["systemChat", driver _vehicle];
 					"FD_CP_Clear_F" remoteExec ["playSound", driver _vehicle];
 					// reset data

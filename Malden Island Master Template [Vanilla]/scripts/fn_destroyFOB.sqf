@@ -33,6 +33,13 @@ params ["_fob"];
 	"Bo_GBU12_LGB" createVehicle (getpos _fob);
 	_fob setDamage 1;
 	
+	// decrease side FOB count
+	switch (_fobSide) do
+	{
+		case WEST: {Clash_bluFobCount = Clash_bluFobCount - 1; publicVariable "Clash_bluFobCount"};
+		case EAST: {Clash_opfFobCount = Clash_opfFobCount - 1; publicVariable "Clash_opfFobCount"};
+	};
+	
 	// delete the warning trigger and markers
 	deleteVehicle _trig;
 	[_fob, _fobName, false] remoteExec ["clash_fnc_handleFOBMarker", _fobSide];

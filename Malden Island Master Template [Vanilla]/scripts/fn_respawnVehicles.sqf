@@ -204,7 +204,7 @@ JST_fnc_vehRespawn =
 	if (!isServer) exitWith {};
 	if (JST_debug) then {systemChat "Respawning a vehicle."};
 	// pull respawn data from dead unit
-	_vehArray params ["_unitVar", "_restricted", "_time", "_pos", "_vDirAndUp", "_class", "_config", "_name", "_attObjs"];
+	_vehArray params ["_unitVar", "_restricted", "_time", "_pos", "_vDirAndUp", "_class", "_config", "_name", "_attObjs", "_fnc"];
 	// wait respawn time
 	UIsleep _time;
 	// find nearest safe position to respawn point
@@ -216,7 +216,6 @@ JST_fnc_vehRespawn =
 	_unitVar setPos [(_safePos select 0), (_safePos select 1), ((_safePos select 2) + 1.5)];
 	_unitVar setVectorDirAndUp _vDirAndUp;
 	[_unitVar, _config select 0, _config select 1] call BIS_fnc_initVehicle;
-	
 	// Remove minispikes from stalker
 	if (_class isEqualTo "O_APC_Tracked_02_cannon_F") then {
 		_unitVar removeMagazinesTurret ["2Rnd_GAT_missiles_O", [0]];
@@ -237,7 +236,7 @@ JST_fnc_vehRespawn =
 	// save respawn data onto vehicle
 	_unitVar setVariable ["Clash_vehArray", _vehArray, true];
 	// add handlers
-	[_unitVar] spawn JST_fnc_addVehRespawnHandlers;
+	[_unitVar] call JST_fnc_addVehRespawnHandlers;
 	// add to zeuses
 	{
 		_x addCuratorEditableObjects [[_unitVar], true]
@@ -260,6 +259,8 @@ JST_fnc_vehRespawn =
 			[_obj, _unitVar] call BIS_fnc_attachToRelative;
 		} forEach _attObjs;
 	};
+	// run any functions assigned to this vehicle
+	[_unitVar] call _fnc;
 };
 
 // wait for mission start
@@ -278,6 +279,7 @@ waitUntil {time > 3};
 	private _class = typeOf _unitVar;
 	private _config = [_unitVar] call BIS_fnc_getVehicleCustomization;
 	private _name = vehicleVarName _unitVar;
+	private _fnc = _x select 3;
 	// find attached objects, if any
 	private _attObjs = [];
 	{ 
@@ -288,8 +290,10 @@ waitUntil {time > 3};
 		_attObjs pushBack [_type, _relPos, [_vDir, _vUp]];
 	} forEach (attachedObjects _unitVar);
 	// store data on vehicle
-	private _vehArray = [_unitVar, _restricted, _time, _pos, [_vDir, _vUp], _class, _config, _name, _attObjs];
+	private _vehArray = [_unitVar, _restricted, _time, _pos, [_vDir, _vUp], _class, _config, _name, _attObjs, _fnc];
 	_unitVar setVariable ["Clash_vehArray", _vehArray, true];
+	// run any functions assigned to this vehicle
+	[_unitVar] call _fnc;
 	// add handlers
 	[_unitVar] call JST_fnc_addVehRespawnHandlers;
 	// short sleep to avoid overload

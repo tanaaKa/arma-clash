@@ -8,7 +8,7 @@ class EditorData
 	toggles=1;
 	class ItemIDProvider
 	{
-		nextID=993;
+		nextID=995;
 	};
 	class MarkerIDProvider
 	{
@@ -5978,7 +5978,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo WEST) then { hillTrigger enableSimulationGlobal true}; ";
+							value="if ((_this select 1) isEqualTo WEST) then  {   obj2Trigger enableSimulationGlobal true  };  if ((_this select 1) isEqualTo EAST) then  {   obj2Trigger enableSimulationGlobal false  }; ";
 						};
 					};
 				};
@@ -6444,7 +6444,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo WEST) then { milbaseTrigger enableSimulationGlobal false;  commTrigger enableSimulationGlobal true} else {   commTrigger enableSimulationGlobal false;  milbaseTrigger enableSimulationGlobal true}; ";
+							value="if ((_this select 1) isEqualTo WEST) then  {   obj1Trigger enableSimulationGlobal false;    obj3Trigger enableSimulationGlobal true  };  if ((_this select 1) isEqualTo EAST) then  {   obj3Trigger enableSimulationGlobal false;   obj1Trigger enableSimulationGlobal true  };";
 						};
 					};
 				};
@@ -6745,7 +6745,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo EAST) then {hillTrigger enableSimulationGlobal true}; ";
+							value="if ((_this select 1) isEqualTo WEST) then  {   obj2Trigger enableSimulationGlobal false  };  if ((_this select 1) isEqualTo EAST) then  {   obj2Trigger enableSimulationGlobal true  };";
 						};
 					};
 				};
@@ -8233,7 +8233,7 @@ class Mission
 			position[]={11318.61,33.23,4132.354};
 			class Attributes
 			{
-				name="commTrigger";
+				name="obj3Trigger";
 				triggerInterval=2;
 			};
 			id=356;
@@ -8242,10 +8242,10 @@ class Mission
 		class Item40
 		{
 			dataType="Trigger";
-			position[]={10752.108,30.434469,4175.7056};
+			position[]={10752.108,30.434656,4175.7061};
 			class Attributes
 			{
-				name="hillTrigger";
+				name="obj2Trigger";
 				sizeA=100;
 				sizeB=100;
 				triggerInterval=2;
@@ -8259,7 +8259,7 @@ class Mission
 			position[]={9732.9443,38.889999,3915.5491};
 			class Attributes
 			{
-				name="milbaseTrigger";
+				name="obj1Trigger";
 				sizeA=100;
 				sizeB=100;
 				triggerInterval=2;
