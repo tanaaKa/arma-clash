@@ -12,7 +12,7 @@ if ((_create) and (alive _fob)) then
 	private _mkrIconVar = createMarkerLocal [_mkrIconStr, _fob];
 	_mkrIconStr setMarkerShapeLocal "ICON";
 	_mkrIconStr setMarkerTypeLocal "loc_CivilDefense";
-	_mkrIconStr setMarkerTextLocal ("FOB" + _fobName);
+	_mkrIconStr setMarkerTextLocal _fobName;
 	_fob setVariable ["clash_fobMkrIcon", _mkrIconStr, true];
 	// circle
 	private _mkrCircleVar = createMarkerLocal [_mkrCircleStr, _fob];
@@ -20,7 +20,7 @@ if ((_create) and (alive _fob)) then
 	_mkrCircleStr setMarkerTypeLocal "ELLIPSE";
 	_mkrCircleStr setMarkerSizeLocal [100,100];
 	_mkrCircleStr setMarkerBrushLocal "Border";
-	_mkrCircleStr setMarkerTextLocal ("FOB" + _fobName);
+	_mkrCircleStr setMarkerTextLocal _fobName;
 	_fob setVariable ["clash_fobMkrCircle", _mkrCircleStr, true];
 }
 else

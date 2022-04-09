@@ -245,7 +245,7 @@ player addEventHandler
 			_trg setTriggerArea [100, 100, 0, false];
 			_trg setTriggerActivation [str _enemySide, "PRESENT", true];
 			_trg setTriggerInterval 3;
-			private _onAct = format ["if (side player isEqualTo %1) then {systemChat 'Enemies near FOB%2!'};", _fobSide, _fobName];
+			private _onAct = format ["if (side player isEqualTo %1) then {systemChat 'Enemies near %2!'};", _fobSide, _fobName];
 			_trg setTriggerStatements ["this", _onAct, ""];
 			
 			// save vars onto the fob for later use by other clients
