@@ -19,6 +19,9 @@
 // Save base loadout for respawn
 profileNamespace setVariable ["clash_loadout", getUnitLoadout player];
 
+// update teleport network
+[side player] spawn clash_fnc_updateTeleporters;
+
 // Disable carrying of buy pcs
 [bPC, false] call ace_dragging_fnc_setCarryable;
 [oPC, false] call ace_dragging_fnc_setCarryable;
