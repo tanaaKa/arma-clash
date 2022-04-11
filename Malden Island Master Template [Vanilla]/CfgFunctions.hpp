@@ -16,5 +16,6 @@ class clash
 		class handleFOBMarker{};
 		class createFOBAction{};
 		class killEvents{};
+		class updateTeleporters{};
 	};
 };

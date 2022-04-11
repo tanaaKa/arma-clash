@@ -50,7 +50,7 @@ class bluforWeapons
 		class rhs_weap_fgm148 {
 			displayName = "[LAUNCHER] FGM-148 Javalin";
 			description = "";
-			price = 500;
+			price = 600;
 			stock = 10;
 		};
 	};
@@ -58,10 +58,16 @@ class bluforWeapons
 	class Items {
 		displayName = "Items";
 		kindOf = "Items";
-		
 		// MEDICAL
 		class ACE_elasticBandage {
-			displayName = "Bandages (x2)";
+			displayName = "Elastic Bandages (x2)";
+			description = "";
+			amount = 2;
+			price = 50;
+			stock = 300;    
+		};
+		class ACE_packingBandage {
+			displayName = "Packing Bandages (x2)";
 			description = "";
 			amount = 2;
 			price = 50;
@@ -154,7 +160,7 @@ class bluforWeapons
 			displayName = "[FGM-148 Javalin] Missile";
 			description = "One FGM-148 missile";
 			amount = 1;
-			price = 300;
+			price = 600;
 			stock = 999;
 		};
 		// END AMMUNITION
@@ -316,7 +322,7 @@ class opforWeapons
 		class rhs_weap_fgm148 {
 			displayName = "[LAUNCHER] FGM-148 Javalin";
 			description = "";
-			price = 500;
+			price = 600;
 			stock = 30;
 		};
 	};
@@ -327,7 +333,14 @@ class opforWeapons
 		
 		// MEDICAL
 		class ACE_elasticBandage {
-			displayName = "Bandages (x2)";
+			displayName = "Elastic Bandages (x2)";
+			description = "";
+			amount = 2;
+			price = 50;
+			stock = 300;    
+		};
+		class ACE_packingBandage {
+			displayName = "Packing Bandages (x2)";
 			description = "";
 			amount = 2;
 			price = 50;
@@ -427,7 +440,7 @@ class opforWeapons
 			displayName = "[FGM-148 Javalin] Missile";
 			description = "One FGM-148 missile";
 			amount = 1;
-			price = 300;
+			price = 600;
 			stock = 999;
 		};
 		// END AMMUNITION

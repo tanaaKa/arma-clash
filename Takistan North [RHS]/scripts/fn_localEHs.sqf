@@ -108,10 +108,10 @@ player addEventHandler
 	{
 		params ["_unit", "_source", "_damage", "_instigator"];
 		// if hit was from real unit, record it
-		if (!(_instigator isEqualTo _unit) and (_instigator isKindOf "CAManBase")) then
+		if (!(_instigator isEqualTo player) and (_instigator isKindOf "CAManBase")) then
 		{
-			_unit setVariable ["clash_lastHitter", _instigator];
-			if (JST_debug) then {[format ["%1 was hit by %2", _unit, _instigator]] remoteExec ["systemChat"]};
+			player setVariable ["clash_lastHitter", _instigator];
+			if (JST_debug) then {[format ["%1 was hit by %2", player, _instigator]] remoteExec ["systemChat"]};
 		};
 	}
 ];
@@ -144,13 +144,13 @@ player addEventHandler
 	{
 		params ["_unit", "_killer", "_instigator", "_useEffects"];
 		// if kill was from real unit, record unit
-		if (!(_instigator isEqualTo _unit) and (_instigator isKindOf "CAManBase")) then
+		if (!(_instigator isEqualTo player) and (_instigator isKindOf "CAManBase")) then
 		{
-			_unit setVariable ["clash_lastHitter", _instigator];
+			player setVariable ["clash_lastHitter", _instigator];
 		};
 		// perform kill events
-		[_unit] spawn clash_fnc_killEvents;
-		if (JST_debug) then {[format ["%1 was killed by %2", _unit, _instigator]] remoteExec ["systemChat"]};
+		[player] spawn clash_fnc_killEvents;
+		if (JST_debug) then {[format ["%1 was killed by %2", player, _instigator]] remoteExec ["systemChat"]};
 	}
 ];
 
@@ -247,6 +247,9 @@ player addEventHandler
 			_trg setTriggerInterval 3;
 			private _onAct = format ["if (side player isEqualTo %1) then {systemChat 'Enemies near %2!'};", _fobSide, _fobName];
 			_trg setTriggerStatements ["this", _onAct, ""];
+			
+			// update teleport network
+			[_fobSide] remoteExec ["clash_fnc_updateTeleporters", _fobSide];
 			
 			// save vars onto the fob for later use by other clients
 			_object setVariable ["clash_fobRespawn", _spawnPoint, true];

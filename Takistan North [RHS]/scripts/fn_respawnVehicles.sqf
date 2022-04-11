@@ -16,7 +16,7 @@ if (!isServer) exitWith {};
 BEGIN USER CONFIG
 */
 
-// input all vehicles to respawn in format [vehName, crew restricted boolean, timer]
+// input all vehicles to respawn in format [vehName, crew restricted boolean, timer, function to run]
 #include "vehicles_takistan.hpp"
 
 // input allowed crew classes for GROUND vehicles
@@ -30,6 +30,12 @@ AllowedAirCrew =
 [
 	"B_Pilot_F",
 	"O_Pilot_F"
+];
+
+// banned magazines
+VehBannedMagazines =
+[
+	"2Rnd_GAT_missiles_O"
 ];
 
 /*
@@ -119,7 +125,7 @@ JST_fnc_addVehRespawnHandlers =
 			[_unit, _vehArray] remoteExec ["JST_fnc_vehRespawn", 2];
 		}
 	];
-	// get in: only allow certain players to get in driver/gunner seats aka bane of my existence
+	// get in: only allow certain players to get in driver/gunner seats
 	[
 		_veh,
 		[
@@ -204,7 +210,7 @@ JST_fnc_vehRespawn =
 	if (!isServer) exitWith {};
 	if (JST_debug) then {systemChat "Respawning a vehicle."};
 	// pull respawn data from dead unit
-	_vehArray params ["_unitVar", "_restricted", "_time", "_pos", "_vDirAndUp", "_class", "_config", "_name", "_attObjs", "_fnc"];
+	_vehArray params ["_unitVar", "_restricted", "_time", "_pos", "_vDirAndUp", "_class", "_config", "_name", "_attObjs", "_fnc", "_sideLocInfo"];
 	// wait respawn time
 	UIsleep _time;
 	// find nearest safe position to respawn point
@@ -216,36 +222,23 @@ JST_fnc_vehRespawn =
 	_unitVar setPos [(_safePos select 0), (_safePos select 1), ((_safePos select 2) + 1.5)];
 	_unitVar setVectorDirAndUp _vDirAndUp;
 	[_unitVar, _config select 0, _config select 1] call BIS_fnc_initVehicle;
-	// Remove minispikes from stalker
-	if (_class isEqualTo "O_APC_Tracked_02_cannon_F") then {
-		_unitVar removeMagazinesTurret ["2Rnd_GAT_missiles_O", [0]];
-	};
-	// Send notification
-	_side = "";
-	switch (getNumber (configfile >> "CfgVehicles" >> typeOf _unitVar >> "side")) do {
-		case 0:
-		{
-			_side = EAST;
-		};
-		case 1:
-		{
-			_side = WEST;
-		};
-	};
-	["RespawnVehicle",[getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "displayName"),"MAIN",getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "picture")]] remoteExec ["BIS_fnc_showNotification",_side];
-	// save respawn data onto vehicle
-	_unitVar setVariable ["Clash_vehArray", _vehArray, true];
-	// add handlers
-	[_unitVar] call JST_fnc_addVehRespawnHandlers;
 	// add to zeuses
 	{
 		_x addCuratorEditableObjects [[_unitVar], true]
 	} forEach allCurators;
+	// add handlers
+	[_unitVar] call JST_fnc_addVehRespawnHandlers;
+	// save respawn data onto vehicle
+	_unitVar setVariable ["Clash_vehArray", _vehArray, true];
 	// safety check
 	UIsleep 1;
 	_unitVar setDamage 0;
 	UIsleep 1;
 	_unitVar setDamage 0;
+	// Remove banned magazines
+	{
+		_unitVar removeMagazinesTurret [_x, [0]];
+	} forEach VehBannedMagazines;
 	// recreate attached objects, if any
 	if ((count _attObjs) > 0) then
 	{
@@ -259,14 +252,27 @@ JST_fnc_vehRespawn =
 			[_obj, _unitVar] call BIS_fnc_attachToRelative;
 		} forEach _attObjs;
 	};
+	// recreate setVariable'd sideLocInfo, if any
+	_unitVar setVariable ["sideLocInfo", _sideLocInfo, true];
 	// run any functions assigned to this vehicle
 	[_unitVar] call _fnc;
+	// Broadcast respawn notification
+	{
+		[
+			"RespawnVehicle",
+			[
+				getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "displayName"),
+				(_sideLocInfo select 1),
+				getText (configfile >> "CfgVehicles" >> typeOf _unitVar >> "picture")
+			]
+		] remoteExec ["BIS_fnc_showNotification", _x];
+	} forEach (_sideLocInfo select 0);
 };
 
 // wait for mission start
 waitUntil {time > 3};
 
-// handle vehicles at start: save data, add handlers
+// handle vehicles at start: save data, remove banned magazines, add handlers
 {
 	if (JST_debug) then {systemChat "Handling vehicle respawn setup."};
 	// find data
@@ -280,6 +286,10 @@ waitUntil {time > 3};
 	private _config = [_unitVar] call BIS_fnc_getVehicleCustomization;
 	private _name = vehicleVarName _unitVar;
 	private _fnc = _x select 3;
+	private _configSide = (getNumber (configfile >> "CfgVehicles" >> typeOf _unitVar >> "side"));
+	// custom mission maker input for respawn notification [array of sides to notify, location name]
+	// defaults to generic stuff if no input
+	private _sideLocInfo = _unitVar getVariable ["sideLocInfo", [[_configSide],"MAIN"]];
 	// find attached objects, if any
 	private _attObjs = [];
 	{ 
@@ -290,12 +300,16 @@ waitUntil {time > 3};
 		_attObjs pushBack [_type, _relPos, [_vDir, _vUp]];
 	} forEach (attachedObjects _unitVar);
 	// store data on vehicle
-	private _vehArray = [_unitVar, _restricted, _time, _pos, [_vDir, _vUp], _class, _config, _name, _attObjs, _fnc];
+	private _vehArray = [_unitVar, _restricted, _time, _pos, [_vDir, _vUp], _class, _config, _name, _attObjs, _fnc, _sideLocInfo];
 	_unitVar setVariable ["Clash_vehArray", _vehArray, true];
+	// Remove banned magazines
+	{
+		_unitVar removeMagazinesTurret [_x, [0]];
+	} forEach VehBannedMagazines;
 	// run any functions assigned to this vehicle
-	[_unitVar] call _fnc;
+	[_unitVar] spawn _fnc;
 	// add handlers
-	[_unitVar] call JST_fnc_addVehRespawnHandlers;
+	[_unitVar] spawn JST_fnc_addVehRespawnHandlers;
 	// short sleep to avoid overload
 	UIsleep 0.25;
 } forEach Clash_vehs;

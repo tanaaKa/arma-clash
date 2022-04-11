@@ -20,13 +20,13 @@ clash_fnc_vbiedActions =
 			{
 				params ["_veh", "_caller"];
 				systemChat "Deadman's switch activated on you. It will deactivate if you exit the driver's seat.";
-				// while driver OK, just wait for change
-				while {(((driver _veh) isEqualTo _caller) and (((lifeState _caller) isEqualTo "HEALTHY") or ((lifeState _caller) isEqualTo "INJURED")))} do
+				// while driver in-seat and ok and vehicle OK, just wait for change
+				while {(((driver _veh) isEqualTo _caller) and (alive _veh) and (((lifeState _caller) isEqualTo "HEALTHY") or ((lifeState _caller) isEqualTo "INJURED")))} do
 				{
 					UIsleep 1;
 				};
-				// if driver uncon or dead, explode
-				if (((driver _veh) isEqualTo _caller) and (((lifeState _caller) isEqualTo "DEAD") or ((lifeState _caller) isEqualTo "DEAD-RESPAWN") or ((lifeState _caller) isEqualTo "DEAD-SWITCHING") or ((lifeState _caller) isEqualTo "INCAPACITATED"))) then
+				// if vehicle dead or driver uncon/dead, explode
+				if ((((driver _veh) isEqualTo _caller) and (((lifeState _caller) isEqualTo "DEAD") or ((lifeState _caller) isEqualTo "DEAD-RESPAWN") or ((lifeState _caller) isEqualTo "DEAD-SWITCHING") or ((lifeState _caller) isEqualTo "INCAPACITATED"))) or !(alive _veh)) then
 				{
 					systemChat "Deadman's switch activating!";
 					private _nearbyUnits = _veh nearEntities ["MAN", 75];
@@ -40,7 +40,7 @@ clash_fnc_vbiedActions =
 					_caller setDamage 1;
 				};
 				// if driver has exited the seat, deactivate
-				if !((driver _veh) isEqualTo _caller) then
+				if (!((driver _veh) isEqualTo _caller) and (alive _veh)) then
 				{
 					systemChat "Deadman's switch disabled.";
 				};
@@ -91,6 +91,7 @@ clash_fnc_vbiedActions =
 Clash_vehs =
 [
 	//[veh, crew restricted, respawn time, function to run on spawn (server only, vehicle passed as param)]
+	// first letter is used as the side in some scripts
 	[btank,		true,		(10*60), 		{}],
 	[otank,		true,		(10*60), 		{}],
 	[bifv1,		true,		(10*60), 		{}],
@@ -106,6 +107,6 @@ Clash_vehs =
 	[otruck3,	false,		(5*60), 		{}],
 	[otruck4,	false,		(5*60), 		{}],
 	[scud,		false,		(10*60), 		{}],
-	[cvbied2,	false,		(10*60), 		clash_fnc_vbiedActions],
-	[cvbied3,	false,		(10*60), 		clash_fnc_vbiedActions]
+	[vbied1,	false,		(10*60), 		clash_fnc_vbiedActions],
+	[vbied2,	false,		(10*60), 		clash_fnc_vbiedActions]
 ];

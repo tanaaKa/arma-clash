@@ -46,6 +46,9 @@ params ["_fob"];
 
 	// delete spawn point
 	_spawnPoint call BIS_fnc_removeRespawnPosition;
+	
+	// update teleport network
+	[_fobSide] remoteExec ["clash_fnc_updateTeleporters", _fobSide];
 
 	// broadcast notification
 	[format ["%1 has been destroyed", _fobName]] remoteExec ["systemChat", _fobSide];
