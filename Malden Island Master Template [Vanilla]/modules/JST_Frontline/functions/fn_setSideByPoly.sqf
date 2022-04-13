@@ -1,6 +1,7 @@
 // set all squares inside given poly to a side
 
 params ["_poly", "_side"];
+if (isNil "_poly") exitWith {};
 if !((count _poly) > 0) exitWith {};
 if (isNil "JST_hashMap") exitWith {systemChat "Error: JST_fnc_setSideByPoly called without having the hash map yet!"};
 // iterate through squares in poly and in AO and set side of squares per input
