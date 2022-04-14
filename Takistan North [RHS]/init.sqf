@@ -14,52 +14,52 @@ CLASH_safeZones = [bsafezone, osafezone];
 [oPC,"opforWeapons",oOF,oHelipad,"BUY MENU (No Refunds!)","Buy Items",{side player == EAST}] call grad_lbm_fnc_addInteraction;
 */
 
-bPC addAction
-[
-	"Open Store",	// title
-	{
-		(_this select 3) call grad_lbm_fnc_loadBuymenu;
-	},
+if (hasInterface) then
+{
+	bPC addAction
 	[
-		bPC,
-		bOF,
-		bHelipad,
-		"bluforWeapons",
-		"BUY MENU (NO REFUNDS)",
-		player
-	],		// arguments
-	0,		// priority
-	true,		// showWindow
-	false,		// hideOnUse
-	"",			// shortcut
-	"((side player) isEqualTo WEST)", 	// condition
-	4,			// radius
-	false,		// unconscious
-	"",			// selection
-	""			// memoryPoint
-];
-
-oPC addAction
-[
-	"Open Store",	// title
-	{
-		(_this select 3) call grad_lbm_fnc_loadBuymenu;
-	},
+		"Open Store",	// title
+		{
+			(_this select 3) call grad_lbm_fnc_loadBuymenu;
+		},
+		[
+			bPC,
+			bOF,
+			bHelipad,
+			"bluforWeapons",
+			"BUY MENU (NO REFUNDS)"
+		],		// arguments
+		0,		// priority
+		true,		// showWindow
+		false,		// hideOnUse
+		"",			// shortcut
+		"((side player) isEqualTo WEST)", 	// condition
+		4,			// radius
+		false,		// unconscious
+		"",			// selection
+		""			// memoryPoint
+	];
+	oPC addAction
 	[
-		oPC,
-		oOF,
-		oHelipad,
-		"opforWeapons",
-		"BUY MENU (NO REFUNDS)",
-		player
-	],		// arguments
-	0,		// priority
-	true,		// showWindow
-	false,		// hideOnUse
-	"",			// shortcut
-	"((side player) isEqualTo EAST)", 	// condition
-	4,			// radius
-	false,		// unconscious
-	"",			// selection
-	""			// memoryPoint
-];
+		"Open Store",	// title
+		{
+			(_this select 3) call grad_lbm_fnc_loadBuymenu;
+		},
+		[
+			oPC,
+			oOF,
+			oHelipad,
+			"opforWeapons",
+			"BUY MENU (NO REFUNDS)"
+		],		// arguments
+		0,		// priority
+		true,		// showWindow
+		false,		// hideOnUse
+		"",			// shortcut
+		"((side player) isEqualTo EAST)", 	// condition
+		4,			// radius
+		false,		// unconscious
+		"",			// selection
+		""			// memoryPoint
+	];
+};

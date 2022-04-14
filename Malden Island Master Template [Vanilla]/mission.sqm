@@ -491,7 +491,7 @@ class ScenarioData
 };
 class CustomAttributes
 {
-	class Category1
+	class Category0
 	{
 		name="Multiplayer";
 		class Attribute0
@@ -574,7 +574,7 @@ class CustomAttributes
 		};
 		nAttributes=1;
 	};
-	class Category2
+	class Category1
 	{
 		name="Scenario";
 		class Attribute0
@@ -5978,7 +5978,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo WEST) then  {   obj2Trigger enableSimulationGlobal true  };  if ((_this select 1) isEqualTo EAST) then  {   obj2Trigger enableSimulationGlobal false  }; ";
+							value="if ((_this select 1) isEqualTo WEST) then  {   obj2Trigger enableSimulationGlobal true;   {    if !(side _x isEqualTo WEST) then {continue};    [_x, 500] call grad_lbm_fnc_addFunds;    [     format       [       ""<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>500 credits awarded for sector capture!</t>""     ],-0.8,1.1,4,1,0.25,789    ] remoteExec [""BIS_fnc_dynamicText"", _x];   } forEach (allPlayers inAreaArray obj1Trigger);  };  if ((_this select 1) isEqualTo EAST) then  {   obj2Trigger enableSimulationGlobal false;   {    if !(side _x isEqualTo EAST) then {continue};    [_x, 500] call grad_lbm_fnc_addFunds;    [     format       [       ""<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>500 credits awarded for sector capture!</t>""     ],-0.8,1.1,4,1,0.25,789    ] remoteExec [""BIS_fnc_dynamicText"", _x];   } forEach (allPlayers inAreaArray obj1Trigger);  };";
 						};
 					};
 				};
@@ -6444,7 +6444,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo WEST) then  {   obj1Trigger enableSimulationGlobal false;    obj3Trigger enableSimulationGlobal true  };  if ((_this select 1) isEqualTo EAST) then  {   obj3Trigger enableSimulationGlobal false;   obj1Trigger enableSimulationGlobal true  };";
+							value="if ((_this select 1) isEqualTo WEST) then  {   obj1Trigger enableSimulationGlobal false;   obj3Trigger enableSimulationGlobal true;   {    if !(side _x isEqualTo WEST) then {continue};    [_x, 500] call grad_lbm_fnc_addFunds;    [     format       [       ""<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>500 credits awarded for sector capture!</t>""     ],-0.8,1.1,4,1,0.25,789    ] remoteExec [""BIS_fnc_dynamicText"", _x];   } forEach (allPlayers inAreaArray obj2Trigger);  };  if ((_this select 1) isEqualTo EAST) then  {   obj3Trigger enableSimulationGlobal false;   obj1Trigger enableSimulationGlobal true;   {    if !(side _x isEqualTo EAST) then {continue};    [_x, 500] call grad_lbm_fnc_addFunds;    [     format       [       ""<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>500 credits awarded for sector capture!</t>""     ],-0.8,1.1,4,1,0.25,789    ] remoteExec [""BIS_fnc_dynamicText"", _x];   } forEach (allPlayers inAreaArray obj2Trigger);  };";
 						};
 					};
 				};
@@ -6745,7 +6745,7 @@ class Mission
 									"STRING"
 								};
 							};
-							value="if ((_this select 1) isEqualTo WEST) then  {   obj2Trigger enableSimulationGlobal false  };  if ((_this select 1) isEqualTo EAST) then  {   obj2Trigger enableSimulationGlobal true  };";
+							value="if ((_this select 1) isEqualTo WEST) then  {   obj2Trigger enableSimulationGlobal false;   {    if !(side _x isEqualTo WEST) then {continue};    [_x, 500] call grad_lbm_fnc_addFunds;    [     format       [       ""<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>500 credits awarded for sector capture!</t>""     ],-0.8,1.1,4,1,0.25,789    ] remoteExec [""BIS_fnc_dynamicText"", _x];   } forEach (allPlayers inAreaArray obj3Trigger);  };  if ((_this select 1) isEqualTo EAST) then  {   obj2Trigger enableSimulationGlobal true;   {    if !(side _x isEqualTo EAST) then {continue};    [_x, 500] call grad_lbm_fnc_addFunds;    [     format       [       ""<t color='#FFD500' font='PuristaBold' size = '0.6' shadow='1'>500 credits awarded for sector capture!</t>""     ],-0.8,1.1,4,1,0.25,789    ] remoteExec [""BIS_fnc_dynamicText"", _x];   } forEach (allPlayers inAreaArray obj3Trigger);  };";
 						};
 					};
 				};
