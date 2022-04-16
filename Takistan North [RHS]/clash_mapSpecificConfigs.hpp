@@ -1,3 +1,9 @@
+// per map settings
+// Takistan North
+
+// minimum distance between FOBs
+clash_fobDistance = 500;
+
 // Vehicle-specific functions defined up top, param is always the vehicle
 clash_fnc_vbiedActions =
 {
@@ -109,4 +115,23 @@ Clash_vehs =
 	[scud,		false,		(10*60), 		{}],
 	[vbied1,	false,		(10*60), 		clash_fnc_vbiedActions],
 	[vbied2,	false,		(10*60), 		clash_fnc_vbiedActions]
+];
+
+// input allowed crew classes for GROUND vehicles
+AllowedGroundCrew =
+[
+	"B_crew_F",
+	"O_crew_F"
+];
+// input allowed crew classes for AIR vehicles
+AllowedAirCrew =
+[
+	"B_Pilot_F",
+	"O_Pilot_F"
+];
+
+// banned vehicle magazines
+VehBannedMagazines =
+[
+	"2Rnd_GAT_missiles_O"
 ];

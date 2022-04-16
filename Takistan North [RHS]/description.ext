@@ -92,5 +92,5 @@ class CfgGradBuymenu {
     tracking = 1;
     trackingTag = "AAS_Takistan";
 
-	#include "store_takistan.hpp"
+	#include "clash_takistan_store.hpp"
 };

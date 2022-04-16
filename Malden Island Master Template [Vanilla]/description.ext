@@ -93,5 +93,5 @@ class CfgGradBuymenu {
     trackingTag = "AAS_Island";
 
     //buyables set:
-	#include "store_island.hpp"
+	#include "clash_island_store.hpp"
 };

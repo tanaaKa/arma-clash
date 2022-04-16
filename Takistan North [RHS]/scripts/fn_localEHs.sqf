@@ -19,7 +19,7 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 	};
 	
 	// Search for fob building within x meters
-	private _nearestFobs = nearestObjects [_unit, [FOBOBJECT], 500];
+	private _nearestFobs = nearestObjects [_unit, [FOBOBJECT], clash_fobDistance];
 	// remove from list if dead because nearestObjects finds dead objects for a while
 	for "_i" from ((count _nearestFobs) - 1) to 0 step -1 do
 	{
@@ -29,7 +29,7 @@ FOBOBJECT = "Land_Cargo_House_V1_F";
 		};
 	};
 	// Check if FOB is in a legal location (not near another FOB)
-	// True - no fob within 500m - therefore placeable
+	// True - no fob within Xm - therefore placeable
 	// False - 1 or more fobs within 500m - therefore not placeable
 	// We have to subtract 1 because it counts the current object we're trying to place (lmao)
 	private _notNearOtherFOB = ((count _nearestFobs - 1) isEqualTo 0);

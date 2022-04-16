@@ -3,6 +3,7 @@ setviewdistance 2000;
 JST_debug = false;
 
 #include "fobNames.hpp"
+#include "clash_mapSpecificConfigs.hpp"
 
 // safe zone triggers
 CLASH_safeZones = [bsafezone, osafezone];

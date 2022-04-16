@@ -16,27 +16,7 @@ if (!isServer) exitWith {};
 BEGIN USER CONFIG
 */
 
-// input all vehicles to respawn in format [vehName, crew restricted boolean, timer, function to run]
-#include "vehicles_takistan.hpp"
-
-// input allowed crew classes for GROUND vehicles
-AllowedGroundCrew =
-[
-	"B_crew_F",
-	"O_crew_F"
-];
-// input allowed crew classes for AIR vehicles
-AllowedAirCrew =
-[
-	"B_Pilot_F",
-	"O_Pilot_F"
-];
-
-// banned magazines
-VehBannedMagazines =
-[
-	"2Rnd_GAT_missiles_O"
-];
+// moved to clash_map_configs.hpp
 
 /*
 END USER CONFIG
@@ -271,6 +251,7 @@ JST_fnc_vehRespawn =
 
 // wait for mission start
 waitUntil {time > 3};
+waitUntil {!(isNil "Clash_vehs")};
 
 // handle vehicles at start: save data, remove banned magazines, add handlers
 {
