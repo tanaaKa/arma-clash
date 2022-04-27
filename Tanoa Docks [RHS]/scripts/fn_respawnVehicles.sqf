@@ -16,7 +16,9 @@ if (!isServer) exitWith {};
 BEGIN USER CONFIG
 */
 
-// moved to clash_map_configs.hpp
+// vehicle array moved to clash_map_configs.hpp
+
+clash_respawnIdleVehs = true;
 
 /*
 END USER CONFIG
@@ -114,7 +116,8 @@ JST_fnc_addVehRespawnHandlers =
 				params ["_vehicle", "_role", "_unit", "_turret"];
 				// only run on local unit
 				if !(local _unit) exitWith {};
-				if (_vehicle isKindOf "AIR") then
+				private _restricted = (_vehicle getVariable "Clash_vehArray") select 1;
+				if (_restricted and (_vehicle isKindOf "AIR")) then
 				{
 					if !((typeOf _unit) in AllowedAirCrew) then
 					{
@@ -128,7 +131,7 @@ JST_fnc_addVehRespawnHandlers =
 						};
 					};
 				};
-				if (_vehicle isKindOf "APC_Tracked_02_base_F" || _vehicle isKindOf "Wheeled_APC_F") then
+				if (_restricted and ((_vehicle isKindOf "CAR") or (_vehicle isKindOf "TANK"))) then
 				{
 					if !((typeOf _unit) in AllowedGroundCrew) then
 					{
@@ -154,7 +157,8 @@ JST_fnc_addVehRespawnHandlers =
 				params ["_vehicle", "_unit1", "_unit2"];
 				// only run on local unit
 				if !(local _unit1) exitWith {};
-				if (_vehicle isKindOf "AIR") then
+				private _restricted = (_vehicle getVariable "Clash_vehArray") select 1;
+				if (_restricted and (_vehicle isKindOf "AIR")) then
 				{
 					if !((typeOf _unit1) in AllowedAirCrew) then
 					{
@@ -166,7 +170,7 @@ JST_fnc_addVehRespawnHandlers =
 						};
 					};
 				};
-				if (_vehicle isKindOf "APC_Tracked_02_base_F" || _vehicle isKindOf "Wheeled_APC_F") then
+				if (_restricted and ((_vehicle isKindOf "CAR") or (_vehicle isKindOf "TANK"))) then
 				{
 					if !((typeOf _unit1) in AllowedGroundCrew) then
 					{
@@ -294,3 +298,69 @@ waitUntil {!(isNil "Clash_vehs")};
 	// short sleep to avoid overload
 	UIsleep 0.25;
 } forEach Clash_vehs;
+
+// start idle check loop if enabled
+// maxTick is 30 = 5 minute idle allowance / 10 second script loop
+clash_maxTick = 30;
+if (clash_respawnIdleVehs) then
+{
+	[] spawn
+	{
+		while {UIsleep 10; true} do
+		{
+			{
+				private _veh = _x;
+				// if crewed, skip and reset var
+				if ((count (crew _veh)) > 0) then
+				{
+					_veh setVariable ["clash_idleChecker", 0];
+					continue
+				};
+				// if not a respawn vehicle, skip
+				private _vehArray = _veh getVariable ["clash_vehArray", 0];
+				if (_vehArray isEqualTo 0) then {continue};
+				// if near original spawn point, skip
+				private _pos = getPos _veh;
+				private _spawnPos = _vehArray select 3;
+				if ((_pos distance2D _spawnPos) < 20) then {continue};
+				// handle empty respawn vehicles not near their spawn point
+				private _idleChecker = _veh getVariable ["clash_idleChecker", 0];
+				switch true do
+				{
+					// if no pos/tick stored, store it
+					case (_idleChecker isEqualTo 0):
+					{
+						_veh setVariable ["clash_idleChecker", [_pos, 1]];
+						systemChat "Creating variable.";
+					};
+					// if pos/tick stored, pos not changed, and not max tick, increment tick
+					case (((_idleChecker select 1) < clash_maxTick) and (((_idleChecker select 0) distance2D _pos) < 1)):
+					{
+						_veh setVariable ["clash_idleChecker", [_pos, ((_idleChecker select 1) + 1)]];
+						systemChat "Incrementing tick.";
+					};
+					// if pos/tick stored, pos not changed, and max tick hit, respawn
+					case (((_idleChecker select 1) >= clash_maxTick) and (((_idleChecker select 0) distance2D _pos) < 1)):
+					{
+						/* apparently deleteVehicle fires the deleted eventHandler
+						// remove all event handlers
+						_veh removeAllMPEventHandlers "MPKilled";
+						[_veh, "Deleted"] remoteExec ["removeAllEventHandlers", 0];
+						[_veh, "GetIn"] remoteExec ["removeAllEventHandlers", 0];
+						[_veh, "SeatSwitched"] remoteExec ["removeAllEventHandlers", 0];
+						// delete all attached objects
+						{
+							deleteVehicle _x;
+						} forEach (attachedObjects _veh);
+						// respawn on server
+						[_veh, _vehArray] remoteExec ["JST_fnc_vehRespawn", 2];
+						// delete vehicle
+						*/
+						deleteVehicle _veh;
+						systemChat "Respawning vehicle";
+					};
+				};
+			} forEach vehicles;
+		};
+	};
+};
