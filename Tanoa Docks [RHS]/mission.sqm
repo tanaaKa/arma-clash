@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=1314;
+		nextID=1323;
 	};
 	class MarkerIDProvider
 	{
@@ -16,10 +16,10 @@ class EditorData
 	};
 	class Camera
 	{
-		pos[]={13058.006,51.980957,12531.67};
-		dir[]={0.62387186,-0.34392327,-0.7017839};
-		up[]={0.22850326,0.93899775,-0.25703982};
-		aside[]={-0.74737549,0,-0.66440189};
+		pos[]={14386.517,168.50417,11285.07};
+		dir[]={-0.55756891,-0.29781717,0.77486897};
+		up[]={-0.17394678,0.95462292,0.24173866};
+		aside[]={0.8117016,0,0.58407241};
 	};
 };
 binarizationWanted=0;
@@ -80,10 +80,10 @@ addons[]=
 	"A3_Armor_F_Tank_LT_01",
 	"rhs_c_2s3",
 	"rhs_c_bmp",
-	"sfp_pbv302",
 	"UK3CB_Factions_Vehicles_Fishing_Boat",
 	"HAFM_Navy_Config",
-	"potato_missionModules"
+	"potato_missionModules",
+	"UK3CB_Factions_Static_M240"
 };
 class AddonsMetaData
 {
@@ -390,24 +390,26 @@ class AddonsMetaData
 		};
 		class Item43
 		{
-			className="sfp_pbv302";
-			name="sfp_pbv302";
-		};
-		class Item44
-		{
 			className="UK3CB_Factions_Vehicles_Fishing_Boat";
 			name="UK3CB_Factions_Vehicles_Fishing_Boat";
 		};
-		class Item45
+		class Item44
 		{
 			className="HAFM_Navy_Config";
 			name="HAFM_Navy_Config";
 		};
-		class Item46
+		class Item45
 		{
 			className="potato_missionModules";
 			name="potato_missionModules";
 			author="Potato";
+		};
+		class Item46
+		{
+			className="UK3CB_Factions_Static_M240";
+			name="3CB Factions - Static";
+			author="3 Commando Brigade";
+			url="www.3commandobrigade.com";
 		};
 	};
 };
@@ -421,7 +423,6 @@ dlcs[]=
 	"Orange",
 	"Tank",
 	"Heli",
-	"sfp",
 	"UK3CB_Factions"
 };
 randomSeed=15185293;
@@ -5655,7 +5656,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=130;
+		items=131;
 		class Item0
 		{
 			dataType="Logic";
@@ -25585,23 +25586,6 @@ class Mission
 			dataType="Object";
 			class PositionInfo
 			{
-				position[]={12511.021,8.2894573,12682.303};
-				angles[]={0.021328852,2.0563657,0.050623242};
-			};
-			side="Empty";
-			flags=4;
-			class Attributes
-			{
-			};
-			id=1301;
-			type="sfp_pbv302_mounted";
-			atlOffset=-0.00028991699;
-		};
-		class Item124
-		{
-			dataType="Object";
-			class PositionInfo
-			{
 				position[]={12508.533,4.6912661,12813.54};
 				angles[]={0,0.10468485,0};
 			};
@@ -25656,7 +25640,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item125
+		class Item124
 		{
 			dataType="Object";
 			class PositionInfo
@@ -25715,7 +25699,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item126
+		class Item125
 		{
 			dataType="Object";
 			class PositionInfo
@@ -25774,7 +25758,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item127
+		class Item126
 		{
 			dataType="Object";
 			class PositionInfo
@@ -25833,7 +25817,7 @@ class Mission
 				nAttributes=2;
 			};
 		};
-		class Item128
+		class Item127
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -26000,7 +25984,7 @@ class Mission
 				nAttributes=8;
 			};
 		};
-		class Item129
+		class Item128
 		{
 			dataType="Logic";
 			class PositionInfo
@@ -26165,6 +26149,86 @@ class Mission
 					};
 				};
 				nAttributes=8;
+			};
+		};
+		class Item129
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={14311.903,2.8618009,11706.944};
+				angles[]={0,0.45949283,0};
+			};
+			side="Empty";
+			class Attributes
+			{
+				init="[this, bboat2] call BIS_fnc_attachToRelative;";
+			};
+			id=1321;
+			type="UK3CB_B_Static_M240_Elcan_High_US_W";
+			atlOffset=3.0929999;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="potato_setVehicleAmmo_vehAmmoAttribute";
+					expression="[_this, _value] call potato_setVehicleAmmo_fnc_initVehicle";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=1;
+			};
+		};
+		class Item130
+		{
+			dataType="Object";
+			class PositionInfo
+			{
+				position[]={14322.775,2.79742,11697.645};
+				angles[]={0,0.72785461,0};
+			};
+			side="Empty";
+			class Attributes
+			{
+				init="[this, bboat1] call BIS_fnc_attachToRelative;";
+			};
+			id=1322;
+			type="UK3CB_B_Static_M240_Elcan_High_US_W";
+			atlOffset=3.184;
+			class CustomAttributes
+			{
+				class Attribute0
+				{
+					property="potato_setVehicleAmmo_vehAmmoAttribute";
+					expression="[_this, _value] call potato_setVehicleAmmo_fnc_initVehicle";
+					class Value
+					{
+						class data
+						{
+							class type
+							{
+								type[]=
+								{
+									"STRING"
+								};
+							};
+							value="";
+						};
+					};
+				};
+				nAttributes=1;
 			};
 		};
 	};

@@ -311,7 +311,11 @@ if (clash_respawnIdleVehs) then
 			{
 				private _veh = _x;
 				// if crewed, skip and reset var
-				if ((count (crew _veh)) > 0) then
+				private _cnt = 0;
+				{
+					if (alive _x) then {_cnt = _cnt + 1};
+				} forEach (crew _veh);
+				if (_cnt > 0) then
 				{
 					_veh setVariable ["clash_idleChecker", 0];
 					continue
